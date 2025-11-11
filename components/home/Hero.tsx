@@ -1,6 +1,10 @@
+'use client';
+
 import { Section } from '@/components/layout/Section';
 import { Container } from '@/components/layout/Container';
 import { Button } from '@/components/ui/Button';
+import { ParticleBackground } from '@/components/effects/ParticleBackground';
+import { motion } from 'framer-motion';
 
 interface HeroProps {
   name: string;
@@ -10,54 +14,157 @@ interface HeroProps {
 
 export function Hero({ name, title, tagline }: HeroProps) {
   return (
-    <Section className="min-h-[80vh] flex items-center relative overflow-hidden">
-      {/* Animated background elements */}
+    <Section className="min-h-screen flex items-center relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-purple-100 dark:from-gray-950 dark:via-blue-950 dark:to-purple-950">
+      {/* Particle background */}
+      <ParticleBackground />
+
+      {/* Animated gradient orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <motion.div
+          className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full blur-3xl opacity-20"
+          animate={{
+            scale: [1, 1.2, 1],
+            x: [0, 50, 0],
+            y: [0, 30, 0],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-10 w-[500px] h-[500px] bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-3xl opacity-20"
+          animate={{
+            scale: [1, 1.3, 1],
+            x: [0, -50, 0],
+            y: [0, -30, 0],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full blur-3xl opacity-10"
+          animate={{
+            scale: [1, 1.5, 1],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
       </div>
 
       <Container className="relative z-10">
-        <div className="max-w-3xl">
-          <div className="mb-6 animate-float">
-            <span className="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-medium shadow-lg animate-pulse-glow">
-              ✨ Available for freelance projects
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Availability badge */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-8"
+          >
+            <span className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 text-white text-sm font-medium shadow-2xl shadow-emerald-500/50 animate-pulse-glow">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+              </span>
+              Available for freelance projects
             </span>
-          </div>
+          </motion.div>
 
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance">
-            Hi, I&apos;m <span className="gradient-text animate-gradient bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">{name}</span>
-          </h1>
+          {/* Main heading with stunning animation */}
+          <motion.h1
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-6xl md:text-7xl lg:text-8xl font-black mb-8 leading-tight"
+          >
+            <span className="block text-gray-900 dark:text-white mb-2">Hi, I&apos;m</span>
+            <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent animate-gradient bg-300%">
+              {name}
+            </span>
+          </motion.h1>
 
-          <p className="text-2xl md:text-3xl font-semibold mb-4 bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 dark:from-gray-100 dark:via-blue-100 dark:to-purple-100 bg-clip-text text-transparent">
+          {/* Title with typing effect look */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-700 via-blue-700 to-purple-700 dark:from-gray-200 dark:via-blue-200 dark:to-purple-200 bg-clip-text text-transparent"
+          >
             {title}
-          </p>
+          </motion.p>
 
-          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 text-balance">
+          {/* Tagline */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
+          >
             {tagline}
-          </p>
+          </motion.p>
 
-          <div className="flex flex-wrap gap-4">
-            <Button href="/projects" variant="primary" size="lg" className="group relative overflow-hidden">
-              <span className="relative z-10">View Projects</span>
-              <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+          {/* CTA buttons with stunning effects */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="flex flex-wrap justify-center gap-6"
+          >
+            <Button
+              href="/projects"
+              variant="primary"
+              size="lg"
+              className="group relative overflow-hidden shadow-2xl shadow-blue-500/50 hover:shadow-purple-500/50 px-8 py-4 text-lg"
+            >
+              <span className="relative z-10 flex items-center gap-2">
+                View Projects
+                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
             </Button>
-            <Button href="/contact" variant="secondary" size="lg" className="group hover:glow transition-all duration-300">
-              <span className="group-hover:scale-110 inline-block transition-transform">Get in Touch</span>
+            <Button
+              href="/contact"
+              variant="secondary"
+              size="lg"
+              className="group hover:glow transition-all duration-300 px-8 py-4 text-lg backdrop-blur-sm"
+            >
+              <span className="group-hover:scale-110 transition-transform flex items-center gap-2">
+                Get in Touch
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+              </span>
             </Button>
-          </div>
+          </motion.div>
 
           {/* Animated scroll indicator */}
-          <div className="mt-16 flex justify-center">
-            <div className="animate-bounce">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 1.5 }}
+            className="mt-20"
+          >
+            <div className="flex flex-col items-center gap-2 animate-bounce">
+              <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">Scroll to explore</span>
               <svg className="w-6 h-6 text-gray-400" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
                 <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
               </svg>
             </div>
-          </div>
+          </motion.div>
         </div>
       </Container>
+
+      {/* Decorative gradient line at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
     </Section>
   );
 }
