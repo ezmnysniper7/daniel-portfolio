@@ -19,7 +19,7 @@ export default function AboutPage() {
 
           <div className="prose prose-lg dark:prose-invert max-w-none">
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-6">
-              I'm a full-stack developer with 2.5+ years of professional experience building enterprise-grade applications,
+              I&apos;m a full-stack developer with 2.5+ years of professional experience building enterprise-grade applications,
               payment systems, and large-scale platforms. Currently based in Penang, Malaysia.
             </p>
 
@@ -31,8 +31,8 @@ export default function AboutPage() {
             </p>
 
             <p className="text-gray-600 dark:text-gray-300 mb-4">
-              I'm passionate about solving complex technical challenges, optimizing system performance, and delivering
-              solutions that drive real business impact. Whether it's achieving 95% SQL query performance improvements
+              I&apos;m passionate about solving complex technical challenges, optimizing system performance, and delivering
+              solutions that drive real business impact. Whether it&apos;s achieving 95% SQL query performance improvements
               or building multi-tenant microservices, I thrive on turning ambitious requirements into production-ready code.
             </p>
 
@@ -63,7 +63,7 @@ export default function AboutPage() {
             <h2 className="text-2xl font-semibold mt-8 mb-4">Education</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
               <strong>University Tunku Abdul Rahman (UTAR)</strong><br />
-              Bachelor's Degree in Computer Science<br />
+              Bachelor&apos;s Degree in Computer Science<br />
               Malaysia
             </p>
           </div>

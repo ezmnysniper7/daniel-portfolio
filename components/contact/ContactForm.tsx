@@ -87,7 +87,7 @@ export function ContactForm() {
 
       {/* Status Messages */}
       {status === 'success' && (
-        <p className="text-green-500 text-sm">Message sent successfully! I'll get back to you soon.</p>
+        <p className="text-green-500 text-sm">Message sent successfully! I&apos;ll get back to you soon.</p>
       )}
       {status === 'error' && (
         <p className="text-red-500 text-sm">
