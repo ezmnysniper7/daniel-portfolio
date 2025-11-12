@@ -39,9 +39,20 @@ export async function POST(request: Request) {
     const resend = new Resend(apiKey);
 
     // Send email via Resend with timeout
+    // Force simple email format - Resend is very strict about this
+    const fromEmail = 'onboarding@resend.dev'; // Hardcoded to ensure correct format
+    const toEmail = 'chendaniel150701@gmail.com'; // Hardcode recipient to ensure format is correct
+
+    console.log('Attempting to send email with:', {
+      from: fromEmail,
+      to: toEmail,
+      replyTo: email,
+      subject: `Portfolio Contact from ${name}`
+    });
+
     const emailPromise = resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
-      to: process.env.CONTACT_EMAIL || 'chendaniel150701@gmail.com',
+      from: fromEmail,
+      to: toEmail,
       subject: `Portfolio Contact from ${name}`,
       replyTo: email,
       html: `
