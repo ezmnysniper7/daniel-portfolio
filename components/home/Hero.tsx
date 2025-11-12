@@ -13,6 +13,45 @@ interface HeroProps {
 }
 
 export function Hero({ name, title, tagline }: HeroProps) {
+  // Enhanced stagger animations for children
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.8,
+        ease: [0.6, 0.05, 0.01, 0.9] as any
+      }
+    }
+  };
+
+  const nameVariants = {
+    hidden: { opacity: 0, scale: 0.8, rotateX: -90 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      rotateX: 0,
+      transition: {
+        duration: 1,
+        ease: [0.6, 0.05, 0.01, 0.9] as any,
+        delay: 0.3
+      }
+    }
+  };
+
   return (
     <Section className="min-h-screen flex items-center relative overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-purple-100 dark:from-gray-950 dark:via-blue-950 dark:to-purple-950">
       {/* Particle background */}
@@ -22,53 +61,61 @@ export function Hero({ name, title, tagline }: HeroProps) {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full blur-3xl opacity-20"
+          initial={{ opacity: 0, scale: 0 }}
           animate={{
+            opacity: 0.2,
             scale: [1, 1.2, 1],
             x: [0, 50, 0],
             y: [0, 30, 0],
           }}
           transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
+            opacity: { duration: 1 },
+            scale: { duration: 8, repeat: Infinity, ease: "easeInOut" },
+            x: { duration: 8, repeat: Infinity, ease: "easeInOut" },
+            y: { duration: 8, repeat: Infinity, ease: "easeInOut" },
           }}
         />
         <motion.div
           className="absolute bottom-20 right-10 w-[500px] h-[500px] bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-3xl opacity-20"
+          initial={{ opacity: 0, scale: 0 }}
           animate={{
+            opacity: 0.2,
             scale: [1, 1.3, 1],
             x: [0, -50, 0],
             y: [0, -30, 0],
           }}
           transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
+            opacity: { duration: 1, delay: 0.2 },
+            scale: { duration: 10, repeat: Infinity, ease: "easeInOut" },
+            x: { duration: 10, repeat: Infinity, ease: "easeInOut" },
+            y: { duration: 10, repeat: Infinity, ease: "easeInOut" },
           }}
         />
         <motion.div
           className="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full blur-3xl opacity-10"
+          initial={{ opacity: 0, scale: 0 }}
           animate={{
+            opacity: 0.1,
             scale: [1, 1.5, 1],
             rotate: [0, 180, 360],
           }}
           transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "linear",
+            opacity: { duration: 1, delay: 0.4 },
+            scale: { duration: 15, repeat: Infinity, ease: "linear" },
+            rotate: { duration: 15, repeat: Infinity, ease: "linear" },
           }}
         />
       </div>
 
       <Container className="relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
+        <motion.div
+          className="max-w-4xl mx-auto text-center"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {/* Availability badge */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
+          <motion.div variants={itemVariants} className="mb-8">
             <span className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 text-white text-sm font-medium shadow-2xl shadow-emerald-500/50 animate-pulse-glow">
               <span className="relative flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
@@ -80,22 +127,29 @@ export function Hero({ name, title, tagline }: HeroProps) {
 
           {/* Main heading with stunning animation */}
           <motion.h1
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            variants={itemVariants}
             className="text-6xl md:text-7xl lg:text-8xl font-black mb-8 leading-tight"
           >
-            <span className="block text-gray-900 dark:text-white mb-2">Hi, I&apos;m</span>
-            <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent animate-gradient bg-300%">
+            <motion.span
+              className="block text-gray-900 dark:text-white mb-2"
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              Hi, I&apos;m
+            </motion.span>
+            <motion.span
+              variants={nameVariants}
+              className="block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent animate-gradient bg-300%"
+              style={{ perspective: 1000 }}
+            >
               {name}
-            </span>
+            </motion.span>
           </motion.h1>
 
           {/* Title with typing effect look */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            variants={itemVariants}
             className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-700 via-blue-700 to-purple-700 dark:from-gray-200 dark:via-blue-200 dark:to-purple-200 bg-clip-text text-transparent"
           >
             {title}
@@ -103,9 +157,7 @@ export function Hero({ name, title, tagline }: HeroProps) {
 
           {/* Tagline */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            variants={itemVariants}
             className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
           >
             {tagline}
@@ -113,9 +165,7 @@ export function Hero({ name, title, tagline }: HeroProps) {
 
           {/* CTA buttons with stunning effects */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
+            variants={itemVariants}
             className="flex flex-wrap justify-center gap-6"
           >
             <Button
@@ -148,9 +198,9 @@ export function Hero({ name, title, tagline }: HeroProps) {
 
           {/* Animated scroll indicator */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1.5 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 1.8 }}
             className="mt-20"
           >
             <div className="flex flex-col items-center gap-2 animate-bounce">
@@ -160,11 +210,16 @@ export function Hero({ name, title, tagline }: HeroProps) {
               </svg>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       </Container>
 
       {/* Decorative gradient line at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: 1.5, delay: 1 }}
+      />
     </Section>
   );
 }

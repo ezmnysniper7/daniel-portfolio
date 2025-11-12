@@ -54,22 +54,60 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           )}
 
           <div className="p-6 relative z-10">
+            {/* Date and Category Badge */}
+            {project.startDate && (
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span className="font-medium">{project.startDate} - {project.endDate}</span>
+                </div>
+                {project.featured && (
+                  <Badge size="sm" variant="accent" className="animate-pulse-glow">
+                    Featured
+                  </Badge>
+                )}
+              </div>
+            )}
+
             <div className="flex items-start justify-between mb-3">
-              <h3 className="text-xl md:text-2xl font-semibold group-hover:gradient-text transition-all duration-300 group-hover:scale-105 transform-gpu">
-                {project.title}
-              </h3>
-              <svg className="w-6 h-6 text-gray-400 group-hover:text-blue-500 transform group-hover:translate-x-2 group-hover:-translate-y-2 group-hover:rotate-45 transition-all duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="flex-1">
+                <h3 className="text-xl md:text-2xl font-semibold group-hover:gradient-text transition-all duration-300 group-hover:scale-105 transform-gpu mb-1">
+                  {project.title}
+                </h3>
+                {project.role && (
+                  <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                    {project.role}
+                  </p>
+                )}
+              </div>
+              <svg className="w-6 h-6 text-gray-400 group-hover:text-blue-500 transform group-hover:translate-x-2 group-hover:-translate-y-2 group-hover:rotate-45 transition-all duration-500 flex-shrink-0 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </div>
 
-            <p className="text-gray-600 dark:text-gray-300 mb-4 group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors line-clamp-3">
+            <p className="text-gray-600 dark:text-gray-300 mb-4 group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors line-clamp-2">
               {project.description}
             </p>
 
+            {/* Highlights */}
+            {project.highlights && project.highlights.length > 0 && (
+              <div className="mb-4 space-y-1">
+                {project.highlights.slice(0, 2).map((highlight, i) => (
+                  <div key={i} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
+                    <svg className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="line-clamp-1">{highlight}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
             {/* Tech Stack with staggered animation */}
             <div className="flex flex-wrap gap-2 mb-4">
-              {project.techStack.slice(0, 4).map((tech, i) => (
+              {project.techStack.slice(0, 5).map((tech, i) => (
                 <div key={tech} style={{ transitionDelay: `${i * 50}ms` } as React.CSSProperties}>
                   <Badge
                     size="sm"
@@ -79,20 +117,20 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
                   </Badge>
                 </div>
               ))}
-              {project.techStack.length > 4 && (
+              {project.techStack.length > 5 && (
                 <Badge size="sm" variant="accent" className="group-hover:scale-110 transition-all duration-300 group-hover:shadow-lg">
-                  +{project.techStack.length - 4} more
+                  +{project.techStack.length - 5} more
                 </Badge>
               )}
             </div>
 
             {/* Metrics with animated icons */}
             {project.metrics && project.metrics.length > 0 && (
-              <div className="flex flex-wrap gap-3 text-sm text-gray-500 dark:text-gray-400">
+              <div className="flex flex-wrap gap-3 text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-3">
                 {project.metrics.map((metric, i) => (
                   <span key={i} className="flex items-center group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
                     <svg
-                      className="w-4 h-4 mr-1 text-green-500 group-hover:scale-150 group-hover:rotate-12 transition-all duration-300"
+                      className="w-3 h-3 mr-1 text-green-500 group-hover:scale-150 group-hover:rotate-12 transition-all duration-300"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -102,7 +140,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
-                        d="M5 13l4 4L19 7"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"
                       />
                     </svg>
                     {metric}

@@ -66,6 +66,7 @@ export interface SiteMetadata {
   tagline: string;
   description: string;
   email: string;
+  phone?: string;
   location?: string;
   availableForWork?: boolean;
   social: {
@@ -75,4 +76,5 @@ export interface SiteMetadata {
     website?: string;
   };
   resumeUrl?: string;
+  portfolioRepo?: string;
 }
