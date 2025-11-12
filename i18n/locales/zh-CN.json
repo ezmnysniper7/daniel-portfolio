@@ -1,0 +1,141 @@
+{
+  "nav": {
+    "home": "首页",
+    "about": "关于我",
+    "projects": "项目",
+    "contact": "联系我"
+  },
+  "home": {
+    "name": "曾祈荣",
+    "greeting": "你好，我是",
+    "title": "平台工程师",
+    "tagline": "构建生产基础设施、云安全系统和支付集成",
+    "description": "专注于 Kubernetes、云原生架构和安全优先开发的平台工程师。帮助企业构建可扩展、可靠的系统，以应对现实世界的复杂性。在企业支付系统、云基础设施和游戏运营平台方面拥有丰富经验。",
+    "scrollToExplore": "向下滚动探索",
+    "availableForWork": "接受工作机会",
+    "notAvailableForWork": "目前在职",
+    "viewProjects": "查看作品",
+    "viewResume": "查看简历",
+    "contactMe": "联系我",
+    "location": "马来西亚",
+    "featuredProjects": "精选项目",
+    "viewAllProjects": "查看所有项目",
+    "skillsAndTechnologies": "技能与技术",
+    "skills": {
+      "title": "技术技能",
+      "backend": "后端开发",
+      "frontend": "前端开发",
+      "database": "数据库与数据",
+      "devops": "运维与云计算",
+      "security": "安全与身份验证"
+    }
+  },
+  "about": {
+    "title": "关于我",
+    "whatIDo": "我的工作",
+    "education": "教育背景",
+    "workExperience": "工作经验",
+    "present": "至今",
+    "description": "拥有构建企业级支付系统、云基础设施和可扩展应用经验的平台工程师。热衷于安全、性能和开发者体验。",
+    "expertise": {
+      "payments": "构建符合 Type Approval 和 APIP 标准的企业支付系统",
+      "microservices": "设计具有 JWT、HMAC-SHA256 和 AES-256-GCM 加密的安全微服务",
+      "kubernetes": "部署和维护正常运行时间达 99.9% 的生产 Kubernetes 集群",
+      "databases": "优化 SQL 查询，性能提升高达 95%",
+      "infrastructure": "在 AWS 和腾讯云上架构云原生解决方案",
+      "frontend": "使用 Next.js、React 和 TypeScript 开发现代 Web 应用"
+    },
+    "degree": "计算机科学学士",
+    "university": "斯威本科技大学",
+    "graduationDate": "毕业时间：2023年"
+  },
+  "projects": {
+    "title": "项目",
+    "description": "展示我在企业支付系统、云基础设施和全栈开发方面的工作。",
+    "stats": {
+      "total": "总项目数",
+      "featured": "精选项目",
+      "professional": "专业项目",
+      "technologies": "技术栈"
+    },
+    "filters": {
+      "all": "所有项目",
+      "professional": "专业项目",
+      "personal": "个人项目"
+    },
+    "viewDetails": "查看详情",
+    "featured": "精选项目",
+    "detail": {
+      "role": "角色",
+      "timeline": "时间线",
+      "category": "类别",
+      "overview": "概述",
+      "whatIBuilt": "我构建了什么",
+      "achievements": "主要成就",
+      "technologies": "使用的技术",
+      "tags": "标签",
+      "backToProjects": "返回项目列表",
+      "present": "至今",
+      "featured": "精选项目"
+    },
+    "categories": {
+      "professional": "专业项目",
+      "personal": "个人项目"
+    }
+  },
+  "contact": {
+    "title": "联系我",
+    "description": "有项目想法或想讨论合作机会？我很乐意听到您的声音！",
+    "availableForWork": "接受新的工作机会",
+    "notAvailableForWork": "目前在职，但对有趣的项目持开放态度",
+    "form": {
+      "name": "姓名",
+      "namePlaceholder": "您的姓名",
+      "email": "邮箱",
+      "emailPlaceholder": "your@email.com",
+      "message": "消息",
+      "messagePlaceholder": "告诉我您的项目或机会...",
+      "send": "发送消息",
+      "sending": "发送中...",
+      "success": "消息发送成功！我会尽快回复您。",
+      "error": "发送消息失败。请重试或直接联系我。"
+    },
+    "info": {
+      "location": "位置",
+      "email": "邮箱",
+      "phone": "电话",
+      "availability": "工作状态"
+    },
+    "social": {
+      "title": "与我联系",
+      "github": "GitHub",
+      "linkedin": "LinkedIn"
+    }
+  },
+  "footer": {
+    "builtBySelf": "由本人独立设计与开发",
+    "viewSource": "查看源代码",
+    "copyright": "© {year} {name}。版权所有。",
+    "email": "邮箱"
+  },
+  "experience": {
+    "title": "工作经验",
+    "type": {
+      "fullTime": "全职",
+      "partTime": "兼职",
+      "contract": "合同",
+      "internship": "实习"
+    },
+    "responsibilities": "职责",
+    "achievements": "主要成就",
+    "techStack": "技术栈"
+  },
+  "common": {
+    "learnMore": "了解更多",
+    "viewMore": "查看更多",
+    "backToTop": "返回顶部",
+    "loading": "加载中...",
+    "notFound": "未找到",
+    "error": "发生错误"
+  }
+}

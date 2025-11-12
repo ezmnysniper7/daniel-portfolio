@@ -1,3 +1,6 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
 import { Section } from '@/components/layout/Section';
 import { Container } from '@/components/layout/Container';
 import { Card } from '@/components/ui/Card';
@@ -9,10 +12,12 @@ interface SkillsOverviewProps {
 }
 
 export function SkillsOverview({ skills }: SkillsOverviewProps) {
+  const t = useTranslations('home');
+
   return (
     <Section>
       <Container>
-        <h2 className="text-3xl md:text-4xl font-bold mb-12">Skills & Technologies</h2>
+        <h2 className="text-3xl md:text-4xl font-bold mb-12">{t('skillsAndTechnologies')}</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {skills.map((category) => (
             <Card key={category.category} className="p-6">

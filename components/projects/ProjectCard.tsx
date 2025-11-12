@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
+import { useParams } from 'next/navigation';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Project } from '@/types';
@@ -12,6 +14,9 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
+  const params = useParams();
+  const locale = params.locale as string;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -19,7 +24,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       viewport={{ once: true }}
     >
-      <Link href={`/projects/${project.slug}`}>
+      <Link href={`/${locale}/projects/${project.slug}`}>
         <Card hover className="group h-full relative overflow-hidden border-2 border-transparent hover:border-blue-500/50 transition-all duration-500 hover:shadow-2xl hover:glow hover:-translate-y-2 hover:rotate-1">
           {/* Animated gradient background */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/5 group-hover:via-purple-500/5 group-hover:to-pink-500/5 transition-all duration-500"></div>
@@ -34,10 +39,12 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
 
           {project.imageUrl && (
             <div className="aspect-video overflow-hidden rounded-t-lg relative">
-              <img
+              <Image
                 src={project.imageUrl}
                 alt={project.title}
-                className="w-full h-full object-cover group-hover:scale-125 group-hover:rotate-2 transition-all duration-700"
+                fill
+                className="object-cover group-hover:scale-125 group-hover:rotate-2 transition-all duration-700"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 

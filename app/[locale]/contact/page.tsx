@@ -1,40 +1,37 @@
-import type { Metadata } from 'next';
+'use client';
+
+import { useTranslations } from 'next-intl';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { Card } from '@/components/ui/Card';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { siteMetadata } from '@/data/metadata';
 
-export const metadata: Metadata = {
-  title: 'Contact',
-  description: `Get in touch with ${siteMetadata.name}. Available for new opportunities and collaborations.`,
-};
-
 export default function ContactPage() {
+  const t = useTranslations('contact');
   return (
     <Section>
       <Container size="md">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">Get in Touch</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-6">{t('title')}</h1>
         <p className="text-xl text-gray-600 dark:text-gray-300 mb-12">
-          Interested in working together? Feel free to reach out through the form below or connect with me
-          on social media.
+          {t('description')}
         </p>
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Contact Form */}
           <Card className="p-8">
-            <h2 className="text-2xl font-semibold mb-6">Send a Message</h2>
+            <h2 className="text-2xl font-semibold mb-6">{t('form.send')}</h2>
             <ContactForm />
           </Card>
 
           {/* Contact Info */}
           <div className="space-y-6">
             <Card className="p-6">
-              <h3 className="text-xl font-semibold mb-4">Direct Contact</h3>
+              <h3 className="text-xl font-semibold mb-4">{t('info.email')}</h3>
               <div className="space-y-4">
                 {/* Email */}
                 <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Email</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">{t('info.email')}</p>
                   <a
                     href={`mailto:${siteMetadata.email}`}
                     className="text-blue-500 hover:text-blue-600"
@@ -46,25 +43,25 @@ export default function ContactPage() {
                 {/* Location */}
                 {siteMetadata.location && (
                   <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Location</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">{t('info.location')}</p>
                     <p className="text-gray-700 dark:text-gray-300">{siteMetadata.location}</p>
                   </div>
                 )}
 
                 {/* Availability */}
                 <div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Availability</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">{t('info.availability')}</p>
                   <p className="text-gray-700 dark:text-gray-300">
                     {siteMetadata.availableForWork
-                      ? 'Open to new opportunities'
-                      : 'Currently employed, but open to interesting projects'}
+                      ? t('availableForWork')
+                      : t('notAvailableForWork')}
                   </p>
                 </div>
               </div>
             </Card>
 
             <Card className="p-6">
-              <h3 className="text-xl font-semibold mb-4">Connect Online</h3>
+              <h3 className="text-xl font-semibold mb-4">{t('social.title')}</h3>
               <div className="space-y-3">
                 {siteMetadata.social.github && (
                   <a
@@ -80,7 +77,7 @@ export default function ContactPage() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <span>GitHub</span>
+                    <span>{t('social.github')}</span>
                   </a>
                 )}
 
@@ -94,7 +91,7 @@ export default function ContactPage() {
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                     </svg>
-                    <span>LinkedIn</span>
+                    <span>{t('social.linkedin')}</span>
                   </a>
                 )}
 

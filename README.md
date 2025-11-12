@@ -161,11 +161,23 @@ theme: {
 
 ## Contact Form Integration
 
-The contact form currently logs to console. To enable email:
+The contact form uses [Resend](https://resend.com) to send emails. To set it up:
 
-1. Sign up for [Resend](https://resend.com) (or similar email service)
-2. Add API key to environment variables
-3. Update `app/api/contact/route.ts` with email logic
+1. Sign up for a free account at [Resend](https://resend.com)
+2. Get your API key from the dashboard
+3. Copy `.env.example` to `.env.local`:
+   ```bash
+   cp .env.example .env.local
+   ```
+4. Add your Resend API key to `.env.local`:
+   ```
+   RESEND_API_KEY=re_your_actual_api_key_here
+   CONTACT_EMAIL=chendaniel150701@gmail.com
+   ```
+5. The form will now send emails to your configured email address
+6. For production (Vercel), add these environment variables in your project settings
+
+**Note**: Resend's free tier includes 100 emails/day, which is perfect for a portfolio site.
 
 ## Scripts
 

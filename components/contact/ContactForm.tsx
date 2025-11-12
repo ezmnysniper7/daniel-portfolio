@@ -1,9 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/Button';
 
 export function ContactForm() {
+  const t = useTranslations('contact.form');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -38,13 +40,14 @@ export function ContactForm() {
       {/* Name */}
       <div>
         <label htmlFor="name" className="block text-sm font-medium mb-2">
-          Name
+          {t('name')}
         </label>
         <input
           type="text"
           id="name"
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          placeholder={t('namePlaceholder')}
           className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           required
         />
@@ -53,13 +56,14 @@ export function ContactForm() {
       {/* Email */}
       <div>
         <label htmlFor="email" className="block text-sm font-medium mb-2">
-          Email
+          {t('email')}
         </label>
         <input
           type="email"
           id="email"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          placeholder={t('emailPlaceholder')}
           className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           required
         />
@@ -68,12 +72,13 @@ export function ContactForm() {
       {/* Message */}
       <div>
         <label htmlFor="message" className="block text-sm font-medium mb-2">
-          Message
+          {t('message')}
         </label>
         <textarea
           id="message"
           value={formData.message}
           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+          placeholder={t('messagePlaceholder')}
           rows={5}
           className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
           required
@@ -82,16 +87,16 @@ export function ContactForm() {
 
       {/* Submit Button */}
       <Button type="submit" disabled={status === 'loading'} className="w-full">
-        {status === 'loading' ? 'Sending...' : 'Send Message'}
+        {status === 'loading' ? t('sending') : t('send')}
       </Button>
 
       {/* Status Messages */}
       {status === 'success' && (
-        <p className="text-green-500 text-sm">Message sent successfully! I&apos;ll get back to you soon.</p>
+        <p className="text-green-500 text-sm">{t('success')}</p>
       )}
       {status === 'error' && (
         <p className="text-red-500 text-sm">
-          Failed to send message. Please try again or email me directly.
+          {t('error')}
         </p>
       )}
     </form>

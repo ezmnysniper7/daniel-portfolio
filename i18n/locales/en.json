@@ -1,0 +1,141 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "home": {
+    "name": "Daniel Chen Qi Rong",
+    "greeting": "Hi, I'm",
+    "title": "Platform Engineer",
+    "tagline": "Building production infrastructure, cloud security systems, and payment integrations",
+    "description": "Platform Engineer specializing in Kubernetes, cloud-native architectures, and security-first development. Helping companies build scalable, reliable systems that handle real-world complexity. Experience in enterprise payment systems, cloud infrastructure, and game operations platforms.",
+    "scrollToExplore": "Scroll to explore",
+    "availableForWork": "Available for Work",
+    "notAvailableForWork": "Currently Employed",
+    "viewProjects": "View My Work",
+    "viewResume": "View Resume",
+    "contactMe": "Get in Touch",
+    "location": "Malaysia",
+    "featuredProjects": "Featured Projects",
+    "viewAllProjects": "View All Projects",
+    "skillsAndTechnologies": "Skills & Technologies",
+    "skills": {
+      "title": "Technical Skills",
+      "backend": "Backend Development",
+      "frontend": "Frontend Development",
+      "database": "Database & Data",
+      "devops": "DevOps & Cloud",
+      "security": "Security & Authentication"
+    }
+  },
+  "about": {
+    "title": "About Me",
+    "whatIDo": "What I Do",
+    "education": "Education",
+    "workExperience": "Work Experience",
+    "present": "Present",
+    "description": "Platform Engineer with expertise in building enterprise-grade payment systems, cloud infrastructure, and scalable applications. Passionate about security, performance, and developer experience.",
+    "expertise": {
+      "payments": "Build enterprise payment systems with Type Approval and APIP compliance",
+      "microservices": "Design secure microservices with JWT, HMAC-SHA256, and AES-256-GCM encryption",
+      "kubernetes": "Deploy and maintain production Kubernetes clusters with 99.9% uptime",
+      "databases": "Optimize SQL queries achieving up to 95% performance improvements",
+      "infrastructure": "Architect cloud-native solutions on AWS and Tencent Cloud",
+      "frontend": "Develop modern web applications with Next.js, React, and TypeScript"
+    },
+    "degree": "Bachelor of Computer Science",
+    "university": "Swinburne University of Technology",
+    "graduationDate": "Graduated: 2023"
+  },
+  "projects": {
+    "title": "Projects",
+    "description": "A showcase of my work including payment systems, e-commerce platforms, and enterprise applications.",
+    "stats": {
+      "total": "Total Projects",
+      "featured": "Featured",
+      "professional": "Professional",
+      "technologies": "Technologies"
+    },
+    "filters": {
+      "all": "All Projects",
+      "professional": "Professional",
+      "personal": "Personal"
+    },
+    "viewDetails": "View Details",
+    "featured": "Featured Project",
+    "detail": {
+      "role": "Role",
+      "timeline": "Timeline",
+      "category": "Category",
+      "overview": "Overview",
+      "whatIBuilt": "What I Built",
+      "achievements": "Key Achievements",
+      "technologies": "Technologies Used",
+      "tags": "Tags",
+      "backToProjects": "Back to Projects",
+      "present": "Present",
+      "featured": "Featured Project"
+    },
+    "categories": {
+      "professional": "Professional",
+      "personal": "Personal"
+    }
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "description": "Have a project in mind or want to discuss opportunities? I'd love to hear from you!",
+    "availableForWork": "Open to new opportunities",
+    "notAvailableForWork": "Currently employed, but open to interesting projects",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "message": "Message",
+      "messagePlaceholder": "Tell me about your project or opportunity...",
+      "send": "Send Message",
+      "sending": "Sending...",
+      "success": "Message sent successfully! I'll get back to you soon.",
+      "error": "Failed to send message. Please try again or contact me directly."
+    },
+    "info": {
+      "location": "Location",
+      "email": "Email",
+      "phone": "Phone",
+      "availability": "Availability"
+    },
+    "social": {
+      "title": "Connect With Me",
+      "github": "GitHub",
+      "linkedin": "LinkedIn"
+    }
+  },
+  "footer": {
+    "builtBySelf": "Proudly designed and built from scratch by me",
+    "viewSource": "View Source Code",
+    "copyright": "© {year} {name}. All rights reserved.",
+    "email": "Email"
+  },
+  "experience": {
+    "title": "Work Experience",
+    "type": {
+      "fullTime": "Full-time",
+      "partTime": "Part-time",
+      "contract": "Contract",
+      "internship": "Internship"
+    },
+    "responsibilities": "Responsibilities",
+    "achievements": "Key Achievements",
+    "techStack": "Tech Stack"
+  },
+  "common": {
+    "learnMore": "Learn More",
+    "viewMore": "View More",
+    "backToTop": "Back to Top",
+    "loading": "Loading...",
+    "notFound": "Not Found",
+    "error": "An error occurred"
+  }
+}
