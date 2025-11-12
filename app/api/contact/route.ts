@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
+// Force Node.js runtime instead of Edge
+export const runtime = 'nodejs';
+
 export async function POST(request: Request) {
   try {
     const { name, email, message } = await request.json();
