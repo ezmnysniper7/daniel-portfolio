@@ -114,8 +114,8 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
 
             {/* Tech Stack with staggered animation */}
             <div className="flex flex-wrap gap-2 mb-4">
-              {project.techStack.slice(0, 5).map((tech, i) => (
-                <div key={tech} style={{ transitionDelay: `${i * 50}ms` } as React.CSSProperties}>
+              {project.techStack.slice(0, 5).map((tech) => (
+                <div key={tech}>
                   <Badge
                     size="sm"
                     className="group-hover:scale-110 transition-all duration-300 group-hover:shadow-lg"
@@ -141,7 +141,6 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
-                      style={{ transitionDelay: `${i * 100}ms` } as React.CSSProperties}
                     >
                       <path
                         strokeLinecap="round"
@@ -164,7 +163,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
 
           {/* Sparkle effect */}
           <div className="absolute top-4 left-4 w-2 h-2 bg-white rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping"></div>
-          <div className="absolute bottom-4 right-4 w-2 h-2 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping" style={{ animationDelay: '0.5s' } as React.CSSProperties}></div>
+          <div className="absolute bottom-4 right-4 w-2 h-2 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping [animation-delay:0.5s]"></div>
         </Card>
       </Link>
     </motion.div>
