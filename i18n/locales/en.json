@@ -126,9 +126,17 @@
       "contract": "Contract",
       "internship": "Internship"
     },
-    "responsibilities": "Responsibilities",
-    "achievements": "Key Achievements",
-    "techStack": "Tech Stack"
+    "responsibilities": "Key Responsibilities",
+    "achievements": "Achievements",
+    "techStack": "Technologies",
+    "present": "Present",
+    "duration": {
+      "lessThanMonth": "Less than a month",
+      "month": "{count} month",
+      "months": "{count} months",
+      "year": "{count} year",
+      "years": "{count} years"
+    }
   },
   "common": {
     "learnMore": "Learn More",

@@ -74,21 +74,12 @@ export async function generateMetadata({
       title: `${siteMetadata.name} - ${siteMetadata.title}`,
       description: t('description'),
       siteName: `${siteMetadata.name} Portfolio`,
-      images: [
-        {
-          url: `${baseUrl}/og-image.png`,
-          width: 1200,
-          height: 630,
-          alt: `${siteMetadata.name} - ${siteMetadata.title}`,
-        },
-      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: `${siteMetadata.name} - ${siteMetadata.title}`,
       description: t('description'),
       creator: '@danielchen',
-      images: [`${baseUrl}/og-image.png`],
     },
     robots: {
       index: true,

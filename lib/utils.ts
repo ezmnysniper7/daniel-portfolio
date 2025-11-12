@@ -12,11 +12,14 @@ export function cn(...inputs: ClassValue[]) {
 /**
  * Format a date string to a readable format
  * @param dateString - Date string in YYYY-MM format or full ISO date
- * @returns Formatted date like "September 2024" or "Sep 2024"
+ * @param format - 'long' or 'short' format
+ * @param locale - Locale for formatting (e.g., 'en', 'zh-CN')
+ * @returns Formatted date like "September 2024" or "Sep 2024" or "2024年9月"
  */
 export function formatDate(
   dateString: string | 'Present',
-  format: 'long' | 'short' = 'long'
+  format: 'long' | 'short' = 'long',
+  locale: string = 'en'
 ): string {
   if (dateString === 'Present') return 'Present';
 
@@ -28,24 +31,48 @@ export function formatDate(
     month: format === 'long' ? 'long' : 'short',
   };
 
-  return date.toLocaleDateString('en-US', options);
+  // Map locale to proper format for toLocaleDateString
+  const localeMap: Record<string, string> = {
+    'en': 'en-US',
+    'zh-CN': 'zh-CN',
+  };
+
+  return date.toLocaleDateString(localeMap[locale] || locale, options);
 }
 
 /**
  * Calculate duration between two dates
  * @param startDate - Start date in YYYY-MM format
  * @param endDate - End date in YYYY-MM format or "Present"
- * @returns Duration string like "1 year 3 months" or "6 months"
+ * @param locale - Locale for formatting (e.g., 'en', 'zh-CN')
+ * @returns Duration string like "1 year 3 months" or "6 months" or "1年3个月"
  */
 export function calculateDuration(
   startDate: string,
-  endDate: string | 'Present'
+  endDate: string | 'Present',
+  locale: string = 'en'
 ): string {
   const start = new Date(startDate);
   const end = endDate === 'Present' ? new Date() : new Date(endDate);
 
   const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
 
+  // Chinese formatting
+  if (locale === 'zh-CN') {
+    if (months < 1) return '不到一个月';
+    if (months < 12) return `${months}个月`;
+
+    const years = Math.floor(months / 12);
+    const remainingMonths = months % 12;
+
+    if (remainingMonths === 0) {
+      return `${years}年`;
+    }
+
+    return `${years}年${remainingMonths}个月`;
+  }
+
+  // English formatting (default)
   if (months < 1) return 'Less than a month';
   if (months === 1) return '1 month';
   if (months < 12) return `${months} months`;

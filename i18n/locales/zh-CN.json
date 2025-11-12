@@ -126,9 +126,17 @@
       "contract": "合同",
       "internship": "实习"
     },
-    "responsibilities": "职责",
+    "responsibilities": "主要职责",
     "achievements": "主要成就",
-    "techStack": "技术栈"
+    "techStack": "技术栈",
+    "present": "至今",
+    "duration": {
+      "lessThanMonth": "不到一个月",
+      "month": "{count}个月",
+      "months": "{count}个月",
+      "year": "{count}年",
+      "years": "{count}年"
+    }
   },
   "common": {
     "learnMore": "了解更多",

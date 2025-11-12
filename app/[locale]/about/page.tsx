@@ -1,10 +1,11 @@
 import { useTranslations } from 'next-intl';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, getLocale } from 'next-intl/server';
 import type { Metadata } from 'next';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { Timeline } from '@/components/experience/Timeline';
 import { experiences } from '@/data/experience';
+import { experiencesZhCN } from '@/data/experience.zh-CN';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('about');
@@ -15,11 +16,18 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function AboutPage() {
-  return <AboutPageContent />;
+export default async function AboutPage() {
+  const locale = await getLocale();
+  const experienceData = locale === 'zh-CN' ? experiencesZhCN : experiences;
+
+  return <AboutPageContent experiences={experienceData} />;
 }
 
-function AboutPageContent() {
+interface AboutPageContentProps {
+  experiences: typeof experiences;
+}
+
+function AboutPageContent({ experiences }: AboutPageContentProps) {
   const t = useTranslations('about');
 
   return (
