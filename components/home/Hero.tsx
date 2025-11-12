@@ -164,7 +164,7 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
             variants={itemVariants}
             className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-gray-700 via-blue-700 to-purple-700 dark:from-gray-200 dark:via-blue-200 dark:to-purple-200 bg-clip-text text-transparent"
           >
-            {title}
+            {t('title')}
           </motion.p>
 
           {/* Tagline */}
@@ -172,7 +172,7 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
             variants={itemVariants}
             className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
           >
-            {tagline}
+            {t('tagline')}
           </motion.p>
 
           {/* CTA buttons with stunning effects */}
