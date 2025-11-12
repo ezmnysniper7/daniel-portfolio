@@ -27,13 +27,16 @@ export function CustomCursor() {
     const handleMouseEnter = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
 
+      // Check if target is an HTML element before using closest
+      if (!target || typeof target.closest !== 'function') return;
+
       // Check if hovering over interactive elements
       if (
         target.tagName === 'A' ||
         target.tagName === 'BUTTON' ||
         target.closest('a') ||
         target.closest('button') ||
-        target.classList.contains('cursor-pointer') ||
+        target.classList?.contains('cursor-pointer') ||
         target.getAttribute('role') === 'button'
       ) {
         setIsHovering(true);
@@ -43,12 +46,15 @@ export function CustomCursor() {
     const handleMouseLeave = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
 
+      // Check if target is an HTML element before using closest
+      if (!target || typeof target.closest !== 'function') return;
+
       if (
         target.tagName === 'A' ||
         target.tagName === 'BUTTON' ||
         target.closest('a') ||
         target.closest('button') ||
-        target.classList.contains('cursor-pointer') ||
+        target.classList?.contains('cursor-pointer') ||
         target.getAttribute('role') === 'button'
       ) {
         setIsHovering(false);

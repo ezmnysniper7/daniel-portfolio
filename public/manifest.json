@@ -1,0 +1,16 @@
+{
+  "name": "Daniel Chen - Portfolio",
+  "short_name": "Daniel Chen",
+  "description": "Full-Stack Developer & Platform Engineer specializing in payment systems and cloud-native solutions",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

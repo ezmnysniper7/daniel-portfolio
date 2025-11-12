@@ -5,7 +5,8 @@ import { Badge } from '@/components/ui/Badge';
 import { Experience } from '@/types';
 import { formatDate, calculateDuration } from '@/lib/utils';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { useRef, MouseEvent } from 'react';
 
 interface TimelineItemProps {
   experience: Experience;
@@ -14,6 +15,39 @@ interface TimelineItemProps {
 
 export function TimelineItem({ experience, index }: TimelineItemProps) {
   const isEven = index % 2 === 0;
+  const ref = useRef<HTMLDivElement>(null);
+
+  // 3D Tilt effect
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['7.5deg', '-7.5deg']);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-7.5deg', '7.5deg']);
+
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+
+    const rect = ref.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   return (
     <motion.div
@@ -42,44 +76,80 @@ export function TimelineItem({ experience, index }: TimelineItemProps) {
       {/* Spacer for desktop */}
       <div className="hidden md:block md:w-1/2" />
 
-      {/* Content card with 3D effect */}
+      {/* Content card with 3D tilt effect */}
       <motion.div
-        whileHover={{ scale: 1.02, rotateY: isEven ? 2 : -2 }}
+        ref={ref}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          rotateX,
+          rotateY,
+          transformStyle: 'preserve-3d',
+        }}
         className={cn(
           'ml-8 md:ml-0 md:w-1/2',
           isEven ? 'md:pr-12' : 'md:pl-12'
         )}
       >
-        <Card className="p-6 group-hover:shadow-2xl group-hover:border-blue-500/30 transition-all duration-500 relative overflow-hidden backdrop-blur-sm bg-white/90 dark:bg-gray-900/90">
+        <Card className="p-6 group-hover:shadow-2xl group-hover:border-blue-500/30 transition-all duration-500 relative overflow-hidden backdrop-blur-md bg-white/80 dark:bg-gray-900/80">
+          {/* Glassmorphism overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white/60 via-white/40 to-transparent dark:from-gray-900/60 dark:via-gray-900/40 dark:to-transparent backdrop-blur-xl pointer-events-none"></div>
+
           {/* Animated gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/5 group-hover:via-purple-500/5 group-hover:to-pink-500/5 transition-all duration-700"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 transition-all duration-700"></div>
 
           {/* Shimmer effect overlay */}
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
-            <div className="absolute inset-0 shimmer"></div>
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+              animate={{
+                x: ['-100%', '200%'],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                repeatDelay: 1,
+              }}
+            />
           </div>
 
-          {/* Corner accent */}
-          <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          {/* Corner accent with glow */}
+          <motion.div
+            className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/30 via-purple-500/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"
+            animate={{
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+            }}
+          />
 
-          <div className="relative z-10">
+          <div className="relative z-10" style={{ transform: 'translateZ(30px)' }}>
             {/* Date with animated icon */}
-            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-3 group-hover:text-blue-500 transition-colors">
+            <motion.div
+              className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-3 group-hover:text-blue-500 transition-colors"
+              whileHover={{ x: 5 }}
+            >
               <svg className="w-4 h-4 group-hover:rotate-12 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               <span className="font-medium">
                 {formatDate(experience.startDate)} - {formatDate(experience.endDate)}
               </span>
-              <span className="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-900/30 rounded-full">
+              <span className="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-900/30 rounded-full backdrop-blur-sm">
                 {calculateDuration(experience.startDate, experience.endDate)}
               </span>
-            </div>
+            </motion.div>
 
             {/* Position & Company with enhanced styling */}
-            <h3 className="text-2xl font-bold mb-2 group-hover:gradient-text transition-all transform group-hover:scale-105">
+            <motion.h3
+              className="text-2xl font-bold mb-2 bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent"
+              whileHover={{ scale: 1.02, x: 5 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
               {experience.position}
-            </h3>
+            </motion.h3>
             {experience.companyUrl ? (
               <a
                 href={experience.companyUrl}
@@ -88,9 +158,15 @@ export function TimelineItem({ experience, index }: TimelineItemProps) {
                 className="text-lg text-blue-600 dark:text-blue-400 hover:text-purple-600 dark:hover:text-purple-400 mb-3 inline-flex items-center gap-2 transition-all group/link"
               >
                 <span className="font-semibold">{experience.company}</span>
-                <svg className="w-4 h-4 group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <motion.svg
+                  className="w-4 h-4"
+                  whileHover={{ x: 2, y: -2 }}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
+                </motion.svg>
               </a>
             ) : (
               <h4 className="text-lg text-blue-600 dark:text-blue-400 mb-3 font-semibold">{experience.company}</h4>
@@ -157,11 +233,12 @@ export function TimelineItem({ experience, index }: TimelineItemProps) {
                       viewport={{ once: true }}
                       className="text-sm flex gap-3 group/item"
                     >
-                      <svg
-                        className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5 group-hover/item:scale-125 group-hover/item:rotate-12 transition-all"
+                      <motion.svg
+                        className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
+                        whileHover={{ scale: 1.25, rotate: 12 }}
                       >
                         <path
                           strokeLinecap="round"
@@ -169,7 +246,7 @@ export function TimelineItem({ experience, index }: TimelineItemProps) {
                           strokeWidth={2}
                           d="M5 13l4 4L19 7"
                         />
-                      </svg>
+                      </motion.svg>
                       <span className="text-gray-700 dark:text-gray-300">{achievement}</span>
                     </motion.li>
                   ))}
@@ -177,7 +254,7 @@ export function TimelineItem({ experience, index }: TimelineItemProps) {
               </div>
             )}
 
-            {/* Tech Stack with enhanced badges */}
+            {/* Tech Stack with enhanced animations */}
             <div>
               <h5 className="text-sm font-bold text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2">
                 <svg className="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -186,20 +263,67 @@ export function TimelineItem({ experience, index }: TimelineItemProps) {
                 Technologies
               </h5>
               <div className="flex flex-wrap gap-2">
-                {experience.techStack.map((tech, i) => (
-                  <div key={tech} style={{ transitionDelay: `${i * 30}ms` } as React.CSSProperties}>
-                    <Badge size="sm" className="group-hover:scale-110 transition-all duration-300 hover:shadow-lg cursor-pointer">
+                {experience.techStack.map((tech) => (
+                  <motion.div
+                    key={tech}
+                    whileHover={{ scale: 1.15, y: -2 }}
+                    transition={{ type: 'spring', stiffness: 400 }}
+                  >
+                    <Badge
+                      size="sm"
+                      className="backdrop-blur-sm bg-white/50 dark:bg-gray-800/50 shadow-md hover:shadow-lg border border-gray-200/50 dark:border-gray-700/50"
+                    >
                       {tech}
                     </Badge>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
           </div>
 
+          {/* Glow effect on hover */}
+          <motion.div
+            className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+            animate={{
+              background: [
+                'radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)',
+                'radial-gradient(circle at 80% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 50%)',
+                'radial-gradient(circle at 50% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%)',
+                'radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)',
+              ],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+            }}
+          />
+
           {/* Sparkle effects */}
-          <div className="absolute top-6 right-6 w-2 h-2 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping"></div>
-          <div className="absolute bottom-6 left-6 w-2 h-2 bg-purple-400 rounded-full opacity-0 group-hover:opacity-100 group-hover:animate-ping" style={{ animationDelay: '0.3s' } as React.CSSProperties}></div>
+          <motion.div
+            className="absolute top-6 right-6 w-2 h-2 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100"
+            animate={{
+              scale: [0, 1, 0],
+              opacity: [0, 1, 0],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              repeatDelay: 1,
+            }}
+          />
+          <motion.div
+            className="absolute bottom-6 left-6 w-2 h-2 bg-purple-400 rounded-full opacity-0 group-hover:opacity-100"
+            animate={{
+              scale: [0, 1, 0],
+              opacity: [0, 1, 0],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              repeatDelay: 1,
+              delay: 0.5,
+            }}
+          />
         </Card>
       </motion.div>
     </motion.div>

@@ -38,11 +38,11 @@ export async function POST(request: Request) {
     // Initialize Resend with API key
     const resend = new Resend(apiKey);
 
-    // Send email via Resend
-    const { data, error } = await resend.emails.send({
+    // Send email via Resend with timeout
+    const emailPromise = resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || 'Portfolio Contact <onboarding@resend.dev>',
       to: process.env.CONTACT_EMAIL || 'chendaniel150701@gmail.com',
-      subject: `Portfolio Contact: ${name}`,
+      subject: `Portfolio Contact from ${name}`,
       replyTo: email,
       html: `
         <h2>New Contact Form Submission</h2>
@@ -57,10 +57,16 @@ export async function POST(request: Request) {
       `,
     });
 
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Email send timeout')), 10000)
+    );
+
+    const { data, error } = await Promise.race([emailPromise, timeoutPromise]) as any;
+
     if (error) {
       console.error('Resend error:', error);
       return NextResponse.json(
-        { error: 'Failed to send email' },
+        { error: `Failed to send email: ${error.message || 'Unknown error'}` },
         { status: 500 }
       );
     }
