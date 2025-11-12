@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-// Initialize Resend only if API key is available
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-
 export async function POST(request: Request) {
   try {
     const { name, email, message } = await request.json();
@@ -25,14 +22,18 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check if Resend is configured
-    if (!resend) {
-      console.error('Resend API key not configured');
+    // Check if Resend API key is configured
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey || apiKey === '' || apiKey === 'your_resend_api_key_here') {
+      console.error('Resend API key not configured properly');
       return NextResponse.json(
-        { error: 'Email service not configured' },
+        { error: 'Email service not configured. Please add RESEND_API_KEY to environment variables.' },
         { status: 503 }
       );
     }
+
+    // Initialize Resend with API key
+    const resend = new Resend(apiKey);
 
     // Send email via Resend
     const { data, error } = await resend.emails.send({
