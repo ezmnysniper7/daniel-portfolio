@@ -19,9 +19,11 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   const locale = params.locale as string;
   const ref = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   // Detect mobile on mount
   useEffect(() => {
+    setMounted(true);
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };

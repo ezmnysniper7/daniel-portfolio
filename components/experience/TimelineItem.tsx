@@ -20,9 +20,11 @@ export function TimelineItem({ experience, index }: TimelineItemProps) {
   const isEven = index % 2 === 0;
   const ref = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   // Detect mobile on mount
   useEffect(() => {
+    setMounted(true);
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };

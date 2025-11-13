@@ -21,12 +21,14 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
   const locale = params.locale as string;
   const ref = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   // Use translated name
   const displayName = t('name');
 
   // Detect mobile on mount
   useEffect(() => {
+    setMounted(true);
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
