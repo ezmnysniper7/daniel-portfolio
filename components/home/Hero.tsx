@@ -45,42 +45,42 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
   const opacity = useTransform(scrollYProgress, [0, 0.5], isMobile ? [1, 1] : [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.5], isMobile ? [1, 1] : [1, 0.95]);
 
-  // Enhanced stagger animations for children
+  // Enhanced stagger animations for children - Much faster on mobile
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.1,
+        staggerChildren: isMobile ? 0.03 : 0.12,
+        delayChildren: isMobile ? 0 : 0.1,
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 40, filter: 'blur(10px)' },
+    hidden: isMobile ? { opacity: 0 } : { opacity: 0, y: 40, filter: 'blur(10px)' },
     visible: {
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
       transition: {
-        duration: 0.8,
-        ease: [0.6, 0.05, 0.01, 0.9] as any
+        duration: isMobile ? 0.2 : 0.8,
+        ease: isMobile ? 'easeOut' : [0.6, 0.05, 0.01, 0.9] as any
       }
     }
   };
 
   const nameVariants = {
-    hidden: { opacity: 0, scale: 0.8, rotateX: -15, y: 50 },
+    hidden: isMobile ? { opacity: 0 } : { opacity: 0, scale: 0.8, rotateX: -15, y: 50 },
     visible: {
       opacity: 1,
       scale: 1,
       rotateX: 0,
       y: 0,
       transition: {
-        duration: 1.2,
-        ease: [0.6, 0.05, 0.01, 0.9] as any,
-        delay: 0.2
+        duration: isMobile ? 0.2 : 1.2,
+        ease: isMobile ? 'easeOut' : [0.6, 0.05, 0.01, 0.9] as any,
+        delay: isMobile ? 0 : 0.2
       }
     }
   };

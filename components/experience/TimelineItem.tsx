@@ -66,10 +66,10 @@ export function TimelineItem({ experience, index }: TimelineItemProps) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: isEven ? -50 : 50 }}
+      initial={isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: isEven ? -50 : 50 }}
       whileInView={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      viewport={{ once: true }}
+      transition={{ duration: isMobile ? 0.15 : 0.6, delay: isMobile ? 0 : index * 0.1 }}
+      viewport={{ once: true, margin: isMobile ? '-50px' : '0px' }}
       className={cn(
         'relative flex flex-col md:flex-row group',
         isEven ? 'md:flex-row' : 'md:flex-row-reverse'
@@ -113,32 +113,36 @@ export function TimelineItem({ experience, index }: TimelineItemProps) {
           {/* Animated gradient background */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 transition-all duration-700"></div>
 
-          {/* Shimmer effect overlay */}
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+          {/* Shimmer effect overlay - Disabled on mobile */}
+          {!isMobile && (
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none">
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                animate={{
+                  x: ['-100%', '200%'],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatDelay: 1,
+                }}
+              />
+            </div>
+          )}
+
+          {/* Corner accent with glow - Disabled on mobile */}
+          {!isMobile && (
             <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+              className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/30 via-purple-500/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"
               animate={{
-                x: ['-100%', '200%'],
+                scale: [1, 1.2, 1],
               }}
               transition={{
-                duration: 2,
+                duration: 3,
                 repeat: Infinity,
-                repeatDelay: 1,
               }}
             />
-          </div>
-
-          {/* Corner accent with glow */}
-          <motion.div
-            className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/30 via-purple-500/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"
-            animate={{
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-            }}
-          />
+          )}
 
           <div className="relative z-10" style={{ transform: 'translateZ(30px)' }}>
             {/* Date with animated icon */}
@@ -215,9 +219,9 @@ export function TimelineItem({ experience, index }: TimelineItemProps) {
                   {experience.responsibilities.slice(0, 4).map((resp, i) => (
                     <motion.li
                       key={i}
-                      initial={{ opacity: 0, x: -20 }}
+                      initial={isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
+                      transition={{ delay: isMobile ? 0 : i * 0.1, duration: isMobile ? 0.1 : 0.3 }}
                       viewport={{ once: true }}
                       className="text-sm flex gap-3 group/item"
                     >
@@ -242,9 +246,9 @@ export function TimelineItem({ experience, index }: TimelineItemProps) {
                   {experience.achievements.map((achievement, i) => (
                     <motion.li
                       key={i}
-                      initial={{ opacity: 0, x: -20 }}
+                      initial={isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
+                      transition={{ delay: isMobile ? 0 : i * 0.1, duration: isMobile ? 0.1 : 0.3 }}
                       viewport={{ once: true }}
                       className="text-sm flex gap-3 group/item"
                     >

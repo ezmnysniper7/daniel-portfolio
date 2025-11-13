@@ -46,6 +46,21 @@
       transform: none !important;
       will-change: auto !important;
     }
+
+    /* Optimize rendering on mobile with content-visibility */
+    .mobile-content-auto {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 500px;
+    }
+
+    /* Reduce blur effects on mobile */
+    .blur-3xl {
+      filter: blur(40px) !important;
+    }
+
+    .blur-2xl {
+      filter: blur(20px) !important;
+    }
   }
 
   /* Gradient text */

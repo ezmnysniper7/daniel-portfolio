@@ -66,16 +66,16 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
+      initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      viewport={{ once: true }}
+      transition={{ duration: isMobile ? 0.15 : 0.5, delay: isMobile ? 0 : index * 0.1 }}
+      viewport={{ once: true, margin: isMobile ? '-50px' : '0px' }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
         rotateX,
         rotateY,
-        transformStyle: 'preserve-3d',
+        transformStyle: isMobile ? 'flat' : 'preserve-3d',
       }}
     >
       <Link href={`/${locale}/projects/${project.slug}`}>
@@ -89,41 +89,47 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           {/* Animated gradient background */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 transition-all duration-500"></div>
 
-          {/* Shimmer effect overlay */}
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+          {/* Shimmer effect overlay - Disabled on mobile */}
+          {!isMobile && (
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                animate={{
+                  x: ['-100%', '200%'],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatDelay: 1,
+                }}
+              />
+            </div>
+          )}
+
+          {/* Corner accent with glow - Disabled on mobile */}
+          {!isMobile && (
             <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+              className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/30 via-purple-500/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"
               animate={{
-                x: ['-100%', '200%'],
+                scale: [1, 1.2, 1],
               }}
               transition={{
-                duration: 2,
+                duration: 3,
                 repeat: Infinity,
-                repeatDelay: 1,
               }}
             />
-          </div>
-
-          {/* Corner accent with glow */}
-          <motion.div
-            className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/30 via-purple-500/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"
-            animate={{
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-            }}
-          />
+          )}
 
           {project.imageUrl && (
-            <div className="aspect-video overflow-hidden rounded-t-lg relative" style={{ transform: 'translateZ(20px)' }}>
+            <div className="aspect-video overflow-hidden rounded-t-lg relative" style={{ transform: isMobile ? 'none' : 'translateZ(20px)' }}>
               <Image
                 src={project.imageUrl}
                 alt={project.title}
                 fill
-                className="object-cover group-hover:scale-110 transition-all duration-700"
+                className={isMobile ? "object-cover" : "object-cover group-hover:scale-110 transition-all duration-700"}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                loading={index < 3 ? "eager" : "lazy"}
+                quality={isMobile ? 75 : 90}
               />
 
               {/* Gradient overlay */}
@@ -210,9 +216,9 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
                   <motion.div
                     key={i}
                     className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400"
-                    initial={{ opacity: 0, x: -10 }}
+                    initial={isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.1 }}
+                    transition={{ delay: isMobile ? 0 : i * 0.1, duration: isMobile ? 0.1 : 0.3 }}
                   >
                     <svg className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
