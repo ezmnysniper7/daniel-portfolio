@@ -6,10 +6,13 @@ A modern, responsive portfolio website built with Next.js 15, TypeScript, and Ta
 
 - **Modern Tech Stack**: Next.js 15 with App Router, TypeScript, and Tailwind CSS
 - **Responsive Design**: Mobile-first design that looks great on all devices
+- **Optimized Mobile Performance**: GPU-friendly rendering with intelligent animation pausing and reduced effects on mobile devices
+- **Internationalization (i18n)**: Multi-language support (English & Chinese) with next-intl
 - **Dark Mode**: Built-in dark mode support with next-themes
-- **SEO Optimized**: Proper meta tags, semantic HTML, and sitemap
+- **SEO Optimized**: Proper meta tags, semantic HTML, structured data, and multilingual support
 - **Type-Safe**: Full TypeScript implementation with strict typing
-- **Fast Performance**: Optimized with Next.js SSR and static generation
+- **Fast Performance**: Server Components, optimized images, and intelligent client-side hydration
+- **Smooth Animations**: Framer Motion animations with Intersection Observer optimization
 - **Easy Content Management**: Simple TypeScript data files for projects and experience
 
 ## Getting Started
@@ -57,24 +60,33 @@ pnpm dev
 ```
 daniel-portfolio/
 ├── app/                    # Next.js App Router pages
-│   ├── layout.tsx         # Root layout with navigation
-│   ├── page.tsx           # Homepage
-│   ├── projects/          # Projects listing and detail pages
-│   ├── about/             # About page with experience timeline
-│   ├── contact/           # Contact page with form
-│   └── api/               # API routes (contact form)
+│   ├── [locale]/          # Internationalized routes (en, zh-CN)
+│   │   ├── layout.tsx    # Locale-specific layout
+│   │   ├── page.tsx      # Homepage
+│   │   ├── projects/     # Projects listing and detail pages (Server Components)
+│   │   ├── about/        # About page with experience timeline
+│   │   └── contact/      # Contact page with form
+│   ├── api/              # API routes (contact form)
+│   └── globals.css       # Global styles with mobile optimizations
 ├── components/            # React components
-│   ├── layout/           # Layout components (Navbar, Footer, etc.)
+│   ├── layout/           # Layout components (Navbar, Footer, MobileNav)
 │   ├── ui/               # UI components (Button, Badge, Card)
-│   ├── home/             # Homepage sections
-│   ├── projects/         # Project components
+│   ├── home/             # Homepage sections (Hero with Intersection Observer)
+│   ├── projects/         # Project components (optimized ProjectCard)
 │   ├── experience/       # Experience timeline components
-│   └── contact/          # Contact form component
+│   ├── contact/          # Contact form component
+│   ├── effects/          # Visual effects (MeshGradient, CustomCursor)
+│   └── transitions/      # Page transitions
+├── contexts/              # React contexts
+│   └── MobileContext.tsx # Shared mobile detection context
 ├── data/                  # Content data files
 │   ├── metadata.ts       # Site metadata and personal info
-│   ├── projects.ts       # Project entries
-│   ├── experience.ts     # Work experience
+│   ├── projects.ts       # Project entries (bilingual)
+│   ├── experience.ts     # Work experience (bilingual)
 │   └── skills.ts         # Skills and technologies
+├── i18n/                  # Internationalization
+│   ├── config.ts         # i18n configuration
+│   └── messages/         # Translation files (en.json, zh-CN.json)
 ├── lib/                   # Utility functions
 │   └── utils.ts          # Helper functions (date formatting, etc.)
 ├── types/                 # TypeScript type definitions
@@ -188,12 +200,32 @@ The contact form uses [Resend](https://resend.com) to send emails. To set it up:
 
 ## Technologies Used
 
-- **Framework**: Next.js 15
+- **Framework**: Next.js 15 (App Router, Server Components)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
+- **Animations**: Framer Motion with Intersection Observer optimization
+- **Internationalization**: next-intl
 - **Fonts**: Google Fonts (Inter)
 - **Theme**: next-themes for dark mode
+- **Email**: Resend API for contact form
 - **Deployment**: Vercel
+
+## Performance Optimizations
+
+This portfolio includes several mobile-specific optimizations for smooth 60fps scrolling:
+
+- **Shared Mobile Context**: Single resize listener across all components instead of per-component detection
+- **Optimized Scroll Handling**: MobileNav uses refs to avoid re-renders on every scroll event
+- **GPU-Friendly Effects**:
+  - Disabled heavy visual effects on mobile (< 768px)
+  - Removed `background-attachment: fixed` for mobile
+  - Replaced `backdrop-blur` glassmorphism with solid backgrounds on mobile
+- **Intelligent Animation Pausing**: Intersection Observer pauses infinite animations when components are off-screen
+- **Smart Event Listeners**: CustomCursor only mounts on pointer devices and uses stable dependencies
+- **Server Components**: Projects pages use Server Components to reduce client-side JavaScript
+- **Optimized Images**: Lazy loading with reduced quality (75) on mobile devices
+
+Desktop retains all visual effects, animations, and glassmorphism for the full experience.
 
 ## License
 
