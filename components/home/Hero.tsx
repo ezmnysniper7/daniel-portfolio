@@ -43,46 +43,43 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
     offset: ['start start', 'end start'],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], isMobile ? ['0%', '0%'] : ['0%', '50%']);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], isMobile ? [1, 1] : [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], isMobile ? [1, 1] : [1, 0.95]);
+  // Always use desktop values for SSR and initial render, then switch to mobile if needed
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
 
-  // Enhanced stagger animations for children - Much faster on mobile
+  // Enhanced stagger animations for children - Simplified for consistency
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: isMobile ? 0.03 : 0.12,
-        delayChildren: isMobile ? 0 : 0.1,
+        staggerChildren: 0.08,
+        delayChildren: 0.05,
       }
     }
   };
 
   const itemVariants = {
-    hidden: isMobile ? { opacity: 0 } : { opacity: 0, y: 40, filter: 'blur(10px)' },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      filter: 'blur(0px)',
       transition: {
-        duration: isMobile ? 0.2 : 0.8,
-        ease: isMobile ? 'easeOut' : [0.6, 0.05, 0.01, 0.9] as any
+        duration: 0.5,
+        ease: 'easeOut' as any
       }
     }
   };
 
   const nameVariants = {
-    hidden: isMobile ? { opacity: 0 } : { opacity: 0, scale: 0.8, rotateX: -15, y: 50 },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
-      scale: 1,
-      rotateX: 0,
       y: 0,
       transition: {
-        duration: isMobile ? 0.2 : 1.2,
-        ease: isMobile ? 'easeOut' : [0.6, 0.05, 0.01, 0.9] as any,
-        delay: isMobile ? 0 : 0.2
+        duration: 0.6,
+        ease: 'easeOut' as any,
       }
     }
   };
@@ -98,48 +95,19 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
 
         {/* Floating gradient orbs with parallax - Simplified on mobile */}
         <motion.div
-          style={{ y: isMobile ? 0 : y }}
+          style={{ y: mounted && isMobile ? 0 : y }}
           className="absolute inset-0 overflow-hidden"
         >
-          <motion.div
+          <div
             className="absolute -top-20 -left-20 w-[500px] h-[500px] bg-gradient-to-br from-blue-400/40 to-cyan-400/40 dark:from-blue-600/30 dark:to-cyan-600/30 rounded-full blur-3xl"
-            animate={isMobile ? {} : {
-              scale: [1, 1.2, 1],
-              x: [0, 50, 0],
-              y: [0, 30, 0],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
           />
 
-          <motion.div
+          <div
             className="absolute top-1/4 -right-40 w-[600px] h-[600px] bg-gradient-to-bl from-purple-400/40 to-pink-400/40 dark:from-purple-600/30 dark:to-pink-600/30 rounded-full blur-3xl"
-            animate={isMobile ? {} : {
-              scale: [1, 1.3, 1],
-              x: [0, -50, 0],
-              y: [0, -30, 0],
-            }}
-            transition={{
-              duration: 25,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
           />
 
-          <motion.div
+          <div
             className="absolute bottom-0 left-1/3 w-[550px] h-[550px] bg-gradient-to-tr from-indigo-400/40 to-blue-400/40 dark:from-indigo-600/30 dark:to-blue-600/30 rounded-full blur-3xl"
-            animate={isMobile ? {} : {
-              scale: [1, 1.15, 1],
-              rotate: [0, 180, 360],
-            }}
-            transition={{
-              duration: 30,
-              repeat: Infinity,
-              ease: "linear"
-            }}
           />
         </motion.div>
 
@@ -167,7 +135,7 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
               <motion.div variants={itemVariants} className="mb-8">
                 <motion.span
                   className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 text-white text-sm font-semibold shadow-2xl shadow-emerald-500/50 backdrop-blur-sm border border-white/20"
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={mounted && isMobile ? {} : { scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
                   <span className="relative flex h-3 w-3">
@@ -194,7 +162,7 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
             >
               <motion.span
                 className="inline-block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent"
-                whileHover={{
+                whileHover={mounted && isMobile ? {} : {
                   scale: 1.05,
                   rotateY: 5,
                   rotateX: 5,
@@ -227,7 +195,7 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
               className="flex flex-wrap justify-center gap-6 mb-16"
             >
               <motion.div
-                whileHover={{ scale: 1.05, y: -2 }}
+                whileHover={mounted && isMobile ? {} : { scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <Button
@@ -243,8 +211,8 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
-                      animate={{ x: [0, 3, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
+                      animate={mounted && isMobile ? {} : { x: [0, 3, 0] }}
+                      transition={mounted && isMobile ? {} : { duration: 1.5, repeat: Infinity }}
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </motion.svg>
@@ -261,7 +229,7 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
               </motion.div>
 
               <motion.div
-                whileHover={{ scale: 1.05, y: -2 }}
+                whileHover={mounted && isMobile ? {} : { scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
                 <Button
@@ -300,7 +268,12 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
+                transition={{
+                  duration: mounted && isMobile ? 1.2 : 1.5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                style={{ willChange: 'transform' }}
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
               </motion.svg>

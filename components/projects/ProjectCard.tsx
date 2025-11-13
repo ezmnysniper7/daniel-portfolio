@@ -39,11 +39,12 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
   const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], isMobile ? ['0deg', '0deg'] : ['7.5deg', '-7.5deg']);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], isMobile ? ['0deg', '0deg'] : ['-7.5deg', '7.5deg']);
+  // Always use desktop values initially to avoid hydration mismatch
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['7.5deg', '-7.5deg']);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-7.5deg', '7.5deg']);
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (!ref.current || isMobile) return;
+    if (!ref.current || (mounted && isMobile)) return;
 
     const rect = ref.current.getBoundingClientRect();
     const width = rect.width;
@@ -60,7 +61,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   };
 
   const handleMouseLeave = () => {
-    if (isMobile) return;
+    if (mounted && isMobile) return;
     x.set(0);
     y.set(0);
   };
@@ -68,16 +69,16 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   return (
     <motion.div
       ref={ref}
-      initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: isMobile ? 0.15 : 0.5, delay: isMobile ? 0 : index * 0.1 }}
-      viewport={{ once: true, margin: isMobile ? '-50px' : '0px' }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+      viewport={{ once: true }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
-        rotateX,
-        rotateY,
-        transformStyle: isMobile ? 'flat' : 'preserve-3d',
+        rotateX: mounted && isMobile ? 0 : rotateX,
+        rotateY: mounted && isMobile ? 0 : rotateY,
+        transformStyle: 'preserve-3d',
       }}
     >
       <Link href={`/${locale}/projects/${project.slug}`}>
@@ -92,7 +93,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 transition-all duration-500"></div>
 
           {/* Shimmer effect overlay - Disabled on mobile */}
-          {!isMobile && (
+          {!(mounted && isMobile) && (
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
@@ -109,7 +110,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           )}
 
           {/* Corner accent with glow - Disabled on mobile */}
-          {!isMobile && (
+          {!(mounted && isMobile) && (
             <motion.div
               className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/30 via-purple-500/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"
               animate={{
@@ -123,15 +124,15 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           )}
 
           {project.imageUrl && (
-            <div className="aspect-video overflow-hidden rounded-t-lg relative" style={{ transform: isMobile ? 'none' : 'translateZ(20px)' }}>
+            <div className="aspect-video overflow-hidden rounded-t-lg relative" style={{ transform: 'translateZ(20px)' }}>
               <Image
                 src={project.imageUrl}
                 alt={project.title}
                 fill
-                className={isMobile ? "object-cover" : "object-cover group-hover:scale-110 transition-all duration-700"}
+                className="object-cover group-hover:scale-110 transition-all duration-700"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 loading={index < 3 ? "eager" : "lazy"}
-                quality={isMobile ? 75 : 90}
+                quality={85}
               />
 
               {/* Gradient overlay */}
@@ -163,7 +164,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
               <div className="flex items-center justify-between mb-4">
                 <motion.div
                   className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400"
-                  whileHover={{ x: 5 }}
+                  whileHover={mounted && isMobile ? {} : { x: 5 }}
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -218,9 +219,9 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
                   <motion.div
                     key={i}
                     className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400"
-                    initial={isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+                    initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: isMobile ? 0 : i * 0.1, duration: isMobile ? 0.1 : 0.3 }}
+                    transition={{ delay: i * 0.05, duration: 0.2 }}
                   >
                     <svg className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
