@@ -21,6 +21,9 @@ export function ParticleBackground() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Detect if mobile for performance optimization
+    const isMobile = window.innerWidth < 768;
+
     // Set canvas size
     const setCanvasSize = () => {
       canvas.width = window.innerWidth;
@@ -29,9 +32,9 @@ export function ParticleBackground() {
     setCanvasSize();
     window.addEventListener('resize', setCanvasSize);
 
-    // Create particles
+    // Create particles - Reduce count on mobile for better performance
     const particles: Particle[] = [];
-    const particleCount = 80;
+    const particleCount = isMobile ? 30 : 80;
 
     for (let i = 0; i < particleCount; i++) {
       particles.push({
@@ -65,16 +68,17 @@ export function ParticleBackground() {
         ctx.fillStyle = `rgba(147, 51, 234, ${particle.opacity})`;
         ctx.fill();
 
-        // Draw connections
+        // Draw connections - Reduced distance on mobile for performance
+        const connectionDistance = isMobile ? 100 : 150;
         particles.forEach((particle2, j) => {
           if (i === j) return;
           const dx = particle.x - particle2.x;
           const dy = particle.y - particle2.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 150) {
+          if (distance < connectionDistance) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(147, 51, 234, ${0.15 * (1 - distance / 150)})`;
+            ctx.strokeStyle = `rgba(147, 51, 234, ${0.15 * (1 - distance / connectionDistance)})`;
             ctx.lineWidth = 1;
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(particle2.x, particle2.y);

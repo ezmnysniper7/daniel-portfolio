@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Project } from '@/types';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { useRef, MouseEvent } from 'react';
+import { useRef, MouseEvent, useState, useEffect } from 'react';
 
 interface ProjectCardProps {
   project: Project;
@@ -18,19 +18,30 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   const params = useParams();
   const locale = params.locale as string;
   const ref = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Tilt effect
+  // Detect mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Tilt effect - DISABLED ON MOBILE for performance
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
   const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
   const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['7.5deg', '-7.5deg']);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-7.5deg', '7.5deg']);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], isMobile ? ['0deg', '0deg'] : ['7.5deg', '-7.5deg']);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], isMobile ? ['0deg', '0deg'] : ['-7.5deg', '7.5deg']);
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
+    if (!ref.current || isMobile) return;
 
     const rect = ref.current.getBoundingClientRect();
     const width = rect.width;
@@ -47,6 +58,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   };
 
   const handleMouseLeave = () => {
+    if (isMobile) return;
     x.set(0);
     y.set(0);
   };

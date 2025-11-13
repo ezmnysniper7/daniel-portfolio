@@ -29,6 +29,25 @@
     text-wrap: balance;
   }
 
+  /* Performance optimizations - GPU acceleration */
+  .gpu-accelerate {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  .gpu-accelerate-opacity {
+    transform: translateZ(0);
+    will-change: opacity, transform;
+  }
+
+  /* Mobile optimization - disable expensive effects on small screens */
+  @media (max-width: 768px) {
+    .mobile-optimize {
+      transform: none !important;
+      will-change: auto !important;
+    }
+  }
+
   /* Gradient text */
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400;
@@ -38,6 +57,7 @@
   .animate-gradient {
     background-size: 200% 200%;
     animation: gradient 8s ease infinite;
+    will-change: background-position;
   }
 
   .bg-300% {
@@ -63,16 +83,18 @@
   /* Floating animation */
   .animate-float {
     animation: float 3s ease-in-out infinite;
+    will-change: transform;
   }
 
   @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+    0%, 100% { transform: translateY(0px) translateZ(0); }
+    50% { transform: translateY(-10px) translateZ(0); }
   }
 
   /* Pulse glow */
   .animate-pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite;
+    will-change: box-shadow;
   }
 
   @keyframes pulse-glow {
@@ -90,10 +112,20 @@
     );
     background-size: 200% 100%;
     animation: shimmer 2s infinite;
+    will-change: background-position;
   }
 
   @keyframes shimmer {
     0% { background-position: -200% 0; }
     100% { background-position: 200% 0; }
+  }
+
+  /* Disable animations on mobile for performance */
+  @media (max-width: 768px) {
+    .animate-float,
+    .animate-pulse-glow {
+      animation: none;
+      will-change: auto;
+    }
   }
 }

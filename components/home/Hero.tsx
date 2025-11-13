@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 interface HeroProps {
   name: string;
@@ -20,19 +20,30 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
   const params = useParams();
   const locale = params.locale as string;
   const ref = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Use translated name
   const displayName = t('name');
 
-  // Parallax effect based on scroll
+  // Detect mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Parallax effect based on scroll - DISABLED ON MOBILE for performance
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
+  const y = useTransform(scrollYProgress, [0, 1], isMobile ? ['0%', '0%'] : ['0%', '50%']);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], isMobile ? [1, 1] : [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], isMobile ? [1, 1] : [1, 0.95]);
 
   // Enhanced stagger animations for children
   const containerVariants = {
@@ -83,14 +94,14 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-950 dark:via-blue-950/30 dark:to-purple-950/30" />
 
-        {/* Floating gradient orbs with parallax */}
+        {/* Floating gradient orbs with parallax - Simplified on mobile */}
         <motion.div
-          style={{ y }}
+          style={{ y: isMobile ? 0 : y }}
           className="absolute inset-0 overflow-hidden"
         >
           <motion.div
             className="absolute -top-20 -left-20 w-[500px] h-[500px] bg-gradient-to-br from-blue-400/40 to-cyan-400/40 dark:from-blue-600/30 dark:to-cyan-600/30 rounded-full blur-3xl"
-            animate={{
+            animate={isMobile ? {} : {
               scale: [1, 1.2, 1],
               x: [0, 50, 0],
               y: [0, 30, 0],
@@ -104,7 +115,7 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
 
           <motion.div
             className="absolute top-1/4 -right-40 w-[600px] h-[600px] bg-gradient-to-bl from-purple-400/40 to-pink-400/40 dark:from-purple-600/30 dark:to-pink-600/30 rounded-full blur-3xl"
-            animate={{
+            animate={isMobile ? {} : {
               scale: [1, 1.3, 1],
               x: [0, -50, 0],
               y: [0, -30, 0],
@@ -118,7 +129,7 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
 
           <motion.div
             className="absolute bottom-0 left-1/3 w-[550px] h-[550px] bg-gradient-to-tr from-indigo-400/40 to-blue-400/40 dark:from-indigo-600/30 dark:to-blue-600/30 rounded-full blur-3xl"
-            animate={{
+            animate={isMobile ? {} : {
               scale: [1, 1.15, 1],
               rotate: [0, 180, 360],
             }}

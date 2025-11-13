@@ -6,7 +6,7 @@ import { Experience } from '@/types';
 import { formatDate, calculateDuration } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { useRef, MouseEvent } from 'react';
+import { useRef, MouseEvent, useState, useEffect } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 
 interface TimelineItemProps {
@@ -19,19 +19,30 @@ export function TimelineItem({ experience, index }: TimelineItemProps) {
   const locale = useLocale();
   const isEven = index % 2 === 0;
   const ref = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // 3D Tilt effect
+  // Detect mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // 3D Tilt effect - DISABLED ON MOBILE for performance
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
   const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
   const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['7.5deg', '-7.5deg']);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-7.5deg', '7.5deg']);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], isMobile ? ['0deg', '0deg'] : ['7.5deg', '-7.5deg']);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], isMobile ? ['0deg', '0deg'] : ['-7.5deg', '7.5deg']);
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
+    if (!ref.current || isMobile) return;
 
     const rect = ref.current.getBoundingClientRect();
     const width = rect.width;
@@ -48,6 +59,7 @@ export function TimelineItem({ experience, index }: TimelineItemProps) {
   };
 
   const handleMouseLeave = () => {
+    if (isMobile) return;
     x.set(0);
     y.set(0);
   };
