@@ -1,8 +1,20 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useMobile } from '@/contexts/MobileContext';
 
 export function MeshGradient() {
+  const { isMobile } = useMobile();
+
+  // On mobile, only render a simple static gradient to save GPU
+  if (isMobile) {
+    return (
+      <div className="fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950" />
+      </div>
+    );
+  }
+
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
       {/* Base gradient */}

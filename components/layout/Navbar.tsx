@@ -8,12 +8,14 @@ import { ThemeToggle } from '../ThemeToggle';
 import { LanguageSwitcher } from '../LanguageSwitcher';
 import { MobileNav } from './MobileNav';
 import { cn } from '@/lib/utils';
+import { useMobile } from '@/contexts/MobileContext';
 
 export function Navbar() {
   const pathname = usePathname();
   const params = useParams();
   const locale = params.locale as string;
   const t = useTranslations('nav');
+  const { isMobile } = useMobile();
 
   // Remove locale prefix from pathname for comparison
   const currentPath = pathname.replace(/^\/(en|zh-CN)/, '');
@@ -27,7 +29,13 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
+      <nav className={cn(
+        "sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800",
+        // Mobile: solid background. Desktop: glassmorphism
+        isMobile
+          ? "bg-white dark:bg-gray-900"
+          : "bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm"
+      )}>
         <Container>
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}

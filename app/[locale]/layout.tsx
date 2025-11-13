@@ -10,6 +10,7 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 import { PageTransition } from '@/components/transitions/PageTransition';
 import { CustomCursor } from '@/components/effects/CustomCursor';
 import { MeshGradient } from '@/components/effects/MeshGradient';
+import { MobileProvider } from '@/contexts/MobileContext';
 import { siteMetadata } from '@/data/metadata';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -187,15 +188,17 @@ export default async function LocaleLayout({
       <body className={inter.variable} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <CustomCursor />
-            <MeshGradient />
-            <div className="flex min-h-screen flex-col relative z-10">
-              <Navbar />
-              <main className="flex-1">
-                <PageTransition>{children}</PageTransition>
-              </main>
-              <Footer />
-            </div>
+            <MobileProvider>
+              <CustomCursor />
+              <MeshGradient />
+              <div className="flex min-h-screen flex-col relative z-10">
+                <Navbar />
+                <main className="flex-1">
+                  <PageTransition>{children}</PageTransition>
+                </main>
+                <Footer />
+              </div>
+            </MobileProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>

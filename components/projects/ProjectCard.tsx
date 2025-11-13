@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Project } from '@/types';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useRef, MouseEvent, useState, useEffect } from 'react';
+import { useMobile } from '@/contexts/MobileContext';
 
 interface ProjectCardProps {
   project: Project;
@@ -18,19 +19,29 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   const params = useParams();
   const locale = params.locale as string;
   const ref = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const { isMobile } = useMobile();
   const [mounted, setMounted] = useState(false);
+  const [isInView, setIsInView] = useState(true); // Track if card is visible
 
-  // Detect mobile on mount
+  // Mount detection for hydration
   useEffect(() => {
     setMounted(true);
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Intersection Observer to pause animations when off-screen
+  useEffect(() => {
+    if (!ref.current || isMobile) return; // Only needed on desktop
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.1, rootMargin: '50px' }
+    );
+
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [isMobile]);
 
   // Tilt effect - DISABLED ON MOBILE for performance
   const x = useMotionValue(0);
@@ -92,33 +103,33 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           {/* Animated gradient background */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-pink-500/0 group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 transition-all duration-500"></div>
 
-          {/* Shimmer effect overlay - Disabled on mobile */}
+          {/* Shimmer effect overlay - Disabled on mobile, paused when off-screen */}
           {!(mounted && isMobile) && (
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                animate={{
+                animate={isInView ? {
                   x: ['-100%', '200%'],
-                }}
+                } : {}}
                 transition={{
                   duration: 2,
-                  repeat: Infinity,
+                  repeat: isInView ? Infinity : 0,
                   repeatDelay: 1,
                 }}
               />
             </div>
           )}
 
-          {/* Corner accent with glow - Disabled on mobile */}
+          {/* Corner accent with glow - Disabled on mobile, paused when off-screen */}
           {!(mounted && isMobile) && (
             <motion.div
               className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/30 via-purple-500/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl"
-              animate={{
+              animate={isInView ? {
                 scale: [1, 1.2, 1],
-              }}
+              } : {}}
               transition={{
                 duration: 3,
-                repeat: Infinity,
+                repeat: isInView ? Infinity : 0,
               }}
             />
           )}
@@ -131,8 +142,8 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
                 fill
                 className="object-cover group-hover:scale-110 transition-all duration-700"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                loading={index < 3 ? "eager" : "lazy"}
-                quality={85}
+                loading={isMobile ? "lazy" : (index < 3 ? "eager" : "lazy")}
+                quality={isMobile ? 75 : 85}
               />
 
               {/* Gradient overlay */}
@@ -287,45 +298,45 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             )}
           </div>
 
-          {/* Glow effect on hover */}
+          {/* Glow effect on hover - paused when off-screen */}
           <motion.div
             className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-            animate={{
+            animate={isInView ? {
               background: [
                 'radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)',
                 'radial-gradient(circle at 80% 50%, rgba(168, 85, 247, 0.1) 0%, transparent 50%)',
                 'radial-gradient(circle at 50% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%)',
                 'radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%)',
               ],
-            }}
+            } : {}}
             transition={{
               duration: 8,
-              repeat: Infinity,
+              repeat: isInView ? Infinity : 0,
             }}
           />
 
-          {/* Sparkle effects */}
+          {/* Sparkle effects - paused when off-screen */}
           <motion.div
             className="absolute top-6 left-6 w-2 h-2 bg-white rounded-full opacity-0 group-hover:opacity-100"
-            animate={{
+            animate={isInView ? {
               scale: [0, 1, 0],
               opacity: [0, 1, 0],
-            }}
+            } : {}}
             transition={{
               duration: 2,
-              repeat: Infinity,
+              repeat: isInView ? Infinity : 0,
               repeatDelay: 1,
             }}
           />
           <motion.div
             className="absolute bottom-6 right-6 w-2 h-2 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100"
-            animate={{
+            animate={isInView ? {
               scale: [0, 1, 0],
               opacity: [0, 1, 0],
-            }}
+            } : {}}
             transition={{
               duration: 2,
-              repeat: Infinity,
+              repeat: isInView ? Infinity : 0,
               repeatDelay: 1,
               delay: 0.5,
             }}

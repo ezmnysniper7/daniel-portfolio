@@ -1,4 +1,3 @@
-import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
 import { Container } from '@/components/layout/Container';
@@ -21,11 +20,7 @@ export default async function ProjectsPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  return <ProjectsPageContent locale={locale} />;
-}
-
-function ProjectsPageContent({ locale }: { locale: string }) {
-  const t = useTranslations('projects');
+  const t = await getTranslations('projects');
   const projects = getProjects(locale);
 
   return (

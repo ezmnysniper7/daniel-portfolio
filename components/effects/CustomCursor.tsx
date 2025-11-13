@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 export function CustomCursor() {
   const [isVisible, setIsVisible] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [hasPointer, setHasPointer] = useState(false);
+  const isVisibleRef = useRef(false); // Stable ref to avoid recreating listeners
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
@@ -14,12 +16,22 @@ export function CustomCursor() {
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
+  // Check for pointer device once on mount
   useEffect(() => {
+    const hasPointerDevice = window.matchMedia('(pointer: fine)').matches && window.innerWidth >= 1024;
+    setHasPointer(hasPointerDevice);
+  }, []);
+
+  // Only attach listeners if we have a pointer device
+  useEffect(() => {
+    if (!hasPointer) return;
+
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
 
-      if (!isVisible) {
+      if (!isVisibleRef.current) {
+        isVisibleRef.current = true;
         setIsVisible(true);
       }
     };
@@ -62,6 +74,7 @@ export function CustomCursor() {
     };
 
     const handleMouseOut = () => {
+      isVisibleRef.current = false;
       setIsVisible(false);
     };
 
@@ -76,10 +89,10 @@ export function CustomCursor() {
       document.removeEventListener('mouseleave', handleMouseLeave, true);
       document.removeEventListener('mouseout', handleMouseOut);
     };
-  }, [cursorX, cursorY, isVisible]);
+  }, [hasPointer, cursorX, cursorY]); // Stable dependencies - only recreate if hasPointer changes
 
-  // Hide on mobile/tablet
-  if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+  // Don't render on non-pointer devices
+  if (!hasPointer) {
     return null;
   }
 

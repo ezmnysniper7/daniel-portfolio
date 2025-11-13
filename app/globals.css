@@ -20,7 +20,13 @@
   }
   body {
     @apply bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 dark:from-gray-900 dark:via-blue-950/20 dark:to-purple-950/20 text-gray-900 dark:text-gray-50;
-    background-attachment: fixed;
+  }
+
+  /* Fixed background only on desktop - mobile GPUs struggle with it */
+  @media (min-width: 768px) {
+    body {
+      background-attachment: fixed;
+    }
   }
 }
 

@@ -5,15 +5,17 @@ import { usePathname, useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useMobile } from '@/contexts/MobileContext';
 
 export function MobileNav() {
   const pathname = usePathname();
   const params = useParams();
   const locale = params.locale as string;
   const t = useTranslations('nav');
+  const { isMobile } = useMobile();
   const [isExpanded, setIsExpanded] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollYRef = useRef(0); // Use ref instead of state to avoid re-renders
   const [shouldHide, setShouldHide] = useState(false);
 
   // Remove locale prefix from pathname for comparison
@@ -65,10 +67,11 @@ export function MobileNav() {
     return currentPath.startsWith(href.replace(`/${locale}`, ''));
   };
 
-  // Smart scroll detection
+  // Smart scroll detection - optimized with ref to avoid re-renders
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      const lastScrollY = lastScrollYRef.current;
 
       // If scrolling down and past 100px, hide navbar
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
@@ -79,12 +82,13 @@ export function MobileNav() {
         setShouldHide(false);
       }
 
-      setLastScrollY(currentScrollY);
+      // Update ref (doesn't trigger re-render)
+      lastScrollYRef.current = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  }, []); // Empty dependency array - listener never recreated
 
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);
@@ -113,7 +117,11 @@ export function MobileNav() {
               className="relative"
             >
               {/* Main navbar container */}
-              <div className="bg-gradient-to-r from-white/95 via-white/90 to-white/95 dark:from-gray-900/95 dark:via-gray-900/90 dark:to-gray-900/95 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 rounded-full shadow-2xl px-2 py-2">
+              <div className={cn(
+                "border rounded-full shadow-2xl px-2 py-2",
+                // Mobile: solid background. Desktop: glassmorphism (though this is mobile-only, keep it solid)
+                "bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700"
+              )}>
                 <div className="flex items-center gap-1">
                   {navLinks.map((link) => {
                     const active = isActive(link.href);
@@ -158,7 +166,7 @@ export function MobileNav() {
               {/* Collapse button */}
               <button
                 onClick={toggleExpanded}
-                className="absolute -top-10 right-2 w-8 h-8 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 rounded-full shadow-lg flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                className="absolute -top-10 right-2 w-8 h-8 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full shadow-lg flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                 aria-label="Collapse navigation"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

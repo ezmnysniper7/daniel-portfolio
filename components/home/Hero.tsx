@@ -7,6 +7,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { useRef, useState, useEffect } from 'react';
+import { useMobile } from '@/contexts/MobileContext';
 
 interface HeroProps {
   name: string;
@@ -20,22 +21,32 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
   const params = useParams();
   const locale = params.locale as string;
   const ref = useRef(null);
-  const [isMobile, setIsMobile] = useState(false);
+  const { isMobile } = useMobile();
   const [mounted, setMounted] = useState(false);
+  const [isInView, setIsInView] = useState(true); // Track if hero is visible
 
   // Use translated name
   const displayName = t('name');
 
-  // Detect mobile on mount
+  // Mount detection for hydration
   useEffect(() => {
     setMounted(true);
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Intersection Observer to pause animations when off-screen
+  useEffect(() => {
+    if (!ref.current || isMobile) return; // Only needed on desktop
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.1, rootMargin: '50px' }
+    );
+
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [isMobile]);
 
   // Parallax effect based on scroll - DISABLED ON MOBILE for performance
   const { scrollYProgress } = useScroll({
@@ -211,8 +222,8 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
-                      animate={mounted && isMobile ? {} : { x: [0, 3, 0] }}
-                      transition={mounted && isMobile ? {} : { duration: 1.5, repeat: Infinity }}
+                      animate={mounted && isMobile ? {} : (isInView ? { x: [0, 3, 0] } : {})}
+                      transition={mounted && isMobile ? {} : { duration: 1.5, repeat: isInView ? Infinity : 0 }}
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </motion.svg>
@@ -267,10 +278,10 @@ export function Hero({ name, title, tagline, availableForWork }: HeroProps) {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                animate={{ y: [0, 8, 0] }}
+                animate={isInView ? { y: [0, 8, 0] } : {}}
                 transition={{
                   duration: mounted && isMobile ? 1.2 : 1.5,
-                  repeat: Infinity,
+                  repeat: isInView ? Infinity : 0,
                   ease: "easeInOut"
                 }}
                 style={{ willChange: 'transform' }}

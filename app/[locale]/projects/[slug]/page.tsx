@@ -1,8 +1,7 @@
-'use client';
-
-import { useTranslations } from 'next-intl';
-import { notFound, useParams } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
+import { notFound } from 'next/navigation';
 import Image from 'next/image';
+import type { Metadata } from 'next';
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/layout/Section';
 import { Badge } from '@/components/ui/Badge';
@@ -10,11 +9,34 @@ import { Button } from '@/components/ui/Button';
 import { getProjects } from '@/data/projects';
 import { formatDate } from '@/lib/utils';
 
-export default function ProjectPage() {
-  const params = useParams();
-  const slug = params.slug as string;
-  const locale = params.locale as string;
-  const t = useTranslations('projects.detail');
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const projects = getProjects(locale);
+  const project = projects.find((p) => p.slug === slug);
+
+  if (!project) {
+    return {
+      title: 'Project Not Found',
+    };
+  }
+
+  return {
+    title: project.title,
+    description: project.description,
+  };
+}
+
+export default async function ProjectPage({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}) {
+  const { locale, slug } = await params;
+  const t = await getTranslations('projects.detail');
 
   const projects = getProjects(locale);
   const project = projects.find((p) => p.slug === slug);
