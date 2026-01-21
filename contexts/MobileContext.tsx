@@ -9,7 +9,9 @@ interface MobileContextValue {
 const MobileContext = createContext<MobileContextValue | undefined>(undefined)
 
 export function MobileProvider({ children }: { children: ReactNode }) {
-  const [isMobile, setIsMobile] = useState(false)
+  // Start with true on server to avoid blur flash on mobile
+  // Will be corrected on client if actually desktop
+  const [isMobile, setIsMobile] = useState(true)
 
   useEffect(() => {
     // Single resize listener for the entire app
