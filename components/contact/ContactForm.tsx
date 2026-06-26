@@ -10,6 +10,8 @@ export function ContactForm() {
     name: '',
     email: '',
     message: '',
+    website: '',
+    submittedAt: Date.now(),
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
@@ -26,7 +28,7 @@ export function ContactForm() {
 
       if (res.ok) {
         setStatus('success');
-        setFormData({ name: '', email: '', message: '' });
+        setFormData({ name: '', email: '', message: '', website: '', submittedAt: Date.now() });
       } else {
         setStatus('error');
       }
@@ -37,6 +39,17 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        value={formData.website}
+        onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+        className="hidden"
+        aria-hidden="true"
+      />
+
       {/* Name */}
       <div>
         <label htmlFor="name" className="block text-sm font-medium mb-2">
@@ -47,8 +60,9 @@ export function ContactForm() {
           id="name"
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          autoComplete="name"
           placeholder={t('namePlaceholder')}
-          className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full rounded-2xl border border-line bg-paper-2/60 px-4 py-3 text-ink outline-none transition-colors placeholder:text-ink-3 focus:border-accent focus:ring-2 focus:ring-accent/20"
           required
         />
       </div>
@@ -63,8 +77,9 @@ export function ContactForm() {
           id="email"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          autoComplete="email"
           placeholder={t('emailPlaceholder')}
-          className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full rounded-2xl border border-line bg-paper-2/60 px-4 py-3 text-ink outline-none transition-colors placeholder:text-ink-3 focus:border-accent focus:ring-2 focus:ring-accent/20"
           required
         />
       </div>
@@ -80,7 +95,7 @@ export function ContactForm() {
           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
           placeholder={t('messagePlaceholder')}
           rows={5}
-          className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+          className="w-full resize-none rounded-2xl border border-line bg-paper-2/60 px-4 py-3 text-ink outline-none transition-colors placeholder:text-ink-3 focus:border-accent focus:ring-2 focus:ring-accent/20"
           required
         />
       </div>
@@ -91,14 +106,8 @@ export function ContactForm() {
       </Button>
 
       {/* Status Messages */}
-      {status === 'success' && (
-        <p className="text-green-500 text-sm">{t('success')}</p>
-      )}
-      {status === 'error' && (
-        <p className="text-red-500 text-sm">
-          {t('error')}
-        </p>
-      )}
+      {status === 'success' && <p className="text-sm text-up">{t('success')}</p>}
+      {status === 'error' && <p className="text-sm text-down">{t('error')}</p>}
     </form>
   );
 }

@@ -3,11 +3,74 @@
     "home": "首页",
     "about": "关于我",
     "projects": "项目",
-    "contact": "联系我"
+    "contact": "联系我",
+    "engineer": "工程师",
+    "property": "房产",
+    "switchTo": "切换至"
+  },
+  "portal": {
+    "tagline": "一个人，两种身份",
+    "metaDescription": "曾祈荣 —— 构建交易级系统的平台工程师，同时也是马来西亚的租赁房产中介。两种身份，同样执着于把细节做对。",
+    "name": "Daniel Chen",
+    "nameZh": "曾祈荣",
+    "kicker": "欢迎",
+    "intro": "我构建能扛住真实流量的软件，也帮人找到有家感觉的地方。选一边进入。",
+    "chooseHint": "选择一个世界",
+    "enter": "进入",
+    "backToPortal": "首页",
+    "engineer": {
+      "label": "软件工程师",
+      "status": "接受合作 · Open for projects",
+      "headline": "交易级系统",
+      "desc": "平台与全栈工程 —— 支付、稳定性与交易基础设施。",
+      "next": "下一站 → CFI",
+      "enter": "进入终端"
+    },
+    "property": {
+      "label": "房产中介",
+      "status": "租赁服务",
+      "headline": "有家感觉的地方",
+      "desc": "在巴生谷为租客与业主提供真诚、不催促的租赁咨询。",
+      "tag": "马来西亚",
+      "enter": "寻找住所"
+    }
   },
   "home": {
     "name": "曾祈荣",
     "greeting": "你好，我是",
+    "hero": {
+      "now": "当前",
+      "live": "在线",
+      "open": "接受合作",
+      "openZh": "Open for projects",
+      "cfiKicker": "下一站",
+      "cfiTitle": "即将加入 CFI Financial",
+      "cfiDesc": "一家全球交易公司 —— 把平台可靠性与支付工程带入真实市场。",
+      "focus": "重点",
+      "resume": "查看简历",
+      "panelTitle": "我构建能承受真实流量、真实故障和真实业务规则的系统。",
+      "base": "所在地",
+      "status": "状态",
+      "supportingText": "我的工作大多位于业务关键后端逻辑与平台工程的交叉点：支付流程、可靠性、安全、云运维，以及在压力下也必须保持正确行为的系统。",
+      "proof": {
+        "roles": "覆盖平台与产品工程的角色经历",
+        "payments": "企业支付与金融系统相关工作",
+        "platforms": "基础设施与平台交付经验",
+        "visitors": "访问次数"
+      },
+      "highlights": {
+        "payments": "支付系统",
+        "cloud": "云原生基础设施",
+        "reliability": "生产可靠性",
+        "security": "安全优先的后端系统"
+      },
+      "focusItems": {
+        "payments": "支付网关、对账流程与事务正确性",
+        "platforms": "平台架构、可观测性与云运维",
+        "interfaces": "能清楚表达技术价值，而不是只堆装饰效果的界面"
+      },
+      "visitors": "访问次数"
+    },
     "title": "平台工程师",
     "tagline": "构建生产基础设施、云安全系统和支付集成",
     "description": "专注于 Kubernetes、云原生架构和安全优先开发的平台工程师。帮助企业构建可扩展、可靠的系统，以应对现实世界的复杂性。在企业支付系统、云基础设施和游戏运营平台方面拥有丰富经验。",
@@ -20,6 +83,10 @@
     "location": "马来西亚",
     "featuredProjects": "精选项目",
     "viewAllProjects": "查看所有项目",
+    "featuredSubtitle": "精选作品 —— 涵盖支付、平台与全栈产品交付。",
+    "featuredHint": "想快速了解我构建的系统，从这里开始。",
+    "skillsSubtitle": "我真正用来交付的工具、语言与基础设施。",
+    "skillsHint": "辅助背景 —— 不是重点推介。",
     "skillsAndTechnologies": "技能与技术",
     "skills": {
       "title": "技术技能",
@@ -32,11 +99,39 @@
   },
   "about": {
     "title": "关于我",
+    "eyebrow": "关于",
+    "headline": "我构建能在真实生产环境里稳定运行的系统。",
     "whatIDo": "我的工作",
     "education": "教育背景",
     "workExperience": "工作经验",
     "present": "至今",
     "description": "拥有构建企业级支付系统、云基础设施和可扩展应用经验的平台工程师。热衷于安全、性能和开发者体验。",
+    "introBody": "我的工作长期处在后端工程、基础设施和产品交付的交叉点。我重视架构韧性、稳定的运行表现，以及半年后依然清晰可维护的系统设计。",
+    "nowLabel": "当前重点",
+    "capabilitiesTitle": "这些是我在不同产品、平台和团队里反复深耕的能力方向。",
+    "approachEyebrow": "工作方式",
+    "approachTitle": "我更看重系统思维，而不是表面的炫技效果。",
+    "timelineTitle": "在支付、平台工程与高流量生产系统中的持续交付记录。",
+    "stats": {
+      "roles": "产品与平台工程相关角色",
+      "companies": "服务过的公司与产品",
+      "production": "长期偏向",
+      "productionValue": "生产环境"
+    },
+    "principles": {
+      "systems": {
+        "title": "从整体系统出发设计",
+        "body": "我通常不会只看单个功能，而是继续往下想接口契约、故障模式、可观测性，以及下一位工程师如何在不被架构拖累的情况下继续扩展。"
+      },
+      "reliability": {
+        "title": "可靠性本身就是功能的一部分",
+        "body": "支付、基础设施和内部平台只有在边界场景被认真处理时才算真正可用。我会从一开始就把正确性、可观测性和安全运维行为放进方案里。"
+      },
+      "delivery": {
+        "title": "快速交付，但不混乱",
+        "body": "我可以推进得很快，但不会把速度当成架构混乱的借口。目标是上线后仍然可维护的交付，而不是只适合演示的短期冲刺。"
+      }
+    },
     "expertise": {
       "payments": "构建符合 Type Approval 和 APIP 标准的企业支付系统",
       "microservices": "设计具有 JWT、HMAC-SHA256 和 AES-256-GCM 加密的安全微服务",
@@ -52,6 +147,9 @@
   "projects": {
     "title": "项目",
     "description": "展示我在企业支付系统、云基础设施和全栈开发方面的工作。",
+    "headline": "涵盖生产系统、平台工程与个人项目，重点是能真正落地并稳定运行。",
+    "snapshot": "概览",
+    "detailContext": "项目背景",
     "stats": {
       "total": "总项目数",
       "featured": "精选项目",
@@ -86,6 +184,8 @@
   "contact": {
     "title": "联系我",
     "description": "有项目想法或想讨论合作机会？我很乐意听到您的声音！",
+    "headline": "如果项目在技术上足够认真，我愿意聊。",
+    "conversationTitle": "开始交流",
     "availableForWork": "接受新的工作机会",
     "notAvailableForWork": "目前在职，但对有趣的项目持开放态度",
     "form": {
@@ -145,5 +245,90 @@
     "loading": "加载中...",
     "notFound": "未找到",
     "error": "发生错误"
+  },
+  "propertyNav": {
+    "home": "首页",
+    "listings": "租盘",
+    "contact": "咨询",
+    "role": "房产中介"
+  },
+  "property": {
+    "metaTitle": "房产中介 —— 租赁服务",
+    "metaDescription": "曾祈荣，巴生谷租赁房产中介。真诚、不催促地帮租客与业主找到有家感觉的地方。",
+    "placeholderNote": "示例内容 —— 真实房源与详情即将上线。",
+    "hero": {
+      "kicker": "租赁服务 · 巴生谷",
+      "headline": "找到有家感觉的地方。",
+      "sub": "在巴生谷为租客与业主提供真诚、不催促的租赁咨询。没有压力，没有套话 —— 只为合适的价格找到合适的家。",
+      "browse": "浏览租盘",
+      "enquire": "咨询",
+      "statAreas": "服务区域",
+      "statLangs": "语言",
+      "statResponse": "快速、贴心回复"
+    },
+    "services": {
+      "kicker": "我能帮什么",
+      "title": "让租房变得从容清晰。",
+      "tenants": {
+        "title": "为租客",
+        "body": "告诉我你的预算、区域和入住日期。我会筛选真正合适的房源 —— 不合适时也会如实相告。"
+      },
+      "owners": {
+        "title": "为业主",
+        "body": "用专业照片、合理定价和租客筛选把房子放租 —— 更快找到可靠的租客。"
+      },
+      "viewing": {
+        "title": "看房与协调",
+        "body": "按你的时间安排并陪同看房，繁琐的沟通交给我。"
+      },
+      "support": {
+        "title": "租约与入住支持",
+        "body": "从租约、押金到交房，把文件理清，把流程走顺。"
+      }
+    },
+    "featured": {
+      "kicker": "精选租盘",
+      "title": "几个我很想带你看的地方。",
+      "viewAll": "查看全部租盘",
+      "forRent": "出租",
+      "perMonth": "/月",
+      "beds": "卧室",
+      "baths": "卫浴",
+      "size": "面积",
+      "enquire": "咨询"
+    },
+    "process": {
+      "kicker": "流程",
+      "title": "四个简单步骤，找到下一个家。",
+      "step1": { "title": "告诉我需求", "body": "预算、区域、面积、入住时间 —— 以及你想要的感觉。" },
+      "step2": { "title": "我来筛选", "body": "你会收到一份精选的真实在租房源 —— 不刷屏，不浪费时间。" },
+      "step3": { "title": "一起看房", "body": "线下或线上，一起看最合适的几个选择。" },
+      "step4": { "title": "顺利入住", "body": "租约、押金、交房，我全程协助。" }
+    },
+    "about": {
+      "kicker": "你的中介",
+      "title": "工程师出身，真正会倾听的中介。",
+      "body": "我是 Daniel，一名软件工程师，也在巴生谷帮人租房与放租。同样执着于把细节做对：清晰沟通、真诚建议、说到做到。我以英文、中文和马来文沟通。",
+      "renLabel": "REN 编号",
+      "areasLabel": "服务区域",
+      "langsLabel": "语言"
+    },
+    "listingsPage": {
+      "title": "租盘",
+      "headline": "巴生谷在租房源。",
+      "desc": "这里是我经手房源的示例。告诉我你的需求，我会发来匹配的选择。",
+      "countLabel": "套在租",
+      "empty": "新房源即将上线 —— 把需求发给我，我帮你整理一份清单。"
+    },
+    "contactPage": {
+      "kicker": "咨询",
+      "headline": "一起找到你的下一个家。",
+      "desc": "告诉我你的预算、心仪区域和入住日期。最快的联系方式是 WhatsApp。",
+      "whatsapp": "WhatsApp 联系",
+      "or": "或发送留言",
+      "infoArea": "服务区域",
+      "infoLangs": "语言",
+      "infoPhone": "电话"
+    }
   }
 }

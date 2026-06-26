@@ -3,11 +3,74 @@
     "home": "Home",
     "about": "About",
     "projects": "Projects",
-    "contact": "Contact"
+    "contact": "Contact",
+    "engineer": "Engineer",
+    "property": "Property",
+    "switchTo": "Switch to"
+  },
+  "portal": {
+    "tagline": "One person, two crafts",
+    "metaDescription": "Daniel Chen — platform engineer building trading-grade systems, and a property agent for rentals & leasing in Malaysia. Two crafts, one obsession with getting the details right.",
+    "name": "Daniel Chen",
+    "nameZh": "曾祈荣",
+    "kicker": "Welcome",
+    "intro": "I build software that survives real traffic — and I help people find a place that feels like home. Pick a side.",
+    "chooseHint": "Choose a world",
+    "enter": "Enter",
+    "backToPortal": "Portal",
+    "engineer": {
+      "label": "Software Engineer",
+      "status": "Open for projects · 合作",
+      "headline": "Trading-grade systems",
+      "desc": "Platform & full-stack engineering — payments, reliability, and trading infrastructure.",
+      "next": "Next → CFI",
+      "enter": "Enter the terminal"
+    },
+    "property": {
+      "label": "Property Agent",
+      "status": "Rental & Leasing",
+      "headline": "A place that feels like home",
+      "desc": "Honest, unhurried rental guidance for tenants and owners across the Klang Valley.",
+      "tag": "Malaysia",
+      "enter": "Find a home"
+    }
   },
   "home": {
     "name": "Daniel Chen",
     "greeting": "Hi, I'm",
+    "hero": {
+      "now": "Now",
+      "live": "Live",
+      "open": "Open for projects",
+      "openZh": "合作",
+      "cfiKicker": "Next",
+      "cfiTitle": "Joining CFI Financial",
+      "cfiDesc": "A global trading firm — bringing platform reliability and payments engineering to live markets.",
+      "focus": "Focus",
+      "resume": "View Resume",
+      "panelTitle": "Building systems that survive real traffic, real failures, and real business rules.",
+      "base": "Base",
+      "status": "Status",
+      "supportingText": "Most of my work sits where business-critical backend logic meets platform engineering: payment flows, reliability, security, cloud operations, and systems that need to behave correctly under pressure.",
+      "proof": {
+        "roles": "roles across platform and product engineering",
+        "payments": "enterprise payment and financial-system work",
+        "platforms": "infrastructure and platform delivery",
+        "visitors": "portfolio visits"
+      },
+      "highlights": {
+        "payments": "Payments",
+        "cloud": "Cloud-native infrastructure",
+        "reliability": "Production reliability",
+        "security": "Security-first backend systems"
+      },
+      "focusItems": {
+        "payments": "Payment gateways, reconciliation flows, and transactional correctness",
+        "platforms": "Platform architecture, observability, and cloud operations",
+        "interfaces": "Interfaces that explain technical work clearly instead of decorating it"
+      },
+      "visitors": "portfolio visits"
+    },
     "title": "Platform Engineer",
     "tagline": "Building production infrastructure, cloud security systems, and payment integrations",
     "description": "Platform Engineer specializing in Kubernetes, cloud-native architectures, and security-first development. Helping companies build scalable, reliable systems that handle real-world complexity. Experience in enterprise payment systems, cloud infrastructure, and game operations platforms.",
@@ -20,6 +83,10 @@
     "location": "Malaysia",
     "featuredProjects": "Featured Projects",
     "viewAllProjects": "View All Projects",
+    "featuredSubtitle": "Selected work across payments, platforms, and full-stack product delivery.",
+    "featuredHint": "Start here for the fastest read on the systems I build.",
+    "skillsSubtitle": "Tools, languages, and infrastructure I actually use to ship.",
+    "skillsHint": "Supporting context — not the main pitch.",
     "skillsAndTechnologies": "Skills & Technologies",
     "skills": {
       "title": "Technical Skills",
@@ -32,11 +99,39 @@
   },
   "about": {
     "title": "About Me",
+    "eyebrow": "About",
+    "headline": "I build production systems that stay reliable when the stakes are real.",
     "whatIDo": "What I Do",
     "education": "Education",
     "workExperience": "Work Experience",
     "present": "Present",
     "description": "Platform Engineer with expertise in building enterprise-grade payment systems, cloud infrastructure, and scalable applications. Passionate about security, performance, and developer experience.",
+    "introBody": "My work sits where backend engineering, infrastructure, and product delivery overlap. I care about resilient architecture, clean operational behavior, and shipping systems that still make sense six months later.",
+    "nowLabel": "Current Focus",
+    "capabilitiesTitle": "The areas I keep returning to across products, platforms, and teams.",
+    "approachEyebrow": "How I Work",
+    "approachTitle": "I prefer systems thinking over surface polish.",
+    "timelineTitle": "A track record across payments, platforms, and high-traffic production work.",
+    "stats": {
+      "roles": "Roles across product and platform engineering",
+      "companies": "Companies and products shipped for",
+      "production": "Bias toward",
+      "productionValue": "Production"
+    },
+    "principles": {
+      "systems": {
+        "title": "Design for the whole system",
+        "body": "I am usually thinking past the feature itself: contracts, failure modes, operational visibility, and how the next engineer will extend the system without fighting it."
+      },
+      "reliability": {
+        "title": "Reliability is part of the feature",
+        "body": "Payments, infra, and internal platforms only work when edge cases are handled deliberately. I prioritize correctness, observability, and safe operational behavior from the start."
+      },
+      "delivery": {
+        "title": "Ship with urgency, not chaos",
+        "body": "I move quickly, but I do not treat speed as an excuse for unclear architecture. The goal is delivery that stays maintainable after launch, not demo-quality momentum."
+      }
+    },
     "expertise": {
       "payments": "Build enterprise payment systems with Type Approval and APIP compliance",
       "microservices": "Design secure microservices with JWT, HMAC-SHA256, and AES-256-GCM encryption",
@@ -52,6 +147,9 @@
   "projects": {
     "title": "Projects",
     "description": "A showcase of my work including payment systems, e-commerce platforms, and enterprise applications.",
+    "headline": "Production work, platform systems, and side projects that were built to hold up.",
+    "snapshot": "Snapshot",
+    "detailContext": "Project Context",
     "stats": {
       "total": "Total Projects",
       "featured": "Featured",
@@ -86,6 +184,8 @@
   "contact": {
     "title": "Get in Touch",
     "description": "Have a project in mind or want to discuss opportunities? I'd love to hear from you!",
+    "headline": "If the work is technically serious, I’m interested.",
+    "conversationTitle": "Start the conversation",
     "availableForWork": "Open to new opportunities",
     "notAvailableForWork": "Currently employed, but open to interesting projects",
     "form": {
@@ -145,5 +245,90 @@
     "loading": "Loading...",
     "notFound": "Not Found",
     "error": "An error occurred"
+  },
+  "propertyNav": {
+    "home": "Home",
+    "listings": "Rentals",
+    "contact": "Enquire",
+    "role": "Property Agent"
+  },
+  "property": {
+    "metaTitle": "Property Agent — Rental & Leasing",
+    "metaDescription": "Daniel Chen, a rental & leasing property agent for the Klang Valley. Honest, unhurried help finding a place that feels like home — for tenants and owners.",
+    "placeholderNote": "Sample content — real listings and details coming soon.",
+    "hero": {
+      "kicker": "Rental & Leasing · Klang Valley",
+      "headline": "Find a place that feels like home.",
+      "sub": "Honest, unhurried rental guidance for tenants and owners across the Klang Valley. No pressure, no jargon — just the right place at the right price.",
+      "browse": "Browse rentals",
+      "enquire": "Enquire",
+      "statAreas": "Areas served",
+      "statLangs": "Languages",
+      "statResponse": "Fast, personal replies"
+    },
+    "services": {
+      "kicker": "How I help",
+      "title": "Renting made calm and clear.",
+      "tenants": {
+        "title": "For tenants",
+        "body": "Tell me your budget, area, and move-in date. I shortlist real options that fit — and I'm honest when something doesn't."
+      },
+      "owners": {
+        "title": "For owners",
+        "body": "List your unit for lease with proper photos, fair pricing, and tenant screening — so you get reliable tenants, faster."
+      },
+      "viewing": {
+        "title": "Viewings & coordination",
+        "body": "I arrange and join viewings around your schedule, and handle the back-and-forth so you don't have to."
+      },
+      "support": {
+        "title": "Lease & move-in support",
+        "body": "From tenancy agreement to deposit and handover, I keep the paperwork clear and the process smooth."
+      }
+    },
+    "featured": {
+      "kicker": "Featured rentals",
+      "title": "A few places I'd love to show you.",
+      "viewAll": "View all rentals",
+      "forRent": "For rent",
+      "perMonth": "/mo",
+      "beds": "Beds",
+      "baths": "Baths",
+      "size": "Size",
+      "enquire": "Enquire"
+    },
+    "process": {
+      "kicker": "How it works",
+      "title": "Four simple steps to your next home.",
+      "step1": { "title": "Tell me what you need", "body": "Budget, area, size, move-in date — and the feel you're after." },
+      "step2": { "title": "I shortlist", "body": "You get a curated list of real, available units — no spam, no time-wasters." },
+      "step3": { "title": "We view", "body": "We see the best options together, in person or online." },
+      "step4": { "title": "You move in", "body": "I help with the agreement, deposit, and handover, end to end." }
+    },
+    "about": {
+      "kicker": "Your agent",
+      "title": "A builder by trade — an agent who actually listens.",
+      "body": "I'm Daniel, a software engineer who also helps people rent and lease across the Klang Valley. Same obsession with getting the details right: clear communication, honest advice, and following through. I work in English, Mandarin, and Bahasa Malaysia.",
+      "renLabel": "REN",
+      "areasLabel": "Areas served",
+      "langsLabel": "Languages"
+    },
+    "listingsPage": {
+      "title": "Rentals",
+      "headline": "Available rentals across the Klang Valley.",
+      "desc": "A sample of the kinds of units I help with. Tell me what you're looking for and I'll send options that match.",
+      "countLabel": "available now",
+      "empty": "New listings are on the way — send me what you need and I'll get you a shortlist."
+    },
+    "contactPage": {
+      "kicker": "Enquire",
+      "headline": "Let's find your next place.",
+      "desc": "Tell me your budget, preferred area, and move-in date. The fastest way to reach me is WhatsApp.",
+      "whatsapp": "Chat on WhatsApp",
+      "or": "or send a message",
+      "infoArea": "Areas served",
+      "infoLangs": "Languages",
+      "infoPhone": "Phone"
+    }
   }
 }

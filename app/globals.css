@@ -2,30 +2,120 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =========================================================================
+   AURORA TERMINAL — one warm/nostalgic/futuristic base, two accent worlds.
+   Accent vars flip via [data-world="engineer"] / [data-world="property"].
+   ========================================================================= */
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* warm paper base (light) */
+    --bg: 40 40% 97%;
+    --bg-2: 36 32% 93%;
+    --panel: 40 50% 99%;
+    --ink: 222 32% 12%;
+    --ink-2: 222 12% 38%;
+    --ink-3: 220 10% 55%;
+    --line: 34 20% 85%;
+
+    /* default accent (neutral cyan until a world is set) */
+    --accent: 190 86% 40%;
+    --accent-2: 202 90% 46%;
+    --glow-1: 190 92% 56%;
+    --glow-2: 38 92% 62%;
+
+    /* trading / semantic signals */
+    --up: 152 58% 40%;
+    --down: 2 74% 56%;
+    --gold: 38 92% 52%;
+    --warm: 22 82% 54%;
+
+    --grain-opacity: 0.45;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-  }
-}
+    --bg: 224 36% 6%;
+    --bg-2: 222 30% 9%;
+    --panel: 222 28% 11%;
+    --ink: 40 32% 94%;
+    --ink-2: 220 14% 68%;
+    --ink-3: 220 12% 52%;
+    --line: 220 18% 20%;
 
-@layer base {
+    --accent: 187 94% 58%;
+    --accent-2: 200 95% 66%;
+    --glow-1: 190 90% 52%;
+    --glow-2: 38 92% 56%;
+
+    --up: 152 66% 50%;
+    --down: 2 82% 66%;
+    --gold: 41 96% 60%;
+    --warm: 22 86% 60%;
+
+    --grain-opacity: 0.5;
+  }
+
+  /* ---- Engineer world: electric cyan + signal blue ---- */
+  [data-world='engineer'] {
+    --accent: 190 90% 40%;
+    --accent-2: 208 92% 48%;
+    --glow-1: 190 96% 55%;
+    --glow-2: 214 92% 60%;
+  }
+  .dark [data-world='engineer'] {
+    --accent: 187 96% 58%;
+    --accent-2: 206 96% 66%;
+    --glow-1: 190 92% 52%;
+    --glow-2: 212 92% 58%;
+  }
+
+  /* ---- Property world: warm terracotta + amber + sage ---- */
+  [data-world='property'] {
+    --accent: 22 80% 50%;
+    --accent-2: 38 88% 52%;
+    --glow-1: 28 92% 64%;
+    --glow-2: 150 30% 56%;
+  }
+  .dark [data-world='property'] {
+    --accent: 26 86% 60%;
+    --accent-2: 40 94% 60%;
+    --glow-1: 28 92% 58%;
+    --glow-2: 150 34% 50%;
+  }
+
   * {
-    @apply border-gray-200 dark:border-gray-800;
-  }
-  body {
-    @apply bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 dark:from-gray-900 dark:via-blue-950/20 dark:to-purple-950/20 text-gray-900 dark:text-gray-50;
+    border-color: hsl(var(--line));
   }
 
-  /* Fixed background only on desktop - mobile GPUs struggle with it */
-  @media (min-width: 768px) {
-    body {
-      background-attachment: fixed;
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply min-h-screen antialiased;
+    color: hsl(var(--ink));
+    background-color: hsl(var(--bg));
+    font-feature-settings: 'ss01', 'cv01';
+  }
+
+  ::selection {
+    background: hsl(var(--accent) / 0.22);
+    color: inherit;
+  }
+
+  a {
+    @apply transition-colors;
+  }
+
+  /* Respect users who prefer less motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
     }
   }
 }
@@ -34,119 +124,175 @@
   .text-balance {
     text-wrap: balance;
   }
-
-  /* Performance optimizations - GPU acceleration */
-  .gpu-accelerate {
-    transform: translateZ(0);
-    will-change: transform;
+  .text-pretty {
+    text-wrap: pretty;
   }
 
-  .gpu-accelerate-opacity {
-    transform: translateZ(0);
-    will-change: opacity, transform;
+  /* ---- Surfaces ---- */
+  .surface-card {
+    @apply rounded-[28px] border backdrop-blur-md;
+    background: hsl(var(--panel) / 0.82);
+    border-color: hsl(var(--line));
+    box-shadow:
+      0 28px 60px -42px hsl(var(--accent) / 0.4),
+      0 2px 10px -6px hsl(var(--ink) / 0.08);
   }
 
-  /* Mobile optimization - disable expensive effects on small screens */
-  @media (max-width: 768px) {
-    .mobile-optimize {
-      transform: none !important;
-      will-change: auto !important;
-    }
-
-    /* Optimize rendering on mobile with content-visibility */
-    .mobile-content-auto {
-      content-visibility: auto;
-      contain-intrinsic-size: auto 500px;
-    }
-
-    /* Reduce blur effects on mobile */
-    .blur-3xl {
-      filter: blur(40px) !important;
-    }
-
-    .blur-2xl {
-      filter: blur(20px) !important;
-    }
+  .glass {
+    @apply border backdrop-blur-md;
+    background: hsl(var(--panel) / 0.7);
+    border-color: hsl(var(--line) / 0.8);
   }
 
-  /* Gradient text */
-  .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 dark:from-blue-400 dark:via-purple-400 dark:to-pink-400;
+  .hairline {
+    border-color: hsl(var(--line));
   }
 
-  /* Animated gradient background */
-  .animate-gradient {
-    background-size: 200% 200%;
-    animation: gradient 8s ease infinite;
-    will-change: background-position;
+  /* ---- Section helpers (recolor per world automatically) ---- */
+  .section-kicker {
+    @apply text-xs font-semibold uppercase tracking-[0.34em];
+    color: hsl(var(--accent));
+  }
+  .section-title {
+    @apply text-3xl font-semibold tracking-tight md:text-4xl;
+    color: hsl(var(--ink));
   }
 
-  .bg-300% {
-    background-size: 300% 300%;
-  }
-
-  @keyframes gradient {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-  }
-
-  /* Glow effect */
-  .glow {
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5),
-                0 0 40px rgba(147, 51, 234, 0.3);
-  }
-
-  .dark .glow {
-    box-shadow: 0 0 30px rgba(59, 130, 246, 0.6),
-                0 0 60px rgba(147, 51, 234, 0.4);
-  }
-
-  /* Floating animation */
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
-    will-change: transform;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) translateZ(0); }
-    50% { transform: translateY(-10px) translateZ(0); }
-  }
-
-  /* Pulse glow */
-  .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
-    will-change: box-shadow;
-  }
-
-  @keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
-    50% { box-shadow: 0 0 40px rgba(147, 51, 234, 0.8); }
-  }
-
-  /* Shimmer effect */
-  .shimmer {
+  /* ---- Accent text / gradient ---- */
+  .text-gradient {
     background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.5),
-      transparent
+      120deg,
+      hsl(var(--accent)) 0%,
+      hsl(var(--accent-2)) 55%,
+      hsl(var(--gold)) 100%
     );
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite;
-    will-change: background-position;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .glow {
+    box-shadow: 0 0 0 1px hsl(var(--accent) / 0.25), 0 18px 50px -22px hsl(var(--accent) / 0.5);
+  }
+
+  /* ---- Refined grid overlay ---- */
+  .grid-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+    background-image:
+      linear-gradient(hsl(var(--ink) / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--ink) / 0.05) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 0%, transparent 75%);
+  }
+
+  /* ---- Film grain (global, neutral) ---- */
+  .grain-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---- Aurora drifting blobs ---- */
+  .aurora-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .aurora-blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(80px);
+    opacity: 0.5;
+    will-change: transform;
+  }
+
+  /* ---- Marquee / ticker ---- */
+  .marquee-track {
+    display: inline-flex;
+    white-space: nowrap;
+    will-change: transform;
+    animation: marquee 38s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+  .marquee-mask {
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .mono {
+    font-family: var(--font-mono), ui-monospace, monospace;
+  }
+
+  /* Hide scrollbar but keep scroll (mobile chips) */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@layer components {
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes aurora-drift {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    33% {
+      transform: translate3d(6%, -4%, 0) scale(1.12);
+    }
+    66% {
+      transform: translate3d(-5%, 5%, 0) scale(0.95);
+    }
+  }
+
+  @keyframes float-soft {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
   }
 
   @keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
+    100% {
+      transform: translateX(100%);
+    }
   }
 
-  /* Disable animations on mobile for performance */
-  @media (max-width: 768px) {
-    .animate-float,
-    .animate-pulse-glow {
-      animation: none;
-      will-change: auto;
+  @keyframes pulse-ring {
+    0% {
+      box-shadow: 0 0 0 0 hsl(var(--up) / 0.5);
+    }
+    70% {
+      box-shadow: 0 0 0 8px hsl(var(--up) / 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 hsl(var(--up) / 0);
     }
   }
 }

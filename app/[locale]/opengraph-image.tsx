@@ -121,7 +121,7 @@ export default async function Image() {
             color: '#9ca3af',
           }}
         >
-          🌐 danielchen.dev
+          🌐 danielchen.tech
         </div>
       </div>
     ),

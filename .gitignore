@@ -38,3 +38,6 @@ next-env.d.ts
 # setup files
 setup_complete.md
 SETUP_COMPLETE.md
+
+# Claude Code local config
+.claude/

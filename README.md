@@ -168,7 +168,7 @@ theme: {
 
 1. In Vercel dashboard, go to your project
 2. Settings → Domains
-3. Add your custom domain (e.g., danielchen.dev)
+3. Add your custom domain (e.g., danielchen.tech)
 4. Follow DNS configuration instructions
 
 ## Contact Form Integration

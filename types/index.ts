@@ -60,6 +60,34 @@ export interface BlogPost {
   coverImage?: string;
 }
 
+export interface Rental {
+  slug: string;
+  title: string;
+  area: string;
+  propertyType: string;
+  monthlyRent: number;
+  currency?: string;
+  bedrooms: number;
+  bathrooms: number;
+  sizeSqft: number;
+  furnishing: string;
+  imageUrl?: string;
+  tags?: string[];
+  available: boolean;
+  featured?: boolean;
+}
+
+export interface PropertyMeta {
+  name: string;
+  renNumber: string;
+  agency?: string;
+  areas: string[];
+  languages: string[];
+  whatsapp: string;
+  email: string;
+  phone: string;
+}
+
 export interface SiteMetadata {
   name: string;
   title: string;
