@@ -57,7 +57,7 @@ export const experiences: Experience[] = [
     position: 'Full-Stack Engineer',
     location: 'Southeast Asia (Remote)',
     startDate: '2025-10',
-    endDate: 'Present',
+    endDate: '2026-06',
     description: 'Freelance full-stack engineer on a proprietary trading (prop trading) platform operating across Southeast Asia. Built the C# MT5 microservice, AdonisJS backend API, FlowAI recommendation engine, health monitoring system, and maintained two React dashboards — all in production serving live funded traders.',
     responsibilities: [
       'Built a C# / .NET 7 microservice wrapping the MT5 Manager SDK via P/Invoke: singleton connection management, semaphore-bounded batch concurrency, AppDomain-level crash handlers with SMTP alerting, and a /health endpoint — achieving ~175ms p50 vs ~443ms on legacy Web API (2.5× faster)',
@@ -104,7 +104,7 @@ export const experiences: Experience[] = [
     position: 'Full-Stack Developer & Platform Engineer',
     location: 'Kuala Lumpur, Malaysia',
     startDate: '2025-09',
-    endDate: '2025-11',
+    endDate: '2026-08',
     description: 'Full-stack development across multiple enterprise clients spanning e-commerce ticketing, payment systems, healthcare booking, and AI-powered tourism platforms. Delivered 4 major production projects using Java/Spring Boot backend services and React/Next.js modern frontend applications with AWS cloud infrastructure.',
     responsibilities: [
       'Built full-stack HKTB AI Trip Planner (~15,000 lines) with Next.js 15, React 19, TypeScript, AWS Amplify Gen 2, featuring 5-step questionnaire, drag-and-drop itinerary management with @dnd-kit, admin portal with DynamoDB batch imports (25 items/batch), and 1,500+ translation keys across 3 languages',

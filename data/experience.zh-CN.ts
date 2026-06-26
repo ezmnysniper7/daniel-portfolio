@@ -57,7 +57,7 @@ export const experiencesZhCN: Experience[] = [
     position: '全栈工程师',
     location: '东南亚（远程）',
     startDate: '2025-10',
-    endDate: 'Present',
+    endDate: '2026-06',
     description: '自营交易平台的自由职业全栈工程师，平台面向东南亚市场运营。构建 C# MT5 微服务、AdonisJS 后端 API、FlowAI 推荐引擎、健康监控系统，并维护两套 React 仪表板——全部投产，服务真实出资交易者。',
     responsibilities: [
       '构建 C# / .NET 7 微服务，通过 P/Invoke 封装 MT5 Manager SDK：单例连接管理、信号量限流批量并发、AppDomain 级崩溃处理器含 SMTP 告警、/health 端点——实现约 175ms p50 延迟，相比旧版 Web API 的 443ms 提速 2.5 倍',
@@ -104,7 +104,7 @@ export const experiencesZhCN: Experience[] = [
     position: '全栈开发工程师 & 平台工程师',
     location: '马来西亚吉隆坡',
     startDate: '2025-09',
-    endDate: '2025-11',
+    endDate: '2026-08',
     description: '跨多个企业客户进行全栈开发，涵盖电子商务票务、支付系统、医疗预约和 AI 驱动的旅游平台。使用 Java/Spring Boot 后端服务和 React/Next.js 现代前端应用以及 AWS 云基础设施交付 4 个主要生产项目。',
     responsibilities: [
       '构建全栈 HKTB AI 行程规划器（约 15,000 行代码），采用 Next.js 15、React 19、TypeScript、AWS Amplify Gen 2，包含 5 步问卷调查系统、使用 @dnd-kit 的拖放行程管理、支持 DynamoDB 批量导入（25 项/批次）的管理后台，以及 3 种语言的 1,500+ 翻译键',
