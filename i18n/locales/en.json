@@ -213,7 +213,6 @@
     }
   },
   "footer": {
-    "builtBySelf": "Proudly designed and built from scratch by me",
     "viewSource": "View Source Code",
     "copyright": "© {year} {name}. All rights reserved.",
     "email": "Email"

@@ -213,7 +213,6 @@
     }
   },
   "footer": {
-    "builtBySelf": "由本人独立设计与开发",
     "viewSource": "查看源代码",
     "copyright": "© {year} {name}。版权所有。",
     "email": "邮箱"
