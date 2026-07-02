@@ -24,9 +24,8 @@ export function FeaturedRentals({ rentals }: { rentals: Rental[] }) {
           <p className="section-kicker">{t('featured.kicker')}</p>
           <h2 className="mt-4 font-display section-title">{t('featured.title')}</h2>
         </Reveal>
-        <p className="mb-10 text-sm italic text-ink-3">{t('placeholderNote')}</p>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {featured.map((rental, i) => (
             <Reveal key={rental.slug} delay={i * 0.06}>
               <RentalCard rental={rental} />

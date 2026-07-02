@@ -111,7 +111,7 @@ export function EngineerHero({
                   {availableForWork ? t('availableForWork') : t('notAvailableForWork')}
                 </p>
 
-                {/* CFI — what's next */}
+                {/* CFI, what's next */}
                 <div className="mt-6 rounded-2xl border border-line bg-paper-2/50 p-5">
                   <div className="flex items-center justify-between">
                     <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-accent">

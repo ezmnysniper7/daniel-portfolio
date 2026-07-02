@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 
 /**
- * Small upward-trending sparkline with area fill — used in the CFI "what's next"
+ * Small upward-trending sparkline with area fill, used in the CFI "what's next"
  * card. Draws itself in on mount (skipped under prefers-reduced-motion).
  */
 export function Sparkline({ className }: { className?: string }) {

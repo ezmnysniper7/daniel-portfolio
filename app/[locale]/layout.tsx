@@ -35,7 +35,7 @@ export async function generateMetadata({
   return {
     metadataBase: new URL(baseUrl),
     title: {
-      default: `${siteMetadata.name} — ${t('tagline')}`,
+      default: `${siteMetadata.name}, ${t('tagline')}`,
       template: `%s | ${siteMetadata.name}`,
     },
     description: t('metaDescription'),
@@ -71,13 +71,13 @@ export async function generateMetadata({
       type: 'website',
       locale: locale === 'zh-CN' ? 'zh_CN' : 'en_US',
       url: canonicalUrl,
-      title: `${siteMetadata.name} — ${t('tagline')}`,
+      title: `${siteMetadata.name}, ${t('tagline')}`,
       description: t('metaDescription'),
       siteName: `${siteMetadata.name}`,
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${siteMetadata.name} — ${t('tagline')}`,
+      title: `${siteMetadata.name}, ${t('tagline')}`,
       description: t('metaDescription'),
     },
     robots: {

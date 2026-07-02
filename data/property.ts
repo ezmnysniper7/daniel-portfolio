@@ -1,14 +1,14 @@
 import { PropertyMeta } from '@/types';
 
 /**
- * Property-agent profile. PLACEHOLDER VALUES — Daniel to update:
+ * Property-agent profile. PLACEHOLDER VALUES, Daniel to update:
  *  - renNumber: real REN/agency registration number
  *  - agency: agency name (if any)
  *  - whatsapp: digits-only intl number used for wa.me links
  */
 export const propertyMeta: PropertyMeta = {
   name: 'Daniel Chen',
-  renNumber: 'REN —————', // TODO: add real REN number
+  renNumber: 'Available on request', // TODO: add real REN number
   agency: '', // TODO: agency name (optional)
   areas: ['Kuala Lumpur', 'Petaling Jaya', 'Mont Kiara', 'Bangsar', 'Subang Jaya', 'Cyberjaya'],
   languages: ['English', '中文', 'Bahasa Malaysia'],

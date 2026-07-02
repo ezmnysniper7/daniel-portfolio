@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* =========================================================================
-   AURORA TERMINAL — one warm/nostalgic/futuristic base, two accent worlds.
+   AURORA TERMINAL, one warm/nostalgic/futuristic base, two accent worlds.
    Accent vars flip via [data-world="engineer"] / [data-world="property"].
    ========================================================================= */
 

@@ -35,7 +35,7 @@ export default function PropertyLayout({ children }: { children: React.ReactNode
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'RealEstateAgent',
-            name: `${propertyMeta.name} — Property Agent`,
+            name: `${propertyMeta.name}, Property Agent`,
             url: 'https://danielchen.tech',
             email: propertyMeta.email,
             telephone: propertyMeta.phone,

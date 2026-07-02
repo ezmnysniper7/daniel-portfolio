@@ -21,7 +21,6 @@ export function WorldFooter({ world }: { world: 'engineer' | 'property' }) {
       <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 md:flex-row md:items-end md:justify-between md:px-6 lg:px-8">
         <div className="max-w-md">
           <p className="section-kicker">Daniel Chen</p>
-          <p className="mt-3 text-lg font-semibold text-ink">{t('builtBySelf')}</p>
           <div className="mt-4 flex flex-wrap items-center gap-3 text-sm">
             <Link href={`/${locale}`} className="text-ink-2 transition-colors hover:text-accent">
               {tPortal('backToPortal')}

@@ -17,7 +17,7 @@ interface WorldPanelProps {
 }
 
 function EngineerMotif() {
-  // Mini candlestick chart — trading energy
+  // Mini candlestick chart, trading energy
   const candles = [
     { x: 6, open: 30, close: 18, up: true },
     { x: 18, open: 22, close: 30, up: false },
@@ -45,7 +45,7 @@ function EngineerMotif() {
 }
 
 function PropertyMotif() {
-  // Soft arch / window — home energy
+  // Soft arch / window, home energy
   return (
     <svg viewBox="0 0 90 44" className="h-12 w-24" aria-hidden="true" fill="none">
       <path
@@ -93,7 +93,7 @@ export function WorldPanel({
       <Link
         href={href}
         className="surface-card relative flex h-full min-h-[20rem] flex-col justify-between overflow-hidden p-7 transition-shadow duration-500 hover:shadow-glow md:min-h-[26rem] md:p-9"
-        aria-label={`${label} — ${cta}`}
+        aria-label={`${label}, ${cta}`}
       >
         {/* internal glow that intensifies on hover */}
         <div

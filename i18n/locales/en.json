@@ -9,12 +9,12 @@
     "switchTo": "Switch to"
   },
   "portal": {
-    "tagline": "One person, two crafts",
-    "metaDescription": "Daniel Chen — platform engineer building trading-grade systems, and a property agent for rentals & leasing in Malaysia. Two crafts, one obsession with getting the details right.",
+    "tagline": "Systems & spaces.",
+    "metaDescription": "Daniel Chen is a software engineer building trading-grade systems and a property agent for rentals & leasing in Malaysia, with the same obsession for getting the details right either way.",
     "name": "Daniel Chen",
     "nameZh": "曾祈荣",
     "kicker": "Welcome",
-    "intro": "I build software that survives real traffic — and I help people find a place that feels like home. Pick a side.",
+    "intro": "I build software that survives real traffic, and I help people find a place that feels like home. Pick a side.",
     "chooseHint": "Choose a world",
     "enter": "Enter",
     "backToPortal": "Portal",
@@ -22,7 +22,7 @@
       "label": "Software Engineer",
       "status": "Open for projects · 合作",
       "headline": "Trading-grade systems",
-      "desc": "Platform & full-stack engineering — payments, reliability, and trading infrastructure.",
+      "desc": "Platform & full-stack engineering, payments, reliability, and trading infrastructure.",
       "next": "Next → CFI",
       "enter": "Enter the terminal"
     },
@@ -45,7 +45,7 @@
       "openZh": "合作",
       "cfiKicker": "Next",
       "cfiTitle": "Joining CFI Financial",
-      "cfiDesc": "A global trading firm — bringing platform reliability and payments engineering to live markets.",
+      "cfiDesc": "A global trading firm, bringing platform reliability and payments engineering to live markets.",
       "focus": "Focus",
       "resume": "View Resume",
       "panelTitle": "Building systems that survive real traffic, real failures, and real business rules.",
@@ -86,7 +86,7 @@
     "featuredSubtitle": "Selected work across payments, platforms, and full-stack product delivery.",
     "featuredHint": "Start here for the fastest read on the systems I build.",
     "skillsSubtitle": "Tools, languages, and infrastructure I actually use to ship.",
-    "skillsHint": "Supporting context — not the main pitch.",
+    "skillsHint": "Supporting context, not the main pitch.",
     "skillsAndTechnologies": "Skills & Technologies",
     "skills": {
       "title": "Technical Skills",
@@ -253,13 +253,12 @@
     "role": "Property Agent"
   },
   "property": {
-    "metaTitle": "Property Agent — Rental & Leasing",
-    "metaDescription": "Daniel Chen, a rental & leasing property agent for the Klang Valley. Honest, unhurried help finding a place that feels like home — for tenants and owners.",
-    "placeholderNote": "Sample content — real listings and details coming soon.",
+    "metaTitle": "Property Agent, Rental & Leasing",
+    "metaDescription": "Daniel Chen, a rental & leasing property agent for the Klang Valley. Honest, unhurried help finding a place that feels like home, for tenants and owners.",
     "hero": {
       "kicker": "Rental & Leasing · Klang Valley",
       "headline": "Find a place that feels like home.",
-      "sub": "Honest, unhurried rental guidance for tenants and owners across the Klang Valley. No pressure, no jargon — just the right place at the right price.",
+      "sub": "Honest, unhurried rental guidance for tenants and owners across the Klang Valley. No pressure, no jargon, just the right place at the right price.",
       "browse": "Browse rentals",
       "enquire": "Enquire",
       "statAreas": "Areas served",
@@ -271,11 +270,11 @@
       "title": "Renting made calm and clear.",
       "tenants": {
         "title": "For tenants",
-        "body": "Tell me your budget, area, and move-in date. I shortlist real options that fit — and I'm honest when something doesn't."
+        "body": "Tell me your budget, area, and move-in date. I shortlist real options that fit, and I'm honest when something doesn't."
       },
       "owners": {
         "title": "For owners",
-        "body": "List your unit for lease with proper photos, fair pricing, and tenant screening — so you get reliable tenants, faster."
+        "body": "List your unit for lease with proper photos, fair pricing, and tenant screening, so you get reliable tenants, faster."
       },
       "viewing": {
         "title": "Viewings & coordination",
@@ -300,14 +299,14 @@
     "process": {
       "kicker": "How it works",
       "title": "Four simple steps to your next home.",
-      "step1": { "title": "Tell me what you need", "body": "Budget, area, size, move-in date — and the feel you're after." },
-      "step2": { "title": "I shortlist", "body": "You get a curated list of real, available units — no spam, no time-wasters." },
+      "step1": { "title": "Tell me what you need", "body": "Budget, area, size, move-in date, and the feel you're after." },
+      "step2": { "title": "I shortlist", "body": "You get a curated list of real, available units, no spam, no time-wasters." },
       "step3": { "title": "We view", "body": "We see the best options together, in person or online." },
       "step4": { "title": "You move in", "body": "I help with the agreement, deposit, and handover, end to end." }
     },
     "about": {
       "kicker": "Your agent",
-      "title": "A builder by trade — an agent who actually listens.",
+      "title": "A builder by trade, an agent who actually listens.",
       "body": "I'm Daniel, a software engineer who also helps people rent and lease across the Klang Valley. Same obsession with getting the details right: clear communication, honest advice, and following through. I work in English, Mandarin, and Bahasa Malaysia.",
       "renLabel": "REN",
       "areasLabel": "Areas served",
@@ -318,7 +317,7 @@
       "headline": "Available rentals across the Klang Valley.",
       "desc": "A sample of the kinds of units I help with. Tell me what you're looking for and I'll send options that match.",
       "countLabel": "available now",
-      "empty": "New listings are on the way — send me what you need and I'll get you a shortlist."
+      "empty": "New listings are on the way, send me what you need and I'll get you a shortlist."
     },
     "contactPage": {
       "kicker": "Enquire",

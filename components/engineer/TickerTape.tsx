@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 
 type Tick = { sym: string; delta: string; up: boolean };
 
-// Decorative "market" strip — Daniel's stack quoted like trading symbols.
+// Decorative "market" strip, Daniel's stack quoted like trading symbols.
 const TICKS: Tick[] = [
   { sym: 'GO', delta: '+2.4%', up: true },
   { sym: 'K8S', delta: '+1.1%', up: true },
