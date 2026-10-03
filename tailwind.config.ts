@@ -15,8 +15,9 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', 'system-ui', 'sans-serif'],
-        display: ['var(--font-display)', 'Songti SC', 'STSong', 'Noto Serif SC', 'SimSun', 'Georgia', 'serif'],
-        mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
+        // Latin in Fraunces; CJK falls to the system sans already loaded for body text (fast, consistent).
+        display: ['var(--font-display)', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', 'Georgia', 'serif'],
+        mono: ['var(--font-mono)', 'ui-monospace', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', 'monospace'],
       },
       maxWidth: {
         page: '96rem',

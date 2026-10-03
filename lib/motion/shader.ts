@@ -88,7 +88,59 @@ void main() {
   gl_FragColor = vec4(col, 1.0);
 }`;
 
+/** Mounts the shader and returns a teardown. Setup is async so compiling never blocks the main thread. */
 export function mountShader(canvas: HTMLCanvasElement): () => void {
+  let cancelled = false;
+  let dispose = () => {};
+  init(canvas).then((teardown) => {
+    if (cancelled) teardown();
+    else dispose = teardown;
+  });
+  return () => {
+    cancelled = true;
+    dispose();
+  };
+}
+
+/**
+ * Compiles and links in the background (KHR_parallel_shader_compile where available) and
+ * resolves once done. OGL's own compile then hits the GPU program cache instead of making
+ * the main thread wait on the GPU process.
+ */
+function precompile(gl: WebGLRenderingContext, vs: string, fs: string): Promise<boolean> {
+  const ext = gl.getExtension('KHR_parallel_shader_compile');
+  const program = gl.createProgram();
+  const v = gl.createShader(gl.VERTEX_SHADER);
+  const f = gl.createShader(gl.FRAGMENT_SHADER);
+  if (!program || !v || !f) return Promise.resolve(false);
+  gl.shaderSource(v, vs);
+  gl.compileShader(v);
+  gl.shaderSource(f, fs);
+  gl.compileShader(f);
+  gl.attachShader(program, v);
+  gl.attachShader(program, f);
+  gl.linkProgram(program);
+
+  const t0 = performance.now();
+  return new Promise((resolve) => {
+    const check = () => {
+      const done = !ext || gl.getProgramParameter(program, ext.COMPLETION_STATUS_KHR) || performance.now() - t0 > 4000;
+      if (!done) {
+        setTimeout(check, 40);
+        return;
+      }
+      const ok = !!gl.getProgramParameter(program, gl.LINK_STATUS);
+      gl.deleteProgram(program);
+      gl.deleteShader(v);
+      gl.deleteShader(f);
+      resolve(ok);
+    };
+    // Without the extension, give the GPU process a head start before the blocking query.
+    setTimeout(check, ext ? 0 : 300);
+  });
+}
+
+async function init(canvas: HTMLCanvasElement): Promise<() => void> {
   const noop = () => {};
   const host = canvas.parentElement;
   if (!host) return noop;
@@ -113,6 +165,11 @@ export function mountShader(canvas: HTMLCanvasElement): () => void {
   }
   const gl = renderer.gl;
   if (!gl) return noop;
+  const loseContext = () => gl.getExtension('WEBGL_lose_context')?.loseContext();
+  if (!(await precompile(gl, vertex, fragment))) {
+    loseContext();
+    return noop;
+  }
 
   const program = new Program(gl, {
     vertex,
@@ -125,7 +182,7 @@ export function mountShader(canvas: HTMLCanvasElement): () => void {
     },
   });
   if (!gl.getProgramParameter(program.program, gl.LINK_STATUS)) {
-    renderer.gl.getExtension('WEBGL_lose_context')?.loseContext();
+    loseContext();
     return noop;
   }
   const mesh = new Mesh(gl, { geometry: new Triangle(gl), program });
@@ -234,6 +291,6 @@ export function mountShader(canvas: HTMLCanvasElement): () => void {
     canvas.removeEventListener('webglcontextlost', onLost);
     window.removeEventListener('pointermove', onPointer);
     canvas.classList.remove('is-live');
-    gl.getExtension('WEBGL_lose_context')?.loseContext();
+    loseContext();
   };
 }
