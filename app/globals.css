@@ -133,11 +133,16 @@
 .line-mask {
   display: block;
   overflow: hidden;
-  padding-bottom: 0.1em;
-  margin-bottom: -0.1em;
+  padding-bottom: 0.18em;
+  margin-bottom: -0.18em;
 }
 .line-mask > span {
   display: block;
+}
+/* SplitText line masks: same descender room as the CSS ones */
+.split-line-mask {
+  padding-bottom: 0.18em;
+  margin-bottom: -0.18em;
 }
 
 /* ---------- Intro (pure CSS, under 1.4s, only when the head script opts in) ---------- */
@@ -390,8 +395,8 @@ html.has-cursor summary {
 }
 .cursor-label {
   font-family: var(--font-mono), monospace;
-  font-size: 4px;
-  letter-spacing: 0.1em;
+  font-size: 4.5px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: hsl(var(--ink));
   opacity: 0;
@@ -408,6 +413,9 @@ html.cursor-view .cursor-ring-inner {
 }
 html.cursor-view .cursor-label {
   opacity: 1;
+}
+html.cursor-view .cursor-dot {
+  background: transparent;
 }
 
 /* ---------- Lenis ---------- */
@@ -438,6 +446,8 @@ html.lenis body {
 /* pinned state for the Now section (class added by the motion layer on desktop) */
 .now-pinned [data-now-frame] {
   min-height: 100vh;
+  padding-top: 6rem;
+  padding-bottom: 3rem;
   display: flex;
   flex-direction: column;
   justify-content: center;

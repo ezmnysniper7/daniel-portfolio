@@ -14,13 +14,13 @@ export function WorkSection({ locale, dict, projects, archive }: Props) {
   const { work } = dict;
   return (
     <section id="work" className="relative border-t border-line">
-      <div data-hscroll className="flex flex-col justify-center overflow-hidden py-24 md:py-32 lg:min-h-screen lg:py-20">
+      <div data-hscroll className="flex flex-col justify-center overflow-hidden py-24 md:py-32 lg:min-h-screen lg:py-14">
         <div className="gutter mx-auto flex w-full max-w-page flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="eyebrow">
               <span className="text-signal">{work.index}</span> / {work.label}
             </p>
-            <h2 className="display-xl mt-6 max-w-[16ch]" data-split>
+            <h2 className="display-xl mt-6 max-w-[16ch] lg:max-w-none lg:text-[clamp(2.6rem,4.4vw,4.75rem)]" data-split>
               {work.title}
             </h2>
           </div>
@@ -29,7 +29,7 @@ export function WorkSection({ locale, dict, projects, archive }: Props) {
           </p>
         </div>
 
-        <ol data-hscroll-track className="hs-track gutter mt-12 md:mt-16">
+        <ol data-hscroll-track className="hs-track gutter mt-12 md:mt-16 lg:mt-12">
           {projects.map((p, n) => (
             <li key={p.slug} className="hs-card">
               <Link
@@ -38,7 +38,7 @@ export function WorkSection({ locale, dict, projects, archive }: Props) {
                 className="group flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-line bg-ink-2/60 transition-colors duration-500 hover:border-bone-3"
               >
                 <div className="relative">
-                  <CardArt slug={p.slug} className="aspect-[16/10] w-full lg:aspect-auto lg:h-[30vh]" />
+                  <CardArt slug={p.slug} className="aspect-[16/10] w-full lg:aspect-auto lg:h-[25vh]" />
                   <span className="eyebrow absolute left-5 top-5 text-bone">{String(n + 1).padStart(2, '0')}</span>
                   <span className="chip absolute right-5 top-4 bg-ink/70 text-bone">
                     {p.kind === 'side' ? work.side : p.company}
