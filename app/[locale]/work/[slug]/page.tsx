@@ -5,11 +5,13 @@ import { notFound } from 'next/navigation';
 import { locales } from '@/i18n/config';
 import { getDictionary } from '@/data/dictionary';
 import { allSlugs, getProjects, SELECTED_SLUGS } from '@/data/projects';
-import { siteMetadata } from '@/data/metadata';
+import { getServices, serviceForProject } from '@/data/services';
 import { formatPeriod } from '@/lib/format';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
 import { CardArt } from '@/components/site/CardArt';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { breadcrumbNode, graph, pageMetadata } from '@/lib/seo';
 
 type Params = Promise<{ locale: string; slug: string }>;
 
@@ -23,16 +25,15 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { locale, slug } = await params;
   const project = getProjects(locale).find((p) => p.slug === slug);
   if (!project) return {};
-  const base = siteMetadata.baseUrl;
-  return {
-    title: project.title,
+  const by = locale === 'zh-CN' ? '曾祈荣 Daniel Chen' : 'Daniel Chen';
+  const kind = locale === 'zh-CN' ? '案例' : 'Case study';
+  return pageMetadata({
+    locale,
+    path: `/work/${slug}`,
+    title: `${project.title}: ${kind} | ${by}`,
     description: project.description,
-    alternates: {
-      canonical: `${base}/${locale}/work/${slug}`,
-      languages: { en: `${base}/en/work/${slug}`, 'zh-CN': `${base}/zh-CN/work/${slug}` },
-    },
-    openGraph: { title: project.title, description: project.description, url: `${base}/${locale}/work/${slug}` },
-  };
+    keywords: project.techStack.slice(0, 8),
+  });
 }
 
 const i = (n: number) => ({ '--i': n }) as CSSProperties;
@@ -55,6 +56,14 @@ export default async function CaseStudyPage({ params }: { params: Params }) {
     { label: copy.period, value: formatPeriod(project.startDate, project.endDate, locale, dict.experience.present) },
     { label: copy.status, value: project.status },
   ].filter((m) => m.value);
+
+  const related = getServices(locale).find((s) => s.slug === serviceForProject(slug))!;
+  const jsonLd = graph(
+    breadcrumbNode([
+      { name: dict.crumbs.home, path: `/${locale}` },
+      { name: project.title, path: `/${locale}/work/${slug}` },
+    ])
+  );
 
   return (
     <>
@@ -170,6 +179,22 @@ export default async function CaseStudyPage({ params }: { params: Params }) {
           </div>
         </section>
 
+        <section className="gutter mx-auto max-w-page border-t border-line py-16 md:py-20">
+          <Link
+            href={`/${locale}/services/${related.slug}`}
+            className="group grid items-baseline gap-4 rounded-[1.25rem] border border-line bg-ink-2/60 p-7 transition-colors duration-500 hover:border-bone-3 md:grid-cols-12 md:p-9"
+            data-reveal
+          >
+            <span className="eyebrow md:col-span-3">{copy.related}</span>
+            <span className="font-display text-[clamp(1.5rem,2.6vw,2.4rem)] leading-tight transition-colors duration-500 group-hover:text-signal md:col-span-6">
+              {related.title}
+            </span>
+            <span className="eyebrow text-bone md:col-span-3 md:justify-self-end">
+              {copy.relatedCta} <span aria-hidden="true">→</span>
+            </span>
+          </Link>
+        </section>
+
         <section className="border-t border-line">
           <Link
             href={`/${locale}/work/${next.slug}`}
@@ -183,7 +208,8 @@ export default async function CaseStudyPage({ params }: { params: Params }) {
           </Link>
         </section>
       </main>
-      <Footer dict={dict} />
+      <Footer dict={dict} locale={locale} />
+      <JsonLd data={jsonLd} />
     </>
   );
 }

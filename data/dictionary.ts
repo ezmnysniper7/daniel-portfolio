@@ -7,8 +7,16 @@ export type Stat = {
 };
 
 export type Dictionary = {
-  meta: { title: string; description: string };
-  nav: { now: string; work: string; experience: string; contact: string; switchTo: string };
+  meta: { title: string; description: string; keywords: string[] };
+  nav: {
+    now: string;
+    work: string;
+    services: string;
+    experience: string;
+    hire: string;
+    contact: string;
+    switchTo: string;
+  };
   intro: string;
   hero: {
     eyebrow: string;
@@ -16,8 +24,47 @@ export type Dictionary = {
     sub: string;
     status: string;
     cta: string;
+    cta2: string;
     scroll: string;
   };
+  services: { index: string; label: string; title: string; intro: string; more: string; hireTitle: string; hireBody: string };
+  servicesPage: {
+    metaTitle: string;
+    metaDescription: string;
+    eyebrow: string;
+    title: string;
+    intro: string;
+    listLabel: string;
+    processLabel: string;
+    process: { title: string; body: string }[];
+    offeringsLabel: string;
+    proofLabel: string;
+    faqLabel: string;
+    faqs: { q: string; a: string }[];
+    ctaTitle: string;
+    ctaBody: string;
+    ctaButton: string;
+    emailSubject: string;
+    otherServices: string;
+  };
+  hire: {
+    metaTitle: string;
+    metaDescription: string;
+    eyebrow: string;
+    title: string;
+    intro: string;
+    bringLabel: string;
+    bring: { title: string; body: string }[];
+    rolesLabel: string;
+    roles: string[];
+    termsLabel: string;
+    terms: string;
+    experienceLabel: string;
+    ctaTitle: string;
+    ctaButton: string;
+    emailSubject: string;
+  };
+  crumbs: { home: string };
   now: {
     index: string;
     label: string;
@@ -41,8 +88,18 @@ export type Dictionary = {
   method: { index: string; label: string; items: { title: string; body: string }[] };
   experience: { index: string; label: string; title: string; present: string; types: Record<string, string> };
   toolbox: { label: string; groups: { name: string; items: string }[] };
-  footer: { label: string; lines: [string, string]; email: string; top: string; rights: string };
+  footer: {
+    label: string;
+    lines: [string, string];
+    email: string;
+    top: string;
+    rights: string;
+    servicesLabel: string;
+    hireLink: string;
+  };
   caseStudy: {
+    related: string;
+    relatedCta: string;
     back: string;
     role: string;
     company: string;
@@ -59,20 +116,142 @@ export type Dictionary = {
 
 const en: Dictionary = {
   meta: {
-    title: 'Daniel Chen · Senior Backend Engineer',
+    title: 'Daniel Chen | Fintech & Crypto Software Engineer in Malaysia',
     description:
-      'Senior Backend Engineer in fintech. Payments, event-driven systems and trading platforms in Python, Go, TypeScript and C#. Based in Malaysia.',
+      'Kuala Lumpur software engineer building crypto and trading platforms, payment integrations, websites and mobile apps. Open to projects and full-time roles.',
+    keywords: [
+      'Daniel Chen',
+      '曾祈荣',
+      'software engineer Malaysia',
+      'freelance software developer Kuala Lumpur',
+      'hire backend engineer Malaysia',
+      'crypto trading platform developer',
+      'MetaTrader 5 developer',
+      'MT5 integration',
+      'prop firm platform development',
+      'payment gateway integration',
+      'web developer Malaysia',
+      'mobile app developer Malaysia',
+      'Flutter developer',
+      'Next.js developer',
+      'Python FastAPI developer',
+      'fintech software engineer',
+    ],
   },
-  nav: { now: 'Now', work: 'Work', experience: 'Experience', contact: 'Contact', switchTo: '中文' },
+  nav: {
+    now: 'Now',
+    work: 'Work',
+    services: 'Services',
+    experience: 'Experience',
+    hire: 'Hire me',
+    contact: 'Contact',
+    switchTo: '中文',
+  },
   intro: 'Loading the good parts',
   hero: {
     eyebrow: 'Daniel Chen · Senior Backend Engineer',
     lines: ['Backend systems', 'for money that', 'has to add up.'],
-    sub: 'I build payments, event-driven services and trading platforms in Python, Go, TypeScript and C#, and I trace bugs across service boundaries to the exact line.',
-    status: 'Now at CFI Financial · Malaysia',
+    sub: 'I build crypto and trading platforms, payment integrations, websites and mobile apps in Python, Go, TypeScript and C#, and I trace bugs across service boundaries to the exact line.',
+    status: 'Open to projects and roles · Kuala Lumpur',
     cta: 'See the work',
+    cta2: 'Start a project',
     scroll: 'Scroll',
   },
+  services: {
+    index: '03',
+    label: 'Services',
+    title: 'Need something built? I take on projects.',
+    intro: 'For companies and founders who need software that works with money, data or customers. Tell me what you are building and we will see if I am the right fit.',
+    more: 'Learn more',
+    hireTitle: 'Hiring for your team?',
+    hireBody: 'Open to senior backend and full-stack roles, full-time or contract.',
+  },
+  servicesPage: {
+    metaTitle: 'Software Development Services in Malaysia | Daniel Chen',
+    metaDescription:
+      'Hire Kuala Lumpur software engineer Daniel Chen for crypto and trading systems, payment integration, websites, mobile apps and backends. Remote worldwide.',
+    eyebrow: 'Services',
+    title: 'Software development for fintech, trading and growing businesses.',
+    intro:
+      'I am Daniel Chen, a senior backend engineer in Kuala Lumpur. I take on project work for companies and founders: crypto and trading systems, payments, websites, mobile apps and backends. Tell me what you are building and we will work out whether I am the right fit.',
+    listLabel: 'What I can build for you',
+    processLabel: 'How we would work',
+    process: [
+      { title: 'A short call', body: 'A no-obligation conversation about what you need, what exists already and what success looks like.' },
+      { title: 'A written scope', body: 'What I will build, what I will not, the risks, and a fixed quote or a time-based estimate.' },
+      { title: 'Small, visible releases', body: 'You see working software early and often, on a staging site you can click through.' },
+      { title: 'Handover and support', body: 'Documentation, access and a clean handover, with ongoing support if you want it.' },
+    ],
+    offeringsLabel: 'What I can do',
+    proofLabel: 'Proof, not promises',
+    faqLabel: 'Questions',
+    faqs: [
+      {
+        q: 'Where are you based, and who do you work with?',
+        a: 'Kuala Lumpur, Malaysia (GMT+8). I work remotely with companies and founders in Malaysia, Singapore and anywhere else, in English or Chinese.',
+      },
+      {
+        q: 'How much does a project cost?',
+        a: 'It depends on scope. After a short call I send a written scope with a fixed quote or a time-based estimate, so you know the cost before anything starts.',
+      },
+      {
+        q: 'Will you sign an NDA?',
+        a: 'Yes, happy to sign one before you share the details.',
+      },
+      {
+        q: 'Are you also open to a job?',
+        a: 'Yes, for the right senior backend or full-stack role, full-time or contract.',
+      },
+    ],
+    ctaTitle: 'Tell me what you are building.',
+    ctaBody: 'A few lines are enough: what it is, who it is for, and when you need it. I usually reply within two working days.',
+    ctaButton: 'Email me about a project',
+    emailSubject: 'Project enquiry',
+    otherServices: 'Other services',
+  },
+  hire: {
+    metaTitle: 'Hire a Senior Backend Engineer in Malaysia | Daniel Chen',
+    metaDescription:
+      'Kuala Lumpur senior backend engineer with fintech experience in payments, crypto trading platforms and MetaTrader 5. Open to full-time and contract roles.',
+    eyebrow: 'Hire me',
+    title: 'Hire a senior backend engineer.',
+    intro:
+      'I am open to senior backend and full-stack roles. My background is fintech: payments, crypto trading platforms, MetaTrader 5 and event-driven systems, with web and mobile work on the side.',
+    bringLabel: 'What I bring',
+    bring: [
+      {
+        title: 'Production fintech experience',
+        body: 'Payment methods live in production, a crypto trading back office, an MT5 risk engine for a prop-trading platform, and payment work for clients in Hong Kong.',
+      },
+      {
+        title: 'Debugging across services',
+        body: 'I trace problems through logs, databases and queues to the exact line, prove the cause, then make the smallest safe fix.',
+      },
+      {
+        title: 'Range across the stack',
+        body: 'Python, Go, TypeScript, Java and C# on the backend; Next.js, React and Flutter on the front; Docker, AWS and Cloudflare underneath.',
+      },
+      {
+        title: 'Ownership end to end',
+        body: 'I built and run SolveMY, a marketplace on web, Android and iOS, from the database to the app stores.',
+      },
+    ],
+    rolesLabel: 'Roles I fit',
+    roles: [
+      'Senior Backend Engineer',
+      'Full-Stack Engineer (backend-leaning)',
+      'Payments or integrations engineer',
+      'Trading or crypto platform engineer',
+      'Early engineer at a startup',
+    ],
+    termsLabel: 'How',
+    terms: 'Full-time or contract · Kuala Lumpur, hybrid or remote · English and Chinese',
+    experienceLabel: 'Experience at a glance',
+    ctaTitle: 'Want my résumé or a chat?',
+    ctaButton: 'Email me',
+    emailSubject: 'Role opportunity',
+  },
+  crumbs: { home: 'Home' },
   now: {
     index: '01',
     label: 'Now',
@@ -119,7 +298,7 @@ const en: Dictionary = {
     archive: 'Archive',
   },
   stats: {
-    index: '03',
+    index: '04',
     label: 'By the numbers',
     title: 'Receipts, not adjectives.',
     items: [
@@ -132,7 +311,7 @@ const en: Dictionary = {
     ],
   },
   method: {
-    index: '04',
+    index: '05',
     label: 'How I work',
     items: [
       { title: 'Reproduce first.', body: 'On unmodified code, at the exact versions the branch pins. A stale environment lies.' },
@@ -142,7 +321,7 @@ const en: Dictionary = {
     ],
   },
   experience: {
-    index: '05',
+    index: '06',
     label: 'Experience',
     title: 'Where I’ve shipped.',
     present: 'Present',
@@ -165,12 +344,16 @@ const en: Dictionary = {
   },
   footer: {
     label: 'Contact',
-    lines: ['Got a system that', 'has to be right?'],
+    lines: ['Building something?', 'Hiring? Let’s talk.'],
     email: 'Email me',
     top: 'Back to top',
     rights: 'Built from scratch with Next.js, GSAP, Lenis and one WebGL shader.',
+    servicesLabel: 'Services',
+    hireLink: 'Hire me full-time',
   },
   caseStudy: {
+    related: 'Need something like this?',
+    relatedCta: 'See the service',
     back: 'All work',
     role: 'Role',
     company: 'Company',
@@ -187,19 +370,116 @@ const en: Dictionary = {
 
 const zhCN: Dictionary = {
   meta: {
-    title: '曾祈荣 Daniel Chen · 高级后端工程师',
-    description: '金融科技高级后端工程师。支付、事件驱动系统与交易平台，使用 Python、Go、TypeScript 和 C#。现居马来西亚。',
+    title: '曾祈荣 Daniel Chen | 马来西亚金融科技与加密货币软件工程师',
+    description:
+      '吉隆坡软件工程师，开发加密货币与交易平台、支付网关对接、网站和手机 App。承接项目合作，也欢迎全职与合同工作机会。',
+    keywords: [
+      '曾祈荣',
+      'Daniel Chen',
+      '马来西亚 软件工程师',
+      '吉隆坡 程序员',
+      '软件外包 马来西亚',
+      '加密货币交易平台开发',
+      'MT5 开发',
+      'MetaTrader 5 对接',
+      '自营交易平台开发',
+      '支付网关对接',
+      '马来西亚 网站开发',
+      '马来西亚 App 开发',
+      'Flutter 开发',
+      '后端工程师 招聘',
+    ],
   },
-  nav: { now: '现在', work: '作品', experience: '经历', contact: '联系', switchTo: 'EN' },
+  nav: {
+    now: '现在',
+    work: '作品',
+    services: '服务',
+    experience: '经历',
+    hire: '招聘我',
+    contact: '联系',
+    switchTo: 'EN',
+  },
   intro: '加载中',
   hero: {
     eyebrow: '曾祈荣 · 高级后端工程师',
     lines: ['写后端，', '让每一笔钱', '都对得上。'],
-    sub: '我用 Python、Go、TypeScript 和 C# 构建支付、事件驱动服务和交易平台，也擅长跨服务追踪问题，一直追到具体那一行代码。',
-    status: '现任职于 CFI Financial · 马来西亚',
+    sub: '我用 Python、Go、TypeScript 和 C# 开发加密货币与交易平台、支付对接、网站和手机 App，也擅长跨服务追踪问题，一直追到具体那一行代码。',
+    status: '承接项目，也看工作机会 · 吉隆坡',
     cta: '看看作品',
+    cta2: '聊聊你的项目',
     scroll: '向下滚动',
   },
+  services: {
+    index: '03',
+    label: '服务',
+    title: '需要开发系统？我承接项目。',
+    intro: '面向需要处理资金、数据或客户的公司与创业者。告诉我你在做什么，我们看看我是否合适。',
+    more: '了解更多',
+    hireTitle: '正在为团队招人？',
+    hireBody: '欢迎高级后端与全栈职位，全职或合同均可。',
+  },
+  servicesPage: {
+    metaTitle: '马来西亚软件开发服务 | 曾祈荣 Daniel Chen',
+    metaDescription:
+      '找吉隆坡软件工程师曾祈荣开发加密货币与交易系统、支付网关对接、网站、手机 App 和后端系统。可远程合作，中英文沟通。',
+    eyebrow: '服务',
+    title: '为金融科技、交易平台和成长型企业开发软件。',
+    intro:
+      '我是曾祈荣（Daniel Chen），吉隆坡的高级后端工程师。我为公司和创业者承接项目：加密货币与交易系统、支付、网站、手机 App 和后端。告诉我你在做什么，我们一起判断我是否合适。',
+    listLabel: '我能为你做什么',
+    processLabel: '合作方式',
+    process: [
+      { title: '简短沟通', body: '先聊聊你的需求、现有系统，以及怎样才算成功，不需要任何承诺。' },
+      { title: '书面范围', body: '做什么、不做什么、有哪些风险，以及固定报价或按时间的估算。' },
+      { title: '小步、可见的发布', body: '你能尽早、频繁地在预发环境里看到可用的成果。' },
+      { title: '交接与支持', body: '文档、权限与清晰的交接，需要的话提供后续支持。' },
+    ],
+    offeringsLabel: '我能做的',
+    proofLabel: '用作品说话',
+    faqLabel: '常见问题',
+    faqs: [
+      { q: '你在哪里？和哪些客户合作？', a: '马来西亚吉隆坡（GMT+8）。我远程服务马来西亚、新加坡及其他地区的公司和创业者，可用中文或英文沟通。' },
+      { q: '项目费用怎么算？', a: '取决于范围。简短沟通之后，我会发出书面范围，附固定报价或按时间的估算，开工前你就清楚费用。' },
+      { q: '可以签保密协议（NDA）吗？', a: '可以，在你分享细节之前就可以签。' },
+      { q: '你也考虑全职工作吗？', a: '考虑。合适的高级后端或全栈职位，全职或合同都可以。' },
+    ],
+    ctaTitle: '告诉我你在做什么。',
+    ctaBody: '几句话就够了：做什么、给谁用、什么时候需要。我通常会在两个工作日内回复。',
+    ctaButton: '发邮件聊项目',
+    emailSubject: '项目咨询',
+    otherServices: '其他服务',
+  },
+  hire: {
+    metaTitle: '招聘马来西亚高级后端工程师 | 曾祈荣 Daniel Chen',
+    metaDescription:
+      '曾祈荣（Daniel Chen），吉隆坡高级后端工程师，具备支付、加密货币交易平台、MetaTrader 5 与事件驱动系统的金融科技经验。欢迎全职与合同职位。',
+    eyebrow: '招聘我',
+    title: '招聘一位高级后端工程师。',
+    intro:
+      '我在寻找高级后端与全栈职位。我的背景是金融科技：支付、加密货币交易平台、MetaTrader 5 和事件驱动系统，同时也做网站和手机 App。',
+    bringLabel: '我能带来什么',
+    bring: [
+      {
+        title: '金融科技生产经验',
+        body: '已上线生产的支付方式、加密货币交易后台、自营交易平台的 MT5 风控引擎，以及为香港客户做的支付项目。',
+      },
+      { title: '跨服务排查问题', body: '通过日志、数据库和消息队列追踪问题，一直追到具体那一行，证明根因后做最小且安全的修复。' },
+      {
+        title: '覆盖全栈',
+        body: '后端用 Python、Go、TypeScript、Java 和 C#；前端用 Next.js、React 和 Flutter；底层用 Docker、AWS 和 Cloudflare。',
+      },
+      { title: '端到端负责', body: '我独立构建并运营 SolveMY：覆盖网页、Android 和 iOS 的服务平台，从数据库一直到应用商店。' },
+    ],
+    rolesLabel: '适合的职位',
+    roles: ['高级后端工程师', '全栈工程师（偏后端）', '支付或系统集成工程师', '交易或加密货币平台工程师', '创业公司早期工程师'],
+    termsLabel: '方式',
+    terms: '全职或合同 · 吉隆坡、混合或远程 · 中英文',
+    experienceLabel: '经历一览',
+    ctaTitle: '想要我的简历，或者聊一聊？',
+    ctaButton: '给我发邮件',
+    emailSubject: '工作机会',
+  },
+  crumbs: { home: '首页' },
   now: {
     index: '01',
     label: '现在',
@@ -245,7 +525,7 @@ const zhCN: Dictionary = {
     archive: '更多项目',
   },
   stats: {
-    index: '03',
+    index: '04',
     label: '数字说话',
     title: '用数据，不用形容词。',
     items: [
@@ -258,7 +538,7 @@ const zhCN: Dictionary = {
     ],
   },
   method: {
-    index: '04',
+    index: '05',
     label: '工作方式',
     items: [
       { title: '先复现。', body: '在未修改的代码上、按分支锁定的依赖版本复现。环境不对，结论就不可信。' },
@@ -268,7 +548,7 @@ const zhCN: Dictionary = {
     ],
   },
   experience: {
-    index: '05',
+    index: '06',
     label: '工作经历',
     title: '我交付过的地方。',
     present: '至今',
@@ -288,12 +568,16 @@ const zhCN: Dictionary = {
   },
   footer: {
     label: '联系',
-    lines: ['你的系统', '必须算得准？'],
+    lines: ['要做系统？', '要招人？我们聊聊。'],
     email: '给我发邮件',
     top: '回到顶部',
     rights: '使用 Next.js、GSAP、Lenis 和一个 WebGL 着色器从零构建。',
+    servicesLabel: '服务',
+    hireLink: '招聘我（全职）',
   },
   caseStudy: {
+    related: '需要类似的系统？',
+    relatedCta: '查看相关服务',
     back: '全部作品',
     role: '角色',
     company: '公司',

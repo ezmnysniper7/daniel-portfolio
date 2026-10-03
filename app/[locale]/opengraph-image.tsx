@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 import { siteMetadata } from '@/data/metadata';
 
-export const alt = `${siteMetadata.name}, ${siteMetadata.title}`;
+export const alt = `${siteMetadata.name}: software engineer for crypto, trading, payments, websites and apps`;
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -31,8 +31,8 @@ export default async function Image() {
           <span style={{ color: '#2ee6f9' }}>has to add up.</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 22, color: '#a9a49b' }}>
-          <span>Payments · Event-driven systems · Trading platforms</span>
-          <span>danielchen.tech</span>
+          <span>Crypto & trading systems · Payments · Websites & apps · Kuala Lumpur</span>
+          <span style={{ color: '#efebe3' }}>Open to projects and roles</span>
         </div>
       </div>
     ),

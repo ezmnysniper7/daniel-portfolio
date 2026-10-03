@@ -1,9 +1,10 @@
 import type { CSSProperties } from 'react';
+import Link from 'next/link';
 import type { Dictionary } from '@/data/dictionary';
 
 const i = (n: number) => ({ '--i': n }) as CSSProperties;
 
-export function Hero({ dict }: { dict: Dictionary }) {
+export function Hero({ dict, locale }: { dict: Dictionary; locale: string }) {
   const { hero } = dict;
   return (
     <section id="top" data-hero className="relative flex min-h-[100svh] flex-col overflow-hidden">
@@ -26,6 +27,8 @@ export function Hero({ dict }: { dict: Dictionary }) {
               <span className="hero-line" style={i(n)}>
                 {line}
               </span>
+              {/* keeps the lines apart in the text search engines read */}
+              {n < hero.lines.length - 1 ? ' ' : null}
             </span>
           ))}
         </h1>
@@ -49,6 +52,9 @@ export function Hero({ dict }: { dict: Dictionary }) {
                 →
               </span>
             </a>
+            <Link href={`/${locale}/services`} className="link-underline eyebrow w-fit text-bone" data-magnetic>
+              {hero.cta2} <span aria-hidden="true">→</span>
+            </Link>
           </div>
         </div>
       </div>

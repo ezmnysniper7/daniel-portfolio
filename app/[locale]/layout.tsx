@@ -37,40 +37,22 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const dict = getDictionary(locale);
   const base = siteMetadata.baseUrl;
 
+  // Defaults only: every page sets its own title, canonical, hreflang and share image via lib/seo.
   return {
     metadataBase: new URL(base),
     title: { default: dict.meta.title, template: `%s · ${siteMetadata.name}` },
     description: dict.meta.description,
+    keywords: dict.meta.keywords,
     authors: [{ name: siteMetadata.name, url: base }],
     creator: siteMetadata.name,
-    keywords: [
-      'Daniel Chen',
-      '曾祈荣',
-      'Senior Backend Engineer',
-      'Backend Engineer Malaysia',
-      'Fintech',
-      'Payments',
-      'Python',
-      'FastAPI',
-      'RabbitMQ',
-      'Go',
-      'Crypto trading platform',
-      'MetaTrader 5',
-    ],
-    alternates: {
-      canonical: `${base}/${locale}`,
-      languages: { en: `${base}/en`, 'zh-CN': `${base}/zh-CN`, 'x-default': `${base}/en` },
+    publisher: siteMetadata.name,
+    category: 'technology',
+    formatDetection: { telephone: false, address: false, email: false },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 },
     },
-    openGraph: {
-      type: 'website',
-      locale: locale === 'zh-CN' ? 'zh_CN' : 'en_US',
-      url: `${base}/${locale}`,
-      title: dict.meta.title,
-      description: dict.meta.description,
-      siteName: siteMetadata.name,
-    },
-    twitter: { card: 'summary_large_image', title: dict.meta.title, description: dict.meta.description },
-    robots: { index: true, follow: true },
   };
 }
 

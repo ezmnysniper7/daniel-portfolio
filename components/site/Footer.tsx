@@ -1,9 +1,12 @@
+import Link from 'next/link';
 import type { Dictionary } from '@/data/dictionary';
 import { siteMetadata } from '@/data/metadata';
+import { getServices } from '@/data/services';
 
-export function Footer({ dict }: { dict: Dictionary }) {
+export function Footer({ dict, locale }: { dict: Dictionary; locale: string }) {
   const { footer } = dict;
   const year = new Date().getFullYear();
+  const services = getServices(locale);
   return (
     <footer id="contact" className="relative overflow-hidden border-t border-line pt-24 md:pt-36">
       <div className="gutter mx-auto max-w-page">
@@ -34,9 +37,27 @@ export function Footer({ dict }: { dict: Dictionary }) {
           <span className="font-mono text-sm text-bone-2">{siteMetadata.email}</span>
         </div>
 
-        <div className="mt-24 flex flex-col gap-3 border-t border-line pt-6 font-mono text-[0.68rem] uppercase tracking-[0.12em] text-bone-3 md:flex-row md:items-center md:justify-between">
+        <nav aria-label={footer.servicesLabel} className="mt-20 grid gap-8 border-t border-line pt-8 md:grid-cols-12">
+          <p className="eyebrow md:col-span-3">{footer.servicesLabel}</p>
+          <ul className="flex flex-wrap gap-x-6 gap-y-3 md:col-span-9">
+            {services.map((s) => (
+              <li key={s.slug}>
+                <Link href={`/${locale}/services/${s.slug}`} className="link-underline text-bone-2 hover:text-bone">
+                  {s.title}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link href={`/${locale}/hire`} className="link-underline text-bone hover:text-signal">
+                {footer.hireLink}
+              </Link>
+            </li>
+          </ul>
+        </nav>
+
+        <div className="mt-12 flex flex-col gap-3 border-t border-line pt-6 font-mono text-[0.68rem] uppercase tracking-[0.12em] text-bone-3 md:flex-row md:items-center md:justify-between">
           <span>
-            © {year} {siteMetadata.name} · {siteMetadata.nameZh}
+            © {year} {siteMetadata.name} · {siteMetadata.nameZh} · Kuala Lumpur
           </span>
           <span className="normal-case tracking-normal">{footer.rights}</span>
           <a href="#top" data-magnetic className="link-underline w-fit text-bone">
