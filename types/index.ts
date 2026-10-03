@@ -21,6 +21,9 @@ export interface Project {
   metrics?: string[];
   /** Not shown anywhere on the site (e.g. not launched yet). */
   hidden?: boolean;
+  /** Set by data/projects.ts: the job it was built in, and whose it is. */
+  experienceId?: string;
+  ownership?: 'side' | 'job' | 'freelance';
 }
 
 export interface Experience {

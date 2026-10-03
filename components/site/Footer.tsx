@@ -42,25 +42,25 @@ export function Footer({ dict, locale }: { dict: Dictionary; locale: string }) {
           <ul className="flex flex-wrap gap-x-6 gap-y-3 md:col-span-9">
             {services.map((s) => (
               <li key={s.slug}>
-                <Link href={`/${locale}/services/${s.slug}`} className="link-underline text-bone-2 hover:text-bone">
+                <Link href={`/${locale}/services/${s.slug}`} className="link-underline inline-block py-1.5 text-bone-2 hover:text-bone">
                   {s.title}
                 </Link>
               </li>
             ))}
             <li>
-              <Link href={`/${locale}/hire`} className="link-underline text-bone hover:text-signal">
+              <Link href={`/${locale}/hire`} className="link-underline inline-block py-1.5 text-bone hover:text-signal">
                 {footer.hireLink}
               </Link>
             </li>
           </ul>
         </nav>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-line pt-6 font-mono text-[0.68rem] uppercase tracking-[0.12em] text-bone-3 md:flex-row md:items-center md:justify-between">
+        <div className="mt-12 flex flex-col gap-3 border-t border-line pt-6 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-bone-3 md:flex-row md:items-center md:justify-between">
           <span>
             © {year} {siteMetadata.name} · {siteMetadata.nameZh} · Kuala Lumpur
           </span>
           <span className="normal-case tracking-normal">{footer.rights}</span>
-          <a href="#top" data-magnetic className="link-underline w-fit text-bone">
+          <a href="#top" data-magnetic className="link-underline w-fit py-2 text-bone">
             {footer.top} <span aria-hidden="true">↑</span>
           </a>
         </div>

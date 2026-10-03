@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { getDictionary } from '@/data/dictionary';
 import { getExperience } from '@/data/experience';
-import { getArchiveProjects, getSelectedProjects } from '@/data/projects';
+import { getProjectsForJob, getSelectedProjects } from '@/data/projects';
 import { getServices } from '@/data/services';
 import { Header } from '@/components/site/Header';
 import { Hero } from '@/components/site/Hero';
@@ -27,6 +27,8 @@ export default async function HomePage({ params }: { params: Params }) {
   const { locale } = await params;
   const dict = getDictionary(locale);
   const services = getServices(locale);
+  const experience = getExperience(locale);
+  const projectsByJob = Object.fromEntries(experience.map((e) => [e.id, getProjectsForJob(locale, e.id)]));
 
   const jsonLd = graph(
     websiteNode(locale),
@@ -44,12 +46,11 @@ export default async function HomePage({ params }: { params: Params }) {
           locale={locale}
           dict={dict}
           projects={getSelectedProjects(locale)}
-          archive={getArchiveProjects(locale)}
         />
         <ServicesSection locale={locale} dict={dict} services={services} />
         <StatsSection dict={dict} locale={locale} />
         <MethodSection dict={dict} />
-        <ExperienceSection dict={dict} locale={locale} experience={getExperience(locale)} />
+        <ExperienceSection dict={dict} locale={locale} experience={experience} projectsByJob={projectsByJob} />
       </main>
       <Footer dict={dict} locale={locale} />
       <JsonLd data={jsonLd} />

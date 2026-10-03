@@ -102,7 +102,7 @@ export default async function HirePage({ params }: { params: Params }) {
               ))}
             </ul>
             <p className="lg:col-span-9 lg:col-start-4">
-              <Link href={`/${locale}#experience`} className="eyebrow link-underline text-bone">
+              <Link href={`/${locale}#experience`} className="eyebrow link-underline inline-block py-3 text-bone">
                 {dict.nav.experience} <span aria-hidden="true">→</span>
               </Link>
             </p>

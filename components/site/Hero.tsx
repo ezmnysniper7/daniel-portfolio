@@ -7,7 +7,7 @@ const i = (n: number) => ({ '--i': n }) as CSSProperties;
 export function Hero({ dict, locale }: { dict: Dictionary; locale: string }) {
   const { hero } = dict;
   return (
-    <section id="top" data-hero className="relative flex min-h-[100svh] flex-col overflow-hidden">
+    <section id="top" data-hero className="relative flex flex-col overflow-hidden md:min-h-[88svh]">
       <div className="hero-bg absolute inset-0" aria-hidden="true">
         <canvas data-shader className="hero-canvas absolute inset-0 h-full w-full" />
       </div>
@@ -16,7 +16,7 @@ export function Hero({ dict, locale }: { dict: Dictionary; locale: string }) {
 
       <div
         data-hero-content
-        className="gutter relative z-10 mx-auto flex w-full max-w-page flex-1 flex-col justify-end pb-[11vh] pt-32"
+        className="gutter relative z-10 mx-auto flex w-full max-w-page flex-1 flex-col justify-end pb-14 pt-28 md:pb-[9vh] md:pt-32"
       >
         <p className="eyebrow hero-fade" style={i(0)}>
           {hero.eyebrow}
@@ -24,7 +24,7 @@ export function Hero({ dict, locale }: { dict: Dictionary; locale: string }) {
         <h1 className="display-hero mt-6">
           {hero.lines.map((line, n) => (
             <span key={line} className="line-mask">
-              <span className="hero-line" style={i(n)}>
+              <span className="hero-line whitespace-nowrap" style={i(n)}>
                 {line}
               </span>
               {/* keeps the lines apart in the text search engines read */}
@@ -52,7 +52,7 @@ export function Hero({ dict, locale }: { dict: Dictionary; locale: string }) {
                 →
               </span>
             </a>
-            <Link href={`/${locale}/services`} className="link-underline eyebrow w-fit text-bone" data-magnetic>
+            <Link href={`/${locale}/services`} className="link-underline eyebrow w-fit py-3 text-bone" data-magnetic>
               {hero.cta2} <span aria-hidden="true">→</span>
             </Link>
           </div>

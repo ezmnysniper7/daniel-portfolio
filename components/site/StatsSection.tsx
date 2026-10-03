@@ -23,7 +23,7 @@ export function StatsSection({ dict, locale }: { dict: Dictionary; locale: strin
                   <span className="block text-bone">{s.label}</span>
                   <span className="mt-1 block font-mono text-[0.7rem] uppercase tracking-[0.12em] text-bone-3">{s.note}</span>
                 </dt>
-                <dd className="font-display text-[clamp(4rem,9vw,8.5rem)] leading-[0.85] tracking-[-0.04em] tabular-nums">
+                <dd className="font-display text-[clamp(3rem,6vw,5.5rem)] leading-[0.85] tracking-[-0.04em] tabular-nums">
                   {s.prefix ? <span className="text-bone-3">{s.prefix}</span> : null}
                   <span
                     data-count={s.value}

@@ -15,7 +15,7 @@ export function NowSection({ dict }: { dict: Dictionary }) {
             <p className="eyebrow">
               <span className="text-signal">{now.index}</span> / {now.label}
             </p>
-            <h2 className="display-lg mt-6 text-[clamp(2.2rem,4.4vw,4.4rem)]" data-split>
+            <h2 className="display-lg mt-6 text-[clamp(1.9rem,3.4vw,3.4rem)]" data-split>
               {now.title}
             </h2>
             <p className="mt-7 max-w-md leading-relaxed text-bone-2" data-reveal>
@@ -26,7 +26,7 @@ export function NowSection({ dict }: { dict: Dictionary }) {
             </p>
 
             <div className="mt-12 max-w-md" data-reveal aria-hidden="true">
-              <div className="flex items-center justify-between font-mono text-[0.66rem] uppercase tracking-[0.16em] text-bone-2">
+              <div className="flex items-center justify-between font-mono text-[0.72rem] uppercase tracking-[0.14em] text-bone-2">
                 <span>{now.bus[0]}</span>
                 <span className="text-signal">{now.bus[1]}</span>
                 <span>{now.bus[2]}</span>

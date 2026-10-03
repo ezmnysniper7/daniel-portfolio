@@ -13,7 +13,8 @@ const mono = JetBrains_Mono({
   subsets: ['latin'],
   weight: ['400'],
   variable: '--font-mono',
-  display: 'swap',
+  // Small labels only: never swap after first paint, so a late font can't re-wrap the layout.
+  display: 'optional',
   preload: false,
 });
 

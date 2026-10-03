@@ -5,7 +5,7 @@ export function IntroOverlay({ label }: { label: string }) {
       <span className="font-mono text-[0.72rem] uppercase tracking-[0.22em] text-bone">
         Daniel Chen<span className="text-signal">.</span>
       </span>
-      <span className="font-mono text-[0.66rem] uppercase tracking-[0.18em] text-bone-3">{label}</span>
+      <span className="font-mono text-[0.72rem] uppercase tracking-[0.18em] text-bone-3">{label}</span>
       <span className="relative h-px w-full bg-line">
         <span className="intro-bar absolute inset-0 bg-signal" />
       </span>

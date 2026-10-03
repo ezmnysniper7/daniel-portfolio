@@ -10,6 +10,7 @@ import { formatPeriod } from '@/lib/format';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
 import { CardArt } from '@/components/site/CardArt';
+import { OwnershipBadge } from '@/components/site/WorkSection';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { breadcrumbNode, graph, pageMetadata } from '@/lib/seo';
 
@@ -52,11 +53,12 @@ export default async function CaseStudyPage({ params }: { params: Params }) {
 
   const meta = [
     { label: copy.role, value: project.role },
-    { label: copy.company, value: project.kind === 'side' && project.company === dict.work.side ? dict.work.side : project.company },
+    { label: copy.type, value: copy.typeValue[project.ownership ?? 'side'].replace('{company}', project.company ?? '') },
     { label: copy.period, value: formatPeriod(project.startDate, project.endDate, locale, dict.experience.present) },
     { label: copy.status, value: project.status },
   ].filter((m) => m.value);
 
+  const featured = SELECTED_SLUGS.includes(slug);
   const related = getServices(locale).find((s) => s.slug === serviceForProject(slug))!;
   const jsonLd = graph(
     breadcrumbNode([
@@ -70,10 +72,17 @@ export default async function CaseStudyPage({ params }: { params: Params }) {
       <Header locale={locale} dict={dict} path={`/work/${slug}`} />
       <main id="top">
         <section className="gutter mx-auto max-w-page pb-16 pt-36 md:pb-24 md:pt-44">
-          <Link href={`/${locale}#work`} className="eyebrow link-underline hero-fade text-bone" style={i(0)}>
-            <span aria-hidden="true">←</span> {copy.back}
+          <Link
+            href={featured ? `/${locale}#work` : `/${locale}#experience`}
+            className="eyebrow link-underline hero-fade -my-3 inline-block py-3 text-bone"
+            style={i(0)}
+          >
+            <span aria-hidden="true">←</span> {featured ? copy.back : copy.backHistory}
           </Link>
-          <h1 className="display-hero mt-10 md:mt-14">
+          <div className="hero-fade mt-10 md:mt-12" style={i(0)}>
+            <OwnershipBadge dict={dict} project={project} />
+          </div>
+          <h1 className="display-hero mt-5">
             <span className="line-mask">
               <span className="hero-line" style={i(0)}>
                 {project.title}

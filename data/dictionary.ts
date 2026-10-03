@@ -82,11 +82,22 @@ export type Dictionary = {
     hint: string;
     open: string;
     side: string;
-    archive: string;
+    /** Ownership labels; {company} is replaced with the employer's name. */
+    legend: { side: string; job: string; freelance: string };
+    badge: { side: string; job: string; freelance: string };
   };
   stats: { index: string; label: string; title: string; items: Stat[] };
   method: { index: string; label: string; items: { title: string; body: string }[] };
-  experience: { index: string; label: string; title: string; present: string; types: Record<string, string> };
+  experience: {
+    index: string;
+    label: string;
+    title: string;
+    intro: string;
+    present: string;
+    current: string;
+    projects: string;
+    types: Record<string, string>;
+  };
   toolbox: { label: string; groups: { name: string; items: string }[] };
   footer: {
     label: string;
@@ -98,6 +109,9 @@ export type Dictionary = {
     hireLink: string;
   };
   caseStudy: {
+    type: string;
+    typeValue: { side: string; job: string; freelance: string };
+    backHistory: string;
     related: string;
     relatedCta: string;
     back: string;
@@ -142,7 +156,7 @@ const en: Dictionary = {
     now: 'Now',
     work: 'Work',
     services: 'Services',
-    experience: 'Experience',
+    experience: 'Work history',
     hire: 'Hire me',
     contact: 'Contact',
     switchTo: '中文',
@@ -254,7 +268,7 @@ const en: Dictionary = {
   crumbs: { home: 'Home' },
   now: {
     index: '01',
-    label: 'Now',
+    label: 'Now · current job',
     title: 'Senior Backend Engineer at CFI Financial.',
     intro:
       'A crypto trading platform and payment integrations at an online multi-asset broker. Two databases, one back office, one client portal, and RabbitMQ in between.',
@@ -290,12 +304,13 @@ const en: Dictionary = {
   work: {
     index: '02',
     label: 'Selected work',
-    title: 'Things I built, and still run.',
-    intro: 'A side project I own end to end, and client work from payments to trading.',
+    title: 'What I’ve built.',
+    intro: 'My own side project, plus systems I built in my jobs and freelance contracts. Every card says which.',
     hint: 'Scroll to move',
     open: 'Read the case study',
     side: 'Side project',
-    archive: 'Archive',
+    legend: { side: 'My own side project', job: 'Built in a full-time job', freelance: 'Freelance contract' },
+    badge: { side: 'My side project', job: 'Job · {company}', freelance: 'Freelance · {company}' },
   },
   stats: {
     index: '04',
@@ -322,9 +337,12 @@ const en: Dictionary = {
   },
   experience: {
     index: '06',
-    label: 'Experience',
-    title: 'Where I’ve shipped.',
+    label: 'Work history',
+    title: 'Jobs and contracts.',
+    intro: 'Every job and freelance contract, newest first. Open a row to see what I did there and the projects I built.',
     present: 'Present',
+    current: 'Current job',
+    projects: 'Projects built here',
     types: { 'full-time': 'Full-time', freelance: 'Freelance', contract: 'Contract', internship: 'Internship' },
   },
   toolbox: {
@@ -352,6 +370,13 @@ const en: Dictionary = {
     hireLink: 'Hire me full-time',
   },
   caseStudy: {
+    type: 'Type',
+    typeValue: {
+      side: 'My own side project',
+      job: 'Built in my full-time job at {company}',
+      freelance: 'Freelance contract for {company}',
+    },
+    backHistory: 'Work history',
     related: 'Need something like this?',
     relatedCta: 'See the service',
     back: 'All work',
@@ -482,7 +507,7 @@ const zhCN: Dictionary = {
   crumbs: { home: '首页' },
   now: {
     index: '01',
-    label: '现在',
+    label: '现在 · 目前任职',
     title: 'CFI Financial 高级后端工程师。',
     intro: '在一家在线多资产经纪商负责加密货币交易平台和支付集成。两个数据库，一个后台，一个客户门户，中间是 RabbitMQ。',
     since: '2026 年 7 月至今',
@@ -517,12 +542,13 @@ const zhCN: Dictionary = {
   work: {
     index: '02',
     label: '精选作品',
-    title: '我做过、并且仍在运行的系统。',
-    intro: '我端到端负责的个人项目，以及从支付到交易的客户项目。',
+    title: '我做过的系统。',
+    intro: '我自己的个人项目，以及我在全职工作和自由职业中开发的系统。每张卡片都标明了类型。',
     hint: '滚动浏览',
     open: '查看案例',
     side: '个人项目',
-    archive: '更多项目',
+    legend: { side: '我自己的个人项目', job: '全职工作中开发', freelance: '自由职业合同' },
+    badge: { side: '我的个人项目', job: '全职 · {company}', freelance: '自由职业 · {company}' },
   },
   stats: {
     index: '04',
@@ -550,8 +576,11 @@ const zhCN: Dictionary = {
   experience: {
     index: '06',
     label: '工作经历',
-    title: '我交付过的地方。',
+    title: '全职与合同经历。',
+    intro: '所有全职工作与自由职业合同，按时间倒序。点开每一行，查看我在那里做了什么、开发了哪些项目。',
     present: '至今',
+    current: '目前任职',
+    projects: '在这里开发的项目',
     types: { 'full-time': '全职', freelance: '自由职业', contract: '合同', internship: '实习' },
   },
   toolbox: {
@@ -576,6 +605,13 @@ const zhCN: Dictionary = {
     hireLink: '招聘我（全职）',
   },
   caseStudy: {
+    type: '类型',
+    typeValue: {
+      side: '我自己的个人项目',
+      job: '在 {company} 全职工作期间开发',
+      freelance: '为 {company} 做的自由职业项目',
+    },
+    backHistory: '工作经历',
     related: '需要类似的系统？',
     relatedCta: '查看相关服务',
     back: '全部作品',

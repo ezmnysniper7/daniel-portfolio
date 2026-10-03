@@ -61,11 +61,11 @@ export default async function ServicePage({ params }: { params: Params }) {
       <main id="top">
         <section className="gutter mx-auto max-w-page pb-16 pt-36 md:pb-24 md:pt-44">
           <nav aria-label="Breadcrumb" className="eyebrow hero-fade flex flex-wrap gap-2" style={i(0)}>
-            <Link href={`/${locale}`} className="link-underline hover:text-bone">
+            <Link href={`/${locale}`} className="link-underline -my-3 inline-block py-3 hover:text-bone">
               {dict.crumbs.home}
             </Link>
             <span aria-hidden="true">/</span>
-            <Link href={`/${locale}/services`} className="link-underline hover:text-bone">
+            <Link href={`/${locale}/services`} className="link-underline -my-3 inline-block py-3 hover:text-bone">
               {copy.eyebrow}
             </Link>
           </nav>
