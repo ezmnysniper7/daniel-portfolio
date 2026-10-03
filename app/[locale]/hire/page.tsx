@@ -117,7 +117,7 @@ export default async function HirePage({ params }: { params: Params }) {
         <MethodSection dict={dict} />
         <ToolboxSection dict={dict} />
 
-        <ContactCta title={copy.ctaTitle} button={copy.ctaButton} subject={copy.emailSubject} />
+        <ContactCta title={copy.ctaTitle} button={copy.ctaButton} topic="job" orEmail={dict.form.orEmail} subject={copy.emailSubject} />
       </main>
       <Footer dict={dict} locale={locale} />
       <JsonLd data={jsonLd} />

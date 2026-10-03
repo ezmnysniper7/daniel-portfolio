@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Dictionary } from '@/data/dictionary';
 import { siteMetadata } from '@/data/metadata';
 import { getServices } from '@/data/services';
+import { ContactForm } from '@/components/contact/ContactForm';
 
 export function Footer({ dict, locale }: { dict: Dictionary; locale: string }) {
   const { footer } = dict;
@@ -17,24 +18,24 @@ export function Footer({ dict, locale }: { dict: Dictionary; locale: string }) {
           {footer.lines[1]}
         </h2>
 
-        <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-5 md:mt-16">
-          <a
-            href={`mailto:${siteMetadata.email}`}
-            data-magnetic
-            className="group inline-flex items-center gap-3 rounded-full bg-bone px-7 py-4 font-medium text-ink transition-colors hover:bg-signal"
-          >
-            {footer.email}
-            <span aria-hidden="true" className="transition-transform duration-500 group-hover:translate-x-1">
-              →
-            </span>
-          </a>
-          <a href={siteMetadata.social.linkedin} target="_blank" rel="noopener noreferrer" data-magnetic className="link-underline text-lg">
-            LinkedIn <span aria-hidden="true">↗</span>
-          </a>
-          <a href={siteMetadata.social.github} target="_blank" rel="noopener noreferrer" data-magnetic className="link-underline text-lg">
-            GitHub <span aria-hidden="true">↗</span>
-          </a>
-          <span className="font-mono text-sm text-bone-2">{siteMetadata.email}</span>
+        <div className="mt-12 grid gap-14 md:mt-16 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-7">
+            <ContactForm copy={dict.form} locale={locale} email={siteMetadata.email} />
+          </div>
+          <div className="lg:col-span-4 lg:col-start-9">
+            <p className="text-sm text-bone-2">{dict.form.direct}</p>
+            <a href={`mailto:${siteMetadata.email}`} className="link-underline mt-2 inline-block break-all py-1 text-lg text-bone">
+              {siteMetadata.email}
+            </a>
+            <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3">
+              <a href={siteMetadata.social.linkedin} target="_blank" rel="noopener noreferrer" className="link-underline inline-block py-2 text-lg">
+                LinkedIn <span aria-hidden="true">↗</span>
+              </a>
+              <a href={siteMetadata.social.github} target="_blank" rel="noopener noreferrer" className="link-underline inline-block py-2 text-lg">
+                GitHub <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
         </div>
 
         <nav aria-label={footer.servicesLabel} className="mt-20 grid gap-8 border-t border-line pt-8 md:grid-cols-12">

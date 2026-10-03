@@ -232,6 +232,14 @@
     transform 0.8s var(--ease-out);
 }
 
+/* ---------- Form: keep browser autofill on the dark palette ---------- */
+input:-webkit-autofill,
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: hsl(var(--bone));
+  box-shadow: 0 0 0 1000px hsl(var(--ink)) inset;
+  caret-color: hsl(var(--bone));
+}
+
 /* ---------- Header ---------- */
 .site-header {
   transition: transform 0.5s var(--ease-out);

@@ -125,7 +125,7 @@ export default async function ServicesPage({ params }: { params: Params }) {
           </div>
         </section>
 
-        <ContactCta title={copy.ctaTitle} body={copy.ctaBody} button={copy.ctaButton} subject={copy.emailSubject} />
+        <ContactCta title={copy.ctaTitle} body={copy.ctaBody} button={copy.ctaButton} topic="project" orEmail={dict.form.orEmail} subject={copy.emailSubject} />
       </main>
       <Footer dict={dict} locale={locale} />
       <JsonLd data={jsonLd} />

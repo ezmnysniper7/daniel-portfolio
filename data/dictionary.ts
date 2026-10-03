@@ -67,6 +67,21 @@ export type Dictionary = {
     emailSubject: string;
   };
   crumbs: { home: string };
+  form: {
+    topic: string;
+    topics: { project: string; job: string; other: string };
+    name: string;
+    email: string;
+    message: string;
+    messagePlaceholder: string;
+    send: string;
+    sending: string;
+    success: string;
+    error: string;
+    limited: string;
+    direct: string;
+    orEmail: string;
+  };
   now: {
     index: string;
     label: string;
@@ -239,8 +254,8 @@ const en: Dictionary = {
       },
     ],
     ctaTitle: 'Tell me what you are building.',
-    ctaBody: 'A few lines are enough: what it is, who it is for, and when you need it. I usually reply within two working days.',
-    ctaButton: 'Email me about a project',
+    ctaBody: 'A few lines are enough: what it is, who it is for, and when you need it. The form is just below, or email me if you prefer. I usually reply within two working days.',
+    ctaButton: 'Tell me about your project',
     emailSubject: 'Project enquiry',
     otherServices: 'Other services',
   },
@@ -283,10 +298,25 @@ const en: Dictionary = {
     terms: 'Full-time or contract · Kuala Lumpur, hybrid or remote · English and Chinese',
     experienceLabel: 'Experience at a glance',
     ctaTitle: 'Want my résumé or a chat?',
-    ctaButton: 'Email me',
+    ctaButton: 'Send me a message',
     emailSubject: 'Role opportunity',
   },
   crumbs: { home: 'Home' },
+  form: {
+    topic: 'What is it about?',
+    topics: { project: 'A project', job: 'A job or role', other: 'Something else' },
+    name: 'Your name',
+    email: 'Email',
+    message: 'Message',
+    messagePlaceholder: 'What are you building, or what is the role? A few lines is enough.',
+    send: 'Send message',
+    sending: 'Sending…',
+    success: 'Thanks, it’s in my inbox. I usually reply within two working days.',
+    error: 'That didn’t go through. Please email me directly at',
+    limited: 'Too many messages from here just now. Please try again later or email me at',
+    direct: 'Prefer email?',
+    orEmail: 'or email me',
+  },
   now: {
     index: '01',
     label: 'Now · current job',
@@ -507,8 +537,8 @@ const zhCN: Dictionary = {
       { q: '你也考虑全职工作吗？', a: '考虑。合适的高级后端或全栈职位，全职或合同都可以。' },
     ],
     ctaTitle: '告诉我你在做什么。',
-    ctaBody: '几句话就够了：做什么、给谁用、什么时候需要。我通常会在两个工作日内回复。',
-    ctaButton: '发邮件聊项目',
+    ctaBody: '几句话就够了：做什么、给谁用、什么时候需要。表单就在下方，也可以直接发邮件。我通常会在两个工作日内回复。',
+    ctaButton: '和我聊聊你的项目',
     emailSubject: '项目咨询',
     otherServices: '其他服务',
   },
@@ -539,10 +569,25 @@ const zhCN: Dictionary = {
     terms: '全职或合同 · 吉隆坡、混合或远程 · 中英文',
     experienceLabel: '经历一览',
     ctaTitle: '想要我的简历，或者聊一聊？',
-    ctaButton: '给我发邮件',
+    ctaButton: '给我留言',
     emailSubject: '工作机会',
   },
   crumbs: { home: '首页' },
+  form: {
+    topic: '想聊什么？',
+    topics: { project: '项目合作', job: '工作机会', other: '其他' },
+    name: '你的名字',
+    email: '邮箱',
+    message: '留言',
+    messagePlaceholder: '你在做什么项目，或者是什么职位？几句话就够了。',
+    send: '发送',
+    sending: '发送中…',
+    success: '收到了，谢谢！我通常会在两个工作日内回复。',
+    error: '发送失败，请直接发邮件到',
+    limited: '发送太频繁了，请稍后再试，或直接发邮件到',
+    direct: '更喜欢邮件？',
+    orEmail: '或者发邮件',
+  },
   now: {
     index: '01',
     label: '现在 · 目前任职',

@@ -152,7 +152,7 @@ export default async function ServicePage({ params }: { params: Params }) {
           </div>
         </section>
 
-        <ContactCta title={copy.ctaTitle} body={copy.ctaBody} button={copy.ctaButton} subject={`${copy.emailSubject}: ${service.title}`} />
+        <ContactCta title={copy.ctaTitle} body={copy.ctaBody} button={copy.ctaButton} topic="project" orEmail={dict.form.orEmail} subject={`${copy.emailSubject}: ${service.title}`} />
 
         <section className="gutter mx-auto max-w-page border-t border-line py-16 md:py-20">
           <h2 className="eyebrow">{copy.otherServices}</h2>
