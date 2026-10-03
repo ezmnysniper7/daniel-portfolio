@@ -12,6 +12,30 @@ const q = <T extends Element = HTMLElement>(sel: string, scope: ParentNode = doc
 const qa = <T extends Element = HTMLElement>(sel: string, scope: ParentNode = document) =>
   Array.from(scope.querySelectorAll<T>(sel));
 
+function afterFirstPaint(): Promise<void> {
+  return new Promise((resolve) => {
+    if (performance.getEntriesByName('first-contentful-paint').length) return resolve();
+    try {
+      const observer = new PerformanceObserver((list) => {
+        if (list.getEntriesByName('first-contentful-paint').length) {
+          observer.disconnect();
+          resolve();
+        }
+      });
+      observer.observe({ type: 'paint', buffered: true });
+    } catch {
+      resolve();
+    }
+  });
+}
+
+function whenIdle(): Promise<void> {
+  return new Promise((resolve) => {
+    if ('requestIdleCallback' in window) window.requestIdleCallback(() => resolve(), { timeout: 2000 });
+    else setTimeout(resolve, 300);
+  });
+}
+
 /** Smooth scroll for mouse and trackpad only; touch keeps native scrolling. */
 function setupGlobals() {
   if (globalsReady) return;
@@ -19,13 +43,17 @@ function setupGlobals() {
   if (finePointer) lenis = new Lenis({ lerp: 0.1, anchors: true, autoRaf: true });
 
   // The one WebGL element: a fixed starfield behind every page (plus the hero graph on the home page).
-  // Its own chunk, loaded after first paint.
+  // Its own chunk, started only after the first contentful paint and once the browser is idle,
+  // so creating the GPU context never competes with getting the page on screen.
   const canvas = q<HTMLCanvasElement>('[data-space-canvas]');
   if (canvas) {
-    import('./space').then(({ mountSpace }) => {
-      space = mountSpace(canvas);
-      space.setPage(currentHero);
-    });
+    afterFirstPaint()
+      .then(whenIdle)
+      .then(() => import('./space'))
+      .then(({ mountSpace }) => {
+        space = mountSpace(canvas);
+        space.setPage(currentHero);
+      });
   }
 }
 

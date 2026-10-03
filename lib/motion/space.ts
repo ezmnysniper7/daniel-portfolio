@@ -233,6 +233,9 @@ function precompile(gl: WebGLRenderingContext, pairs: [string, string][]): Promi
   });
 }
 
+/** Let the browser breathe between setup steps so none of them becomes a long task. */
+const yieldToMain = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
+
 async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
   const root = document.documentElement;
   if ((navigator.hardwareConcurrency || 4) <= 2) return null;
@@ -257,6 +260,15 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
   if (!gl) return null;
   gl.clearColor(0, 0, 0, 0);
   const loseContext = () => gl.getExtension('WEBGL_lose_context')?.loseContext();
+  // No real GPU (software rendering such as SwiftShader or llvmpipe): every frame would burn CPU,
+  // so keep the static CSS stars instead.
+  const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+  const gpu = String(gl.getParameter(debugInfo ? debugInfo.UNMASKED_RENDERER_WEBGL : gl.RENDERER) || '');
+  if (/swiftshader|llvmpipe|softpipe|software|basic render/i.test(gpu)) {
+    loseContext();
+    document.documentElement.dataset.spaceFallback = 'software-gl';
+    return null;
+  }
   if (
     !(await precompile(gl, [
       [starVertex, starFragment],
@@ -269,6 +281,7 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
     return null;
   }
 
+  await yieldToMain();
   const camera = new Camera(gl, { fov: FOV, near: 0.1, far: 80 });
   camera.position.set(0, 0, CAMERA_Z);
   const scene = new Transform();
@@ -280,7 +293,7 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
   const common = { transparent: true, depthTest: false, depthWrite: false };
 
   // ---------- Stars ----------
-  const starCount = window.innerWidth >= 768 ? 1400 : 700;
+  const starCount = window.innerWidth >= 768 ? 1400 : 600;
   const starPos = new Float32Array(starCount * 3);
   const starSize = new Float32Array(starCount);
   const starTone = new Float32Array(starCount);
@@ -314,6 +327,7 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
     renderOrder: -1,
   });
   stars.setParent(scene);
+  await yieldToMain();
 
   // ---------- The live system graph ----------
   const graphUniforms = { uPx: { value: renderer.dpr }, uTime: { value: 0 }, uFade: { value: 0 }, uScale: { value: 1 } };
@@ -366,7 +380,15 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
   });
   const graphProgram = (vertex: string, fragment: string) =>
     additive(new Program(gl, { vertex, fragment, uniforms: graphUniforms, ...common }));
-  const programs = [graphProgram(lineVertex, lineFragment), graphProgram(particleVertex, particleFragment), graphProgram(nodeVertex, nodeFragment)];
+  const programs: Program[] = [];
+  for (const [vertex, fragment] of [
+    [lineVertex, lineFragment],
+    [particleVertex, particleFragment],
+    [nodeVertex, nodeFragment],
+  ]) {
+    programs.push(graphProgram(vertex, fragment));
+    await yieldToMain();
+  }
   for (const program of [stars.program, ...programs]) {
     if (!gl.getProgramParameter(program.program, gl.LINK_STATUS)) {
       loseContext();
@@ -385,6 +407,15 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
   let captions: string[] = [];
   let showLabels = false;
   let labelsShown = false;
+  /** Anchor box in page coordinates; refreshed on resize, page change and every couple of seconds. */
+  let anchorBox: { left: number; top: number; width: number; height: number } | null = null;
+  let anchorMeasuredAt = 0;
+  const measureAnchor = () => {
+    anchorMeasuredAt = performance.now();
+    if (!anchor) return (anchorBox = null);
+    const r = anchor.getBoundingClientRect();
+    anchorBox = { left: r.left, top: r.top + window.scrollY, width: r.width, height: r.height };
+  };
   const setPage = (hero: HTMLElement | null) => {
     anchor = hero?.querySelector<HTMLElement>('[data-system-anchor]') ?? null;
     labelLayer = hero?.querySelector<HTMLElement>('[data-system-labels]') ?? null;
@@ -396,6 +427,7 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
       captions = [];
     }
     showLabels = !!labelLayer && getComputedStyle(labelLayer).display !== 'none';
+    measureAnchor();
     flow = -1;
     kick();
   };
@@ -416,6 +448,7 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
     camera.perspective({ aspect: width / height });
     starUniforms.uAspect.value = width / height;
     if (labelLayer) showLabels = getComputedStyle(labelLayer).display !== 'none';
+    measureAnchor();
     kick();
   };
 
@@ -441,8 +474,11 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
   const edgeGlow = new Float32Array(EDGES.length);
   const edgeDir = new Float32Array(EDGES.length).fill(1);
   const nodeTarget = new Float32Array(NODES.length);
+  let dirDirty = true;
+  let lastHovered = -2;
   const setFlow = (i: number) => {
     flow = i;
+    dirDirty = true;
     edgeTarget.fill(0);
     nodeTarget.fill(0);
     for (const [e, dir] of FLOWS[i].edges) {
@@ -483,7 +519,10 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
     // Place the graph over its anchor (it scrolls with the hero) and fade it as the hero leaves.
     let fade = 0;
     let hovered = -1;
-    const rect = anchor?.getBoundingClientRect();
+    if (anchor && now - anchorMeasuredAt > 2000) measureAnchor(); // late layout changes (fonts, images)
+    const rect = anchorBox
+      ? { left: anchorBox.left, top: anchorBox.top - scrollY, width: anchorBox.width, height: anchorBox.height, bottom: anchorBox.top - scrollY + anchorBox.height }
+      : null;
     if (rect && rect.bottom > 0 && rect.top < height) {
       const halfH = CAMERA_Z * tanHalf;
       const halfW = halfH * (width / height);
@@ -538,22 +577,36 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
 
     if (graph.visible) {
       const ease = 1 - Math.exp(-dt * 6);
+      let change = 0;
       for (let i = 0; i < NODES.length; i++) {
-        nodeGlow[i] += (Math.max(nodeTarget[i], i === hovered ? 1 : 0) - nodeGlow[i]) * ease;
+        const d = (Math.max(nodeTarget[i], i === hovered ? 1 : 0) - nodeGlow[i]) * ease;
+        nodeGlow[i] += d;
+        change = Math.max(change, Math.abs(d));
       }
       for (let e = 0; e < EDGES.length; e++) {
         const near = hovered >= 0 && (EDGES[e][0] === hovered || EDGES[e][1] === hovered) ? 0.8 : 0;
-        edgeGlow[e] += (Math.max(edgeTarget[e], near) - edgeGlow[e]) * ease;
-        lineGlow[e * 2] = lineGlow[e * 2 + 1] = edgeGlow[e];
-        const start = e * PARTICLES_PER_EDGE * TRAIL;
-        particleGlow.fill(edgeGlow[e], start, start + PARTICLES_PER_EDGE * TRAIL);
-        particleDir.fill(edgeDir[e], start, start + PARTICLES_PER_EDGE * TRAIL);
+        const d = (Math.max(edgeTarget[e], near) - edgeGlow[e]) * ease;
+        edgeGlow[e] += d;
+        change = Math.max(change, Math.abs(d));
       }
-      nodeGeometry.attributes.aGlow.needsUpdate = true;
-      lineGeometry.attributes.aGlow.needsUpdate = true;
-      particleGeometry.attributes.aGlow.needsUpdate = true;
-      particleGeometry.attributes.aDir.needsUpdate = true;
-      if (showLabels) labels.forEach((l, i) => l.classList.toggle('is-active', i === hovered || nodeTarget[i] > 0));
+      // Glows settle a moment after each flow change; skip the buffer uploads once they have.
+      if (change > 0.0005 || dirDirty) {
+        for (let e = 0; e < EDGES.length; e++) {
+          lineGlow[e * 2] = lineGlow[e * 2 + 1] = edgeGlow[e];
+          const start = e * PARTICLES_PER_EDGE * TRAIL;
+          particleGlow.fill(edgeGlow[e], start, start + PARTICLES_PER_EDGE * TRAIL);
+          particleDir.fill(edgeDir[e], start, start + PARTICLES_PER_EDGE * TRAIL);
+        }
+        nodeGeometry.attributes.aGlow.needsUpdate = true;
+        lineGeometry.attributes.aGlow.needsUpdate = true;
+        particleGeometry.attributes.aGlow.needsUpdate = true;
+        particleGeometry.attributes.aDir.needsUpdate = true;
+        dirDirty = false;
+      }
+      if (showLabels && (change > 0.0005 || hovered !== lastHovered)) {
+        labels.forEach((l, i) => l.classList.toggle('is-active', i === hovered || nodeTarget[i] > 0));
+      }
+      lastHovered = hovered;
     }
 
     renderer.render({ scene, camera });
@@ -568,7 +621,7 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
     frameIndex++;
     // Idle (no scroll or pointer for a moment): draw every other frame; the drift is slow anyway.
     const idle = now - lastInput > IDLE_MS;
-    if (!idle || frameIndex % 2 === 0) draw(now);
+    if ((fine && !idle) || frameIndex % 2 === 0) draw(now);
     if (!probing) return;
     probeFrames++;
     if (probeFrames === WARMUP_FRAMES) probeStart = now;
