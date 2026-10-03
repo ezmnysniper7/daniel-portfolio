@@ -128,7 +128,7 @@ function setupNowPin(scrub: true | number) {
 
   section.classList.add('now-pinned');
   const steps = chapters.length - 1;
-  gsap.set(chapters.slice(1), { autoAlpha: 0, y: 56 });
+  gsap.set(chapters.slice(1), { opacity: 0, y: 56 });
   if (progress) gsap.set(progress, { scaleY: 1 / chapters.length });
 
   const tl = gsap.timeline({
@@ -145,8 +145,8 @@ function setupNowPin(scrub: true | number) {
   });
   chapters.forEach((chapter, i) => {
     if (i === 0) return;
-    tl.to(chapters[i - 1], { autoAlpha: 0, y: -56, duration: 0.35, ease: 'power2.in' }, i - 0.55);
-    tl.to(chapter, { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power3.out' }, i - 0.3);
+    tl.to(chapters[i - 1], { opacity: 0, y: -56, duration: 0.35, ease: 'power2.in' }, i - 0.55);
+    tl.to(chapter, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' }, i - 0.3);
   });
   if (progress) tl.to(progress, { scaleY: 1, duration: steps }, 0);
   if (dot && bus) tl.fromTo(dot, { x: 0 }, { x: () => bus.offsetWidth - dot.offsetWidth, duration: steps }, 0);
@@ -212,7 +212,7 @@ function setupSplits() {
     if (!english) {
       // CJK has no spaces to find line breaks with, so reveal the block as one piece.
       gsap.from(el, {
-        autoAlpha: 0,
+        opacity: 0,
         y: 40,
         duration: 1.1,
         ease: 'expo.out',
@@ -240,12 +240,13 @@ function setupSplits() {
 function setupReveals() {
   const items = qa('[data-reveal]').filter(belowFold);
   if (!items.length) return;
-  gsap.set(items, { autoAlpha: 0, y: 36 });
+  // Opacity, not autoAlpha: content waiting to reveal stays in the accessibility tree.
+  gsap.set(items, { opacity: 0, y: 36 });
   ScrollTrigger.batch(items, {
     start: 'top 90%',
     once: true,
     onEnter: (batch) =>
-      gsap.to(batch, { autoAlpha: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, overwrite: true }),
+      gsap.to(batch, { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, overwrite: true }),
   });
 }
 
