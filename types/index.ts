@@ -19,6 +19,8 @@ export interface Project {
   tags?: string[];
   category?: 'professional' | 'personal' | 'open-source';
   metrics?: string[];
+  /** Not shown anywhere on the site (e.g. not launched yet). */
+  hidden?: boolean;
 }
 
 export interface Experience {

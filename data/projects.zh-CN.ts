@@ -384,6 +384,7 @@ export const projectsZhCN: Project[] = [
   },
   {
     slug: 'dan',
+    hidden: true,
     title: 'Dan 蛋蛋',
     description: '为马来西亚人打造的中文学习平台，可用马来文、英文或中文学习：跟着 Dan 走遍各州，闯关、练习，还有错题本。',
     longDescription: 'Dan 面向家里不说华语的马来西亚人。学习者选择自己熟悉的界面语言，跟着角色 Dan 一州一州地旅行，每个州都有故事、词汇和关卡。项目是包含三个应用的 monorepo：Next.js 16 网站（学习产品的主体）、Flutter 客户端和 Go API。无需注册即可使用，学习进度保存在浏览器中，也可以备份到服务器。',

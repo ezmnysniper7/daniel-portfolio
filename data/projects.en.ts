@@ -389,6 +389,8 @@ export const projectsEn: Project[] = [
   },
   {
     slug: 'dan',
+    // Hidden until the app launches; set to false to show it again.
+    hidden: true,
     title: 'Dan 蛋蛋',
     description: 'A Mandarin-learning platform for Malaysians, taught in Malay, English or Chinese: a journey across the states with levels, drills and a mistake book.',
     longDescription: 'Dan is for Malaysians who don\'t speak Mandarin at home. The learner picks the interface language they\'re comfortable in, and a character named Dan travels Malaysia state by state, each state with a story, vocabulary and levels. It is a monorepo with three apps: a Next.js 16 website (where the learning product lives), a Flutter client and a Go API. It works with no account at all, saving progress in the browser, and can back it up to the server.',

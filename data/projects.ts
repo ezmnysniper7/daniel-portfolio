@@ -6,7 +6,6 @@ import { projectsZhCN } from './projects.zh-CN';
 export const SELECTED_SLUGS = [
   'solvemy',
   'tradersflow',
-  'dan',
   'octopus-payment-microservice',
   'ocean-park-ticketing',
   'hktb-ai-trip-planner',
@@ -40,9 +39,11 @@ function withCompany(projects: Project[], locale: string): Project[] {
   });
 }
 
+const visible = (projects: Project[]) => projects.filter((p) => !p.hidden);
+
 const byLocale = {
-  en: withCompany(projectsEn, 'en'),
-  'zh-CN': withCompany(projectsZhCN, 'zh-CN'),
+  en: withCompany(visible(projectsEn), 'en'),
+  'zh-CN': withCompany(visible(projectsZhCN), 'zh-CN'),
 };
 
 export function getProjects(locale: string): Project[] {
@@ -62,4 +63,4 @@ export function getArchiveProjects(locale: string): Project[] {
     .sort((a, b) => (b.startDate ?? '').localeCompare(a.startDate ?? ''));
 }
 
-export const allSlugs = projectsEn.map((p) => p.slug);
+export const allSlugs = visible(projectsEn).map((p) => p.slug);

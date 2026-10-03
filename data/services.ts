@@ -230,7 +230,6 @@ const en: Service[] = [
     ],
     proof: [
       { text: 'SolveMY: a 48-screen Flutter app on Google Play, submitted to the App Store, with a Go backend.', slug: 'solvemy' },
-      { text: 'Dan: a Flutter client for a Mandarin-learning platform, next to the web app and a Go API.', slug: 'dan' },
     ],
     faqs: [
       {
@@ -455,7 +454,6 @@ const zhCN: Service[] = [
     ],
     proof: [
       { text: 'SolveMY：48 个页面的 Flutter App，已上架 Google Play 并提交 App Store，后端为 Go。', slug: 'solvemy' },
-      { text: 'Dan：中文学习平台的 Flutter 客户端，与 Web 应用和 Go API 一起开发。', slug: 'dan' },
     ],
     faqs: [
       { q: 'iPhone 和 Android 需要分别开发两个 App 吗？', a: '不需要。Flutter 用一套代码同时构建两个平台，降低开发和维护成本。' },

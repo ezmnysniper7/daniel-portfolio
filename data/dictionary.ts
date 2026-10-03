@@ -291,7 +291,7 @@ const en: Dictionary = {
     index: '02',
     label: 'Selected work',
     title: 'Things I built, and still run.',
-    intro: 'Side projects I own end to end, and client work from payments to trading.',
+    intro: 'A side project I own end to end, and client work from payments to trading.',
     hint: 'Scroll to move',
     open: 'Read the case study',
     side: 'Side project',
@@ -307,7 +307,7 @@ const en: Dictionary = {
       { value: 235, label: 'REST endpoints in one Go API', note: 'SolveMY, 31 domain services' },
       { value: 1006, label: 'Go test functions', note: 'SolveMY backend' },
       { value: 250, prefix: '~', label: 'Commits in six months', note: 'TradersFlow, 5 repositories' },
-      { value: 124, label: 'End-to-end tests', note: 'Dan, three languages' },
+      { value: 48, label: 'Screens in one Flutter app', note: 'SolveMY, live on Google Play' },
     ],
   },
   method: {
@@ -534,7 +534,7 @@ const zhCN: Dictionary = {
       { value: 235, label: '一个 Go API 中的 REST 接口', note: 'SolveMY，31 个领域服务' },
       { value: 1006, label: 'Go 测试函数', note: 'SolveMY 后端' },
       { value: 250, prefix: '~', label: '六个月内的提交', note: 'TradersFlow，5 个代码仓库' },
-      { value: 124, label: '端到端测试', note: 'Dan，三种语言' },
+      { value: 48, label: '一个 Flutter App 的页面数', note: 'SolveMY，已上架 Google Play' },
     ],
   },
   method: {

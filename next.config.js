@@ -20,6 +20,8 @@ const nextConfig = {
       { source: `/${L}/property`, destination: '/:locale', permanent: true },
       { source: `/${L}/property/:path*`, destination: '/:locale', permanent: true },
       { source: `/${L}/:page(about|projects|contact)`, destination: '/:locale', permanent: true },
+      // Dan is hidden until launch; temporary so search engines don't forget the URL.
+      { source: `/${L}/work/dan`, destination: '/:locale', permanent: false },
     ];
   },
 };
