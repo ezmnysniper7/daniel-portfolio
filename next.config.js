@@ -5,21 +5,16 @@ const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
-  },
+  poweredByHeader: false,
   async redirects() {
-    // Old single-portfolio URLs now live under the engineer world.
+    // Old URLs (single portfolio, then the engineer/property split) all land on the new one-pager.
+    const L = ':locale(en|zh-CN)';
     return [
-      { source: '/:locale(en|zh-CN)/about', destination: '/:locale/engineer/about', permanent: true },
-      { source: '/:locale(en|zh-CN)/projects', destination: '/:locale/engineer/projects', permanent: true },
-      { source: '/:locale(en|zh-CN)/projects/:slug', destination: '/:locale/engineer/projects/:slug', permanent: true },
-      { source: '/:locale(en|zh-CN)/contact', destination: '/:locale/engineer/contact', permanent: true },
+      { source: `/${L}/engineer/projects/:slug`, destination: '/:locale/work/:slug', permanent: true },
+      { source: `/${L}/projects/:slug`, destination: '/:locale/work/:slug', permanent: true },
+      { source: `/${L}/engineer/:path*`, destination: '/:locale', permanent: true },
+      { source: `/${L}/property/:path*`, destination: '/:locale', permanent: true },
+      { source: `/${L}/:page(about|projects|contact)`, destination: '/:locale', permanent: true },
     ];
   },
 };

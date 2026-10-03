@@ -1,96 +1,75 @@
-import type { Metadata } from 'next';
-import { JetBrains_Mono, Manrope, Fraunces } from 'next/font/google';
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, getTranslations } from 'next-intl/server';
+import type { Metadata, Viewport } from 'next';
+import { Fraunces, JetBrains_Mono, Manrope } from 'next/font/google';
 import { notFound } from 'next/navigation';
-import { locales } from '@/i18n/config';
-import { ThemeProvider } from '@/components/ThemeProvider';
-import { MobileProvider } from '@/contexts/MobileContext';
-import { Grain } from '@/components/portal/Grain';
+import { locales, type Locale } from '@/i18n/config';
+import { getDictionary } from '@/data/dictionary';
 import { siteMetadata } from '@/data/metadata';
+import { Cursor, IntroOverlay } from '@/components/site/Chrome';
+import { MotionBoot } from '@/components/motion/MotionBoot';
 
-const manrope = Manrope({ subsets: ['latin'], variable: '--font-sans' });
-const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' });
-const fraunces = Fraunces({
+const display = Fraunces({ subsets: ['latin'], variable: '--font-display', display: 'swap' });
+const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
+const mono = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-display',
+  weight: ['400'],
+  variable: '--font-mono',
   display: 'swap',
+  preload: false,
 });
+
+// Runs before first paint: marks JS as available and opts into the intro once per session.
+const bootScript = `(function(){var d=document.documentElement;d.classList.add('js');try{var r=matchMedia('(prefers-reduced-motion: reduce)').matches;if(!r&&!sessionStorage.getItem('dc-intro')){d.classList.add('intro');sessionStorage.setItem('dc-intro','1')}}catch(e){}})();`;
+
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'portal' });
+export const viewport: Viewport = {
+  themeColor: '#090b10',
+  colorScheme: 'dark',
+};
 
-  const baseUrl = 'https://danielchen.tech';
-  const canonicalUrl = `${baseUrl}/${locale}`;
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const dict = getDictionary(locale);
+  const base = siteMetadata.baseUrl;
 
   return {
-    metadataBase: new URL(baseUrl),
-    title: {
-      default: `${siteMetadata.name}, ${t('tagline')}`,
-      template: `%s | ${siteMetadata.name}`,
-    },
-    description: t('metaDescription'),
+    metadataBase: new URL(base),
+    title: { default: dict.meta.title, template: `%s · ${siteMetadata.name}` },
+    description: dict.meta.description,
+    authors: [{ name: siteMetadata.name, url: base }],
+    creator: siteMetadata.name,
     keywords: [
       'Daniel Chen',
       '曾祈荣',
-      'Platform Engineer',
-      'Full-Stack Developer',
-      'Trading Systems',
-      'CFI',
-      'Next.js',
-      'TypeScript',
-      'Property Agent',
-      'Rental Malaysia',
-      'Leasing',
-      'Klang Valley',
-      '房产中介',
-      '租房',
-      'Malaysia',
+      'Senior Backend Engineer',
+      'Backend Engineer Malaysia',
+      'Fintech',
+      'Payments',
+      'Python',
+      'FastAPI',
+      'RabbitMQ',
+      'Go',
+      'Crypto trading platform',
+      'MetaTrader 5',
     ],
-    authors: [{ name: siteMetadata.name, url: baseUrl }],
-    creator: siteMetadata.name,
-    publisher: siteMetadata.name,
     alternates: {
-      canonical: canonicalUrl,
-      languages: {
-        en: `${baseUrl}/en`,
-        'zh-CN': `${baseUrl}/zh-CN`,
-        'x-default': `${baseUrl}/en`,
-      },
+      canonical: `${base}/${locale}`,
+      languages: { en: `${base}/en`, 'zh-CN': `${base}/zh-CN`, 'x-default': `${base}/en` },
     },
     openGraph: {
       type: 'website',
       locale: locale === 'zh-CN' ? 'zh_CN' : 'en_US',
-      url: canonicalUrl,
-      title: `${siteMetadata.name}, ${t('tagline')}`,
-      description: t('metaDescription'),
-      siteName: `${siteMetadata.name}`,
+      url: `${base}/${locale}`,
+      title: dict.meta.title,
+      description: dict.meta.description,
+      siteName: siteMetadata.name,
     },
-    twitter: {
-      card: 'summary_large_image',
-      title: `${siteMetadata.name}, ${t('tagline')}`,
-      description: t('metaDescription'),
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
-    },
+    twitter: { card: 'summary_large_image', title: dict.meta.title, description: dict.meta.description },
+    robots: { index: true, follow: true },
   };
 }
 
@@ -102,37 +81,19 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-
-  if (!locales.includes(locale as 'en' | 'zh-CN')) {
-    notFound();
-  }
-
-  const messages = await getMessages();
+  if (!locales.includes(locale as Locale)) notFound();
+  const dict = getDictionary(locale);
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} className={`${display.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
-        <link rel="alternate" hrefLang="en" href="https://danielchen.tech/en" />
-        <link rel="alternate" hrefLang="zh-CN" href="https://danielchen.tech/zh-CN" />
-        <link rel="alternate" hrefLang="x-default" href="https://danielchen.tech/en" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-        <meta name="theme-color" content="#0a0f16" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
+        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
-      <body
-        className={`${manrope.variable} ${jetbrainsMono.variable} ${fraunces.variable} font-sans`}
-        suppressHydrationWarning
-      >
-        <NextIntlClientProvider messages={messages}>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-            <MobileProvider>
-              <Grain />
-              {children}
-            </MobileProvider>
-          </ThemeProvider>
-        </NextIntlClientProvider>
+      <body className="font-sans">
+        <IntroOverlay label={dict.intro} />
+        {children}
+        <Cursor />
+        <MotionBoot />
       </body>
     </html>
   );

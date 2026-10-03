@@ -1,16 +1,9 @@
 import { MetadataRoute } from 'next';
-
-const baseUrl = 'https://danielchen.tech';
+import { siteMetadata } from '@/data/metadata';
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: [
-      {
-        userAgent: '*',
-        allow: '/',
-        disallow: ['/api/', '/_next/'],
-      },
-    ],
-    sitemap: `${baseUrl}/sitemap.xml`,
+    rules: [{ userAgent: '*', allow: '/', disallow: ['/_next/'] }],
+    sitemap: `${siteMetadata.baseUrl}/sitemap.xml`,
   };
 }

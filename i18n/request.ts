@@ -1,16 +1,9 @@
 import { getRequestConfig } from 'next-intl/server';
+import { locales, defaultLocale, type Locale } from './config';
 
+// next-intl only handles locale routing (middleware). Copy lives in data/dictionary.ts.
 export default getRequestConfig(async ({ requestLocale }) => {
-  // This typically corresponds to the `[locale]` segment
-  let locale = await requestLocale;
-
-  // Ensure that a valid locale is used
-  if (!locale || !['en', 'zh-CN'].includes(locale)) {
-    locale = 'en';
-  }
-
-  return {
-    locale,
-    messages: (await import(`./locales/${locale}.json`)).default,
-  };
+  const requested = await requestLocale;
+  const locale = locales.includes(requested as Locale) ? (requested as Locale) : defaultLocale;
+  return { locale, messages: {} };
 });

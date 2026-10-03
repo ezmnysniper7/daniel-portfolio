@@ -1,5 +1,3 @@
-// Data Models for Daniel Chen Portfolio
-
 export interface Project {
   slug: string;
   title: string;
@@ -7,6 +5,9 @@ export interface Project {
   longDescription?: string;
   techStack: string[];
   role?: string;
+  company?: string;
+  kind?: 'side' | 'work';
+  status?: string;
   responsibilities?: string[];
   highlights: string[];
   startDate?: string;
@@ -35,74 +36,15 @@ export interface Experience {
   type?: 'full-time' | 'contract' | 'internship' | 'freelance';
 }
 
-export interface Skill {
-  category: string;
-  skills: SkillItem[];
-}
-
-export interface SkillItem {
-  name: string;
-  level?: 'expert' | 'proficient' | 'familiar';
-  iconUrl?: string;
-  yearsOfExperience?: number;
-}
-
-export interface BlogPost {
-  slug: string;
-  title: string;
-  description: string;
-  content: string;
-  publishedAt: string;
-  updatedAt?: string;
-  tags: string[];
-  featured?: boolean;
-  readingTimeMinutes?: number;
-  coverImage?: string;
-}
-
-export interface Rental {
-  slug: string;
-  title: string;
-  area: string;
-  propertyType: string;
-  monthlyRent: number;
-  currency?: string;
-  bedrooms: number;
-  bathrooms: number;
-  sizeSqft: number;
-  furnishing: string;
-  imageUrl?: string;
-  tags?: string[];
-  available: boolean;
-  featured?: boolean;
-}
-
-export interface PropertyMeta {
-  name: string;
-  renNumber: string;
-  agency?: string;
-  areas: string[];
-  languages: string[];
-  whatsapp: string;
-  email: string;
-  phone: string;
-}
-
 export interface SiteMetadata {
   name: string;
+  nameZh: string;
   title: string;
-  tagline: string;
-  description: string;
   email: string;
-  phone?: string;
-  location?: string;
-  availableForWork?: boolean;
+  location: string;
   social: {
-    github?: string;
-    linkedin?: string;
-    twitter?: string;
-    website?: string;
+    github: string;
+    linkedin: string;
   };
-  resumeUrl?: string;
-  portfolioRepo?: string;
+  baseUrl: string;
 }

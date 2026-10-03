@@ -1,46 +1,20 @@
 import { MetadataRoute } from 'next';
 import { locales } from '@/i18n/config';
-import { projects } from '@/data/projects';
+import { allSlugs } from '@/data/projects';
+import { siteMetadata } from '@/data/metadata';
 
-const baseUrl = 'https://danielchen.tech';
+const base = siteMetadata.baseUrl;
+
+function entry(path: string, priority: number): MetadataRoute.Sitemap {
+  return locales.map((locale) => ({
+    url: `${base}/${locale}${path}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority,
+    alternates: { languages: Object.fromEntries(locales.map((l) => [l, `${base}/${l}${path}`])) },
+  }));
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = [
-    '',
-    '/engineer',
-    '/engineer/projects',
-    '/engineer/about',
-    '/engineer/contact',
-    '/property',
-    '/property/listings',
-    '/property/contact',
-  ];
-
-  const mainRoutes = locales.flatMap((locale) =>
-    routes.map((route) => ({
-      url: `${baseUrl}/${locale}${route}`,
-      lastModified: new Date(),
-      changeFrequency: (route === '' ? 'weekly' : 'monthly') as 'weekly' | 'monthly',
-      priority: route === '' ? 1 : 0.8,
-      alternates: {
-        languages: Object.fromEntries(locales.map((l) => [l, `${baseUrl}/${l}${route}`])),
-      },
-    }))
-  );
-
-  const projectRoutes = locales.flatMap((locale) =>
-    projects.map((project) => ({
-      url: `${baseUrl}/${locale}/engineer/projects/${project.slug}`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: project.featured ? 0.7 : 0.6,
-      alternates: {
-        languages: Object.fromEntries(
-          locales.map((l) => [l, `${baseUrl}/${l}/engineer/projects/${project.slug}`])
-        ),
-      },
-    }))
-  );
-
-  return [...mainRoutes, ...projectRoutes];
+  return [...entry('', 1), ...allSlugs.flatMap((slug) => entry(`/work/${slug}`, 0.7))];
 }
