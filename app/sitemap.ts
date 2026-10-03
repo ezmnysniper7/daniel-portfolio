@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next';
 import { locales } from '@/i18n/config';
 import { allSlugs } from '@/data/projects';
 import { serviceSlugs } from '@/data/services';
+import { noteSlugs } from '@/data/notes';
 import { siteMetadata } from '@/data/metadata';
 
 const base = siteMetadata.baseUrl;
@@ -24,5 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...serviceSlugs.flatMap((slug) => entry(`/services/${slug}`, 0.9, 'monthly')),
     ...entry('/hire', 0.8, 'monthly'),
     ...allSlugs.flatMap((slug) => entry(`/work/${slug}`, 0.6, 'monthly')),
+    ...entry('/notes', 0.7, 'weekly'),
+    ...noteSlugs.flatMap((slug) => entry(`/notes/${slug}`, 0.7, 'monthly')),
   ];
 }

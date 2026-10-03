@@ -5,6 +5,8 @@ const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 let lenis: Lenis | null = null;
 let globalsReady = false;
+let space: import('./space').Space | null = null;
+let currentHero: HTMLElement | null = null;
 
 const q = <T extends Element = HTMLElement>(sel: string, scope: ParentNode = document) => scope.querySelector<T>(sel);
 const qa = <T extends Element = HTMLElement>(sel: string, scope: ParentNode = document) =>
@@ -15,6 +17,16 @@ function setupGlobals() {
   if (globalsReady) return;
   globalsReady = true;
   if (finePointer) lenis = new Lenis({ lerp: 0.1, anchors: true, autoRaf: true });
+
+  // The one WebGL element: a fixed starfield behind every page (plus the hero graph on the home page).
+  // Its own chunk, loaded after first paint.
+  const canvas = q<HTMLCanvasElement>('[data-space-canvas]');
+  if (canvas) {
+    import('./space').then(({ mountSpace }) => {
+      space = mountSpace(canvas);
+      space.setPage(currentHero);
+    });
+  }
 }
 
 /** Gentle fade-up as content enters. Only content below the fold waits; nothing else is touched. */
@@ -109,17 +121,13 @@ export function mountPage(): () => void {
   const teardown: (() => void)[] = [setupReveals(), setupHeader()];
   if (finePointer) qa('[data-magnetic]').forEach((el) => teardown.push(magnetic(el)));
 
-  // The one WebGL element, in its own chunk: pages without the hero never download OGL.
-  let disposed = false;
-  const system = q('[data-system]');
-  if (system) {
-    import('./system').then(({ mountSystem }) => {
-      if (!disposed) teardown.push(mountSystem(system));
-    });
-  }
+  // Tell the space scene about this page's hero graph (none on most pages).
+  currentHero = q('[data-system]');
+  space?.setPage(currentHero);
 
   return () => {
-    disposed = true;
     teardown.forEach((fn) => fn());
+    currentHero = null;
+    space?.setPage(null);
   };
 }

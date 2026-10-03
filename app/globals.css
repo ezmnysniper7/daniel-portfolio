@@ -7,8 +7,8 @@
   --ink: 224 30% 5%;
   --ink-2: 222 22% 8%;
   --bone: 40 30% 92%;
-  --bone-2: 40 8% 66%;
-  --bone-3: 220 8% 55%;
+  --bone-2: 40 10% 76%;
+  --bone-3: 220 9% 64%;
   --line: 220 12% 16%;
   --signal: 187 96% 58%;
   --gutter: clamp(1rem, 4vw, 3rem);
@@ -23,10 +23,14 @@
     scroll-padding-top: 5rem;
   }
 
+  /* No body background: the page colour comes from <html>, so the fixed space layer (z-index -10) shows through. */
   body {
     min-height: 100vh;
-    background: hsl(var(--ink));
+    background: transparent;
     color: hsl(var(--bone));
+    font-size: 1.0625rem;
+    font-weight: 450;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -60,8 +64,8 @@
 
   .eyebrow {
     font-family: var(--font-mono), ui-monospace, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.16em;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: hsl(var(--bone-2));
   }
@@ -120,8 +124,8 @@
     border-radius: 999px;
     padding: 0.3rem 0.75rem;
     font-family: var(--font-mono), ui-monospace, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.04em;
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
     color: hsl(var(--bone-2));
     white-space: nowrap;
   }
@@ -168,37 +172,53 @@
 
 /* ---------- Hero: the live system ---------- */
 .hero-glow {
-  background:
-    radial-gradient(50% 55% at 50% 22%, hsl(187 80% 30% / 0.16), transparent 70%),
-    hsl(var(--ink));
+  background: radial-gradient(50% 55% at 50% 22%, hsl(187 80% 30% / 0.16), transparent 70%);
 }
 @media (min-width: 1024px) {
   .hero-glow {
-    background:
-      radial-gradient(42% 60% at 76% 48%, hsl(187 80% 30% / 0.2), transparent 70%),
-      hsl(var(--ink));
+    background: radial-gradient(42% 60% at 76% 48%, hsl(187 80% 30% / 0.2), transparent 70%);
   }
 }
-.system canvas {
+
+/* ---------- Space: static CSS stars until (or unless) the WebGL starfield takes over ---------- */
+.space-fallback {
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, hsl(40 30% 92% / 0.55) 50%, transparent 51%),
+    radial-gradient(1px 1px at 70% 80%, hsl(40 30% 92% / 0.4) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 40% 60%, hsl(187 96% 58% / 0.5) 50%, transparent 51%),
+    radial-gradient(1px 1px at 85% 15%, hsl(40 30% 92% / 0.5) 50%, transparent 51%),
+    radial-gradient(1px 1px at 55% 40%, hsl(40 30% 92% / 0.35) 50%, transparent 51%),
+    radial-gradient(1px 1px at 10% 85%, hsl(40 30% 92% / 0.45) 50%, transparent 51%);
+  background-size:
+    260px 260px,
+    340px 340px,
+    520px 520px,
+    410px 410px,
+    190px 190px,
+    300px 300px;
+  transition: opacity 1s ease;
+}
+.space-canvas {
   opacity: 0;
   transition: opacity 1.2s ease;
 }
-.system-fallback {
-  transition: opacity 0.8s ease;
-}
-.system-live canvas {
+html.space-live .space-canvas {
   opacity: 1;
 }
-.system-live .system-fallback {
+html.space-live .space-fallback,
+html.space-live .system-fallback {
   opacity: 0;
+}
+.system-fallback {
+  transition: opacity 0.8s ease;
 }
 .system-labels,
 .system-caption {
   opacity: 0;
   transition: opacity 0.8s ease 0.3s;
 }
-.system-live .system-labels,
-.system-live .system-caption {
+html.space-live .system-labels,
+html.space-live .system-caption {
   opacity: 1;
 }
 .system-label {
@@ -207,8 +227,8 @@
   top: 0;
   margin: -0.55rem 0 0 0.95rem;
   font-family: var(--font-mono), ui-monospace, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
   color: hsl(var(--bone-3));
   white-space: nowrap;
   will-change: transform;

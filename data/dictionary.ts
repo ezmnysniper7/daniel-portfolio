@@ -67,6 +67,18 @@ export type Dictionary = {
     emailSubject: string;
   };
   crumbs: { home: string };
+  notes: {
+    label: string;
+    metaTitle: string;
+    metaDescription: string;
+    title: string;
+    intro: string;
+    all: string;
+    minutes: string;
+    by: string;
+    related: string;
+    more: string;
+  };
   form: {
     topic: string;
     topics: { project: string; job: string; other: string };
@@ -302,6 +314,19 @@ const en: Dictionary = {
     emailSubject: 'Role opportunity',
   },
   crumbs: { home: 'Home' },
+  notes: {
+    label: 'Notes',
+    metaTitle: 'Notes on Trading Systems, Payments and Software | Daniel Chen',
+    metaDescription:
+      'Short, practical notes from real work: MetaTrader 5, prop-firm risk rules, payment webhooks, RabbitMQ, AI coding assistants and shipping mobile apps.',
+    title: 'Notes from the work.',
+    intro: 'Short, practical write-ups from building trading platforms, payments and apps.',
+    all: 'All notes',
+    minutes: '{n} min read',
+    by: 'By Daniel Chen',
+    related: 'Related service',
+    more: 'More notes',
+  },
   form: {
     topic: 'What is it about?',
     topics: { project: 'A project', job: 'A job or role', other: 'Something else' },
@@ -573,6 +598,18 @@ const zhCN: Dictionary = {
     emailSubject: '工作机会',
   },
   crumbs: { home: '首页' },
+  notes: {
+    label: '笔记',
+    metaTitle: '交易系统、支付与软件开发笔记 | 曾祈荣 Daniel Chen',
+    metaDescription: '来自真实项目的简短实用笔记：MetaTrader 5、自营交易风控规则、支付回调、RabbitMQ、AI 编程助手与移动 App 上架。',
+    title: '工作笔记。',
+    intro: '在开发交易平台、支付系统和 App 过程中总结的简短实用经验。',
+    all: '全部笔记',
+    minutes: '阅读约 {n} 分钟',
+    by: '作者：曾祈荣',
+    related: '相关服务',
+    more: '更多笔记',
+  },
   form: {
     topic: '想聊什么？',
     topics: { project: '项目合作', job: '工作机会', other: '其他' },

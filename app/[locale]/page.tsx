@@ -11,6 +11,8 @@ import { ServicesSection } from '@/components/site/ServicesSection';
 import { StatsSection } from '@/components/site/StatsSection';
 import { ExperienceSection } from '@/components/site/ExperienceSection';
 import { Footer } from '@/components/site/Footer';
+import { NotesSection } from '@/components/site/NotesSection';
+import { getNotes } from '@/data/notes';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { graph, pageMetadata, personNode, profilePageNode, serviceNode, websiteNode } from '@/lib/seo';
 
@@ -49,6 +51,7 @@ export default async function HomePage({ params }: { params: Params }) {
         <StatsSection dict={dict} locale={locale} />
         <ServicesSection locale={locale} dict={dict} services={services} />
         <ExperienceSection dict={dict} locale={locale} experience={experience} projectsByJob={projectsByJob} />
+        <NotesSection locale={locale} dict={dict} notes={getNotes(locale)} />
       </main>
       <Footer dict={dict} locale={locale} />
       <JsonLd data={jsonLd} />

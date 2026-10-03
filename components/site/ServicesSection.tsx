@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Dictionary } from '@/data/dictionary';
 import type { Service } from '@/data/services';
+import { Icon, ServiceIcon } from './Icons';
 
 /** Landing-page summary of the services; each row links to its own landing page. */
 export function ServicesSection({ locale, dict, services }: { locale: string; dict: Dictionary; services: Service[] }) {
@@ -25,9 +26,12 @@ export function ServicesSection({ locale, dict, services }: { locale: string; di
             <li key={s.slug} data-reveal>
               <Link
                 href={`/${locale}/services/${s.slug}`}
-                className="group grid gap-3 border-b border-line py-8 transition-colors md:grid-cols-12 md:items-baseline md:py-10"
+                className="group grid gap-3 border-b border-line py-8 transition-colors md:grid-cols-12 md:items-center md:py-10"
               >
-                <h3 className="display-lg transition-colors duration-500 group-hover:text-signal md:col-span-6">{s.title}</h3>
+                <h3 className="flex items-center gap-5 md:col-span-6">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-bone transition-colors duration-500 group-hover:border-signal group-hover:text-signal"><ServiceIcon slug={s.slug} className="h-5 w-5" /></span>
+                  <span className="display-lg transition-colors duration-500 group-hover:text-signal">{s.title}</span>
+                </h3>
                 <p className="max-w-md leading-relaxed text-bone-2 md:col-span-5">{s.short}</p>
                 <span className="eyebrow text-bone md:col-span-1 md:justify-self-end" aria-hidden="true">
                   →
@@ -38,9 +42,12 @@ export function ServicesSection({ locale, dict, services }: { locale: string; di
           <li data-reveal>
             <Link
               href={`/${locale}/hire`}
-              className="group grid gap-3 border-b border-line py-8 transition-colors md:grid-cols-12 md:items-baseline md:py-10"
+              className="group grid gap-3 border-b border-line py-8 transition-colors md:grid-cols-12 md:items-center md:py-10"
             >
-              <h3 className="display-lg transition-colors duration-500 group-hover:text-signal md:col-span-6">{copy.hireTitle}</h3>
+              <h3 className="flex items-center gap-5 md:col-span-6">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-bone transition-colors duration-500 group-hover:border-signal group-hover:text-signal"><Icon name="send" className="h-5 w-5" /></span>
+                <span className="display-lg transition-colors duration-500 group-hover:text-signal">{copy.hireTitle}</span>
+              </h3>
               <p className="max-w-md leading-relaxed text-bone-2 md:col-span-5">{copy.hireBody}</p>
               <span className="eyebrow text-bone md:col-span-1 md:justify-self-end" aria-hidden="true">
                 →

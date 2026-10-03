@@ -66,7 +66,7 @@ export function WorkSection({ locale, dict, projects }: Props) {
                   <h3 className="mt-2 font-display text-[clamp(1.4rem,1.9vw,1.9rem)] leading-[1.1] tracking-[-0.02em] transition-colors duration-500 group-hover:text-signal">
                     {p.title}
                   </h3>
-                  <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-bone-2">{p.description}</p>
+                  <p className="mt-3 line-clamp-2 text-[0.95rem] leading-relaxed text-bone-2">{p.description}</p>
                   <span className="mt-auto pt-6 text-sm text-bone">
                     {work.open} <span aria-hidden="true" className="inline-block transition-transform duration-500 group-hover:translate-x-1">→</span>
                   </span>

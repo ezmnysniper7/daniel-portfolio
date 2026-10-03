@@ -71,6 +71,9 @@ export default async function LocaleLayout({
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
       <body className="font-sans">
+        {/* Space behind every page: static CSS stars first, the WebGL starfield fades in over them. */}
+        <div className="space-fallback pointer-events-none fixed inset-0 -z-10" aria-hidden="true" />
+        <canvas data-space-canvas className="space-canvas pointer-events-none fixed inset-0 -z-10 h-full w-full" aria-hidden="true" />
         {children}
         <MotionBoot />
       </body>

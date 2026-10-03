@@ -9,6 +9,7 @@ import { getProjects } from '@/data/projects';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
 import { ContactCta } from '@/components/site/ContactCta';
+import { ServiceIcon } from '@/components/site/Icons';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { breadcrumbNode, faqNode, graph, pageMetadata, personNode, serviceNode, websiteNode } from '@/lib/seo';
 
@@ -69,7 +70,10 @@ export default async function ServicePage({ params }: { params: Params }) {
               {copy.eyebrow}
             </Link>
           </nav>
-          <h1 className="display-hero mt-10 md:mt-14">
+          <span className="hero-fade mt-10 flex h-14 w-14 items-center justify-center rounded-full border border-line text-signal md:mt-12" style={i(0)}>
+            <ServiceIcon slug={slug} className="h-7 w-7" />
+          </span>
+          <h1 className="display-hero mt-6">
             <span className="line-mask">
               <span className="hero-line" style={i(0)}>
                 {service.title}

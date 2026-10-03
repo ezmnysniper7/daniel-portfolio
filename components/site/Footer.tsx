@@ -53,6 +53,11 @@ export function Footer({ dict, locale }: { dict: Dictionary; locale: string }) {
                 {footer.hireLink}
               </Link>
             </li>
+            <li>
+              <Link href={`/${locale}/notes`} className="link-underline inline-block py-1.5 text-bone-2 hover:text-bone">
+                {dict.notes.label}
+              </Link>
+            </li>
           </ul>
         </nav>
 

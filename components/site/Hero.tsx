@@ -36,30 +36,34 @@ function SystemFallback({ dict }: { dict: Dictionary }) {
 export function Hero({ dict, locale }: { dict: Dictionary; locale: string }) {
   const { hero, system } = dict;
   return (
-    <section id="top" className="hero relative flex flex-col overflow-hidden lg:min-h-[88svh] lg:justify-center">
-      <div className="hero-glow absolute inset-0" aria-hidden="true" />
+    <section
+      id="top"
+      data-system
+      data-flows={JSON.stringify(system.flows)}
+      className="hero relative flex flex-col lg:min-h-[88svh] lg:justify-center"
+    >
+      <div className="hero-glow pointer-events-none absolute inset-0" aria-hidden="true" />
 
+      {/* The graph is drawn by the page-wide WebGL space, positioned over this anchor. */}
       <div
-        data-system
-        data-flows={JSON.stringify(system.flows)}
+        data-system-anchor
         role="img"
         aria-label={system.label}
         className="system relative h-[34svh] min-h-[240px] w-full lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[56%]"
       >
         <SystemFallback dict={dict} />
-        <canvas data-system-canvas className="absolute inset-0 h-full w-full" />
-        <div className="system-labels pointer-events-none absolute inset-0 hidden md:block" aria-hidden="true">
-          {NODES.map((node) => (
-            <span key={node.id} data-system-label className={`system-label${node.hub ? ' is-hub' : ''}`}>
-              {system.nodes[node.id]}
-            </span>
-          ))}
-        </div>
-        <p className="system-caption absolute bottom-6 right-[var(--gutter)] hidden items-center gap-2.5 font-mono text-[0.72rem] text-bone-2 md:flex lg:bottom-[8vh]" aria-hidden="true">
+        <p className="system-caption absolute bottom-6 right-[var(--gutter)] hidden items-center gap-2.5 font-mono text-[0.75rem] text-bone-2 md:flex lg:bottom-[8vh]" aria-hidden="true">
           <span className="h-1.5 w-1.5 rounded-full bg-signal" />
-          <span className="uppercase tracking-[0.14em] text-signal">{system.live}</span>
+          <span className="uppercase tracking-[0.12em] text-signal">{system.live}</span>
           <span data-system-caption>{system.flows[0]}</span>
         </p>
+      </div>
+      <div data-system-labels className="system-labels pointer-events-none fixed inset-0 -z-[5] hidden md:block" aria-hidden="true">
+        {NODES.map((node) => (
+          <span key={node.id} data-system-label className={`system-label${node.hub ? ' is-hub' : ''}`}>
+            {system.nodes[node.id]}
+          </span>
+        ))}
       </div>
 
       <div className="gutter relative z-10 mx-auto w-full max-w-page pb-16 pt-6 lg:py-32">

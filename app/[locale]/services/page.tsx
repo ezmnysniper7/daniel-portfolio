@@ -6,6 +6,7 @@ import { getServices } from '@/data/services';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
 import { ContactCta } from '@/components/site/ContactCta';
+import { Icon, ServiceIcon } from '@/components/site/Icons';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { breadcrumbNode, faqNode, graph, pageMetadata, personNode, serviceNode, websiteNode, absolute } from '@/lib/seo';
 
@@ -64,14 +65,14 @@ export default async function ServicesPage({ params }: { params: Params }) {
         <section className="gutter mx-auto max-w-page pb-20 md:pb-28">
           <h2 className="eyebrow">{copy.listLabel}</h2>
           <ul className="mt-8 grid gap-5 md:grid-cols-2">
-            {services.map((s, n) => (
+            {services.map((s) => (
               <li key={s.slug} data-reveal>
                 <Link
                   href={`/${locale}/services/${s.slug}`}
                  
                   className="group flex h-full flex-col rounded-[1.25rem] border border-line bg-ink-2/60 p-7 transition-colors duration-500 hover:border-bone-3 md:p-9"
                 >
-                  <span className="font-mono text-xs text-signal">0{n + 1}</span>
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-bone transition-colors duration-500 group-hover:border-signal group-hover:text-signal"><ServiceIcon slug={s.slug} className="h-5 w-5" /></span>
                   <h3 className="display-lg mt-5 transition-colors duration-500 group-hover:text-signal">{s.title}</h3>
                   <p className="mt-4 leading-relaxed text-bone-2">{s.short}</p>
                   <span className="eyebrow mt-auto pt-8 text-bone">
@@ -85,7 +86,7 @@ export default async function ServicesPage({ params }: { params: Params }) {
                 href={`/${locale}/hire`}
                 className="group flex h-full flex-col rounded-[1.25rem] border border-dashed border-line p-7 transition-colors duration-500 hover:border-bone-3 md:p-9"
               >
-                <span className="font-mono text-xs text-bone-3">+</span>
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-bone transition-colors duration-500 group-hover:border-signal group-hover:text-signal"><Icon name="send" className="h-5 w-5" /></span>
                 <h3 className="display-lg mt-5 transition-colors duration-500 group-hover:text-signal">{dict.services.hireTitle}</h3>
                 <p className="mt-4 leading-relaxed text-bone-2">{dict.services.hireBody}</p>
                 <span className="eyebrow mt-auto pt-8 text-bone">

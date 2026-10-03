@@ -1,6 +1,7 @@
 import { getServices } from '@/data/services';
 import { getSelectedProjects } from '@/data/projects';
 import { siteMetadata } from '@/data/metadata';
+import { getNotes } from '@/data/notes';
 
 export const dynamic = 'force-static';
 
@@ -9,6 +10,7 @@ export function GET() {
   const base = siteMetadata.baseUrl;
   const services = getServices('en');
   const projects = getSelectedProjects('en');
+  const notes = getNotes('en');
 
   const text = `# Daniel Chen (曾祈荣)
 
@@ -27,6 +29,10 @@ ${services.map((s) => `- [${s.title}](${base}/en/services/${s.slug}): ${s.short}
 ## Case studies
 
 ${projects.map((p) => `- [${p.title}](${base}/en/work/${p.slug}): ${p.description}`).join('\n')}
+
+## Notes
+
+${notes.map((n) => `- [${n.title}](${base}/en/notes/${n.slug}): ${n.description}`).join('\n')}
 
 ## Chinese (简体中文)
 
