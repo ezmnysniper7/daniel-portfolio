@@ -18,7 +18,8 @@ const mono = JetBrains_Mono({
 });
 
 // Runs before first paint: marks JS as available and opts into the intro once per session.
-const bootScript = `(function(){var d=document.documentElement;d.classList.add('js');try{var r=matchMedia('(prefers-reduced-motion: reduce)').matches;if(!r&&!sessionStorage.getItem('dc-intro')){d.classList.add('intro');sessionStorage.setItem('dc-intro','1')}}catch(e){}})();`;
+// The curtain is desktop-only; on phones the headline starts revealing immediately (LCP).
+const bootScript = `(function(){var d=document.documentElement;d.classList.add('js');try{var r=matchMedia('(prefers-reduced-motion: reduce)').matches;if(!r&&matchMedia('(min-width: 768px)').matches&&!sessionStorage.getItem('dc-intro')){d.classList.add('intro');sessionStorage.setItem('dc-intro','1')}}catch(e){}})();`;
 
 export const dynamicParams = false;
 

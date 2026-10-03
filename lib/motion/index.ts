@@ -349,6 +349,15 @@ export function mountPage(): () => void {
 
   if (finePointer) qa('[data-magnetic]').forEach((el) => teardown.push(magnetic(el)));
 
+  // The one WebGL element: its own chunk, so pages without a hero never download OGL.
+  let disposed = false;
+  const canvas = q<HTMLCanvasElement>('[data-shader]');
+  if (canvas) {
+    import('./shader').then(({ mountShader }) => {
+      if (!disposed) teardown.push(mountShader(canvas));
+    });
+  }
+
   ScrollTrigger.refresh();
   // Pin spacing can move the anchor; put the reader back where the link pointed.
   if (hashTarget && atHash && Math.abs(hashTarget.getBoundingClientRect().top - hashTopBefore) > 2) {
@@ -357,6 +366,7 @@ export function mountPage(): () => void {
   }
 
   return () => {
+    disposed = true;
     teardown.forEach((fn) => fn());
     mm.revert();
     ctx.revert();

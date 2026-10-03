@@ -8,7 +8,7 @@
   --ink-2: 222 22% 8%;
   --bone: 40 30% 92%;
   --bone-2: 40 8% 66%;
-  --bone-3: 220 7% 46%;
+  --bone-3: 220 8% 55%;
   --line: 220 12% 16%;
   --signal: 187 96% 58%;
   --gutter: clamp(1rem, 4vw, 3rem);
@@ -180,15 +180,15 @@ html.intro .intro-bar {
 /* ---------- Hero reveal: CSS only so the headline never waits on JS ---------- */
 @media (prefers-reduced-motion: no-preference) {
   .hero-line {
-    animation: line-in 1.05s var(--ease-out) both;
-    animation-delay: calc(0.1s + var(--i, 0) * 0.09s);
+    animation: line-in 0.95s var(--ease-out) both;
+    animation-delay: calc(0.04s + var(--i, 0) * 0.08s);
   }
   html.intro .hero-line {
     animation-delay: calc(0.78s + var(--i, 0) * 0.09s);
   }
   .hero-fade {
     animation: fade-up 0.9s var(--ease-out) both;
-    animation-delay: calc(0.45s + var(--i, 0) * 0.08s);
+    animation-delay: calc(0.3s + var(--i, 0) * 0.08s);
   }
   html.intro .hero-fade {
     animation-delay: calc(1.1s + var(--i, 0) * 0.08s);

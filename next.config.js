@@ -6,6 +6,8 @@ const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // One small stylesheet: inline it so it never blocks first paint.
+  experimental: { inlineCss: true },
   async redirects() {
     // Old URLs (single portfolio, then the engineer/property split) all land on the new one-pager.
     const L = ':locale(en|zh-CN)';
