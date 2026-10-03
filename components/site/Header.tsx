@@ -14,7 +14,7 @@ export function Header({ locale, dict, path, home }: Props) {
   const other = locale === 'en' ? 'zh-CN' : 'en';
   const anchor = (id: string) => (home ? `#${id}` : `/${locale}#${id}`);
   // 40px+ tall hit areas for touch; the underline lives on the inner span so it hugs the text.
-  const link = 'group inline-flex min-h-[40px] items-center hover:text-bone';
+  const link = 'group inline-flex min-h-[40px] items-center whitespace-nowrap hover:text-bone';
 
   return (
     <header data-header className="site-header fixed inset-x-0 top-0 z-40">
@@ -22,7 +22,7 @@ export function Header({ locale, dict, path, home }: Props) {
       <div className="gutter relative mx-auto flex max-w-page items-center justify-between py-3 md:py-4">
         <Link
           href={`/${locale}`}
-          className="inline-flex min-h-[40px] items-center font-mono text-[0.75rem] uppercase tracking-[0.22em] text-bone"
+          className="inline-flex min-h-[40px] shrink-0 items-center whitespace-nowrap font-mono text-[0.75rem] uppercase tracking-[0.16em] text-bone md:tracking-[0.22em]"
           data-magnetic
         >
           Daniel Chen<span className="text-signal">.</span>
@@ -48,7 +48,7 @@ export function Header({ locale, dict, path, home }: Props) {
             href={`/${other}${path}`}
             hrefLang={other}
             lang={other}
-            className="inline-flex min-h-[40px] items-center rounded-full border border-line px-3.5 text-bone transition-colors hover:border-bone-3"
+            className="inline-flex min-h-[40px] items-center whitespace-nowrap rounded-full border border-line px-3.5 text-bone transition-colors hover:border-bone-3"
             data-magnetic
           >
             {dict.nav.switchTo}

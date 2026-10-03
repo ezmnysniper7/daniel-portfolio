@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation';
 import { locales, type Locale } from '@/i18n/config';
 import { getDictionary } from '@/data/dictionary';
 import { siteMetadata } from '@/data/metadata';
-import { Cursor, IntroOverlay } from '@/components/site/Chrome';
 import { MotionBoot } from '@/components/motion/MotionBoot';
 
 const display = Fraunces({ subsets: ['latin'], variable: '--font-display', display: 'swap' });
@@ -13,14 +12,12 @@ const mono = JetBrains_Mono({
   subsets: ['latin'],
   weight: ['400'],
   variable: '--font-mono',
-  // Small labels only: never swap after first paint, so a late font can't re-wrap the layout.
+  // Preloaded so it's usually ready for first paint; 'optional' means a late arrival never swaps (no layout shift).
   display: 'optional',
-  preload: false,
 });
 
-// Runs before first paint: marks JS as available and opts into the intro once per session.
-// The curtain is desktop-only; on phones the headline starts revealing immediately (LCP).
-const bootScript = `(function(){var d=document.documentElement;d.classList.add('js');try{var r=matchMedia('(prefers-reduced-motion: reduce)').matches;if(!r&&matchMedia('(min-width: 768px)').matches&&!sessionStorage.getItem('dc-intro')){d.classList.add('intro');sessionStorage.setItem('dc-intro','1')}}catch(e){}})();`;
+// Runs before first paint: marks that JS is available.
+const bootScript = `document.documentElement.classList.add('js');`;
 
 export const dynamicParams = false;
 
@@ -74,9 +71,7 @@ export default async function LocaleLayout({
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
       <body className="font-sans">
-        <IntroOverlay label={dict.intro} />
         {children}
-        <Cursor />
         <MotionBoot />
       </body>
     </html>

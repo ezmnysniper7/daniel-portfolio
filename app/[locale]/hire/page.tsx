@@ -7,6 +7,8 @@ import { formatPeriod } from '@/lib/format';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
 import { ContactCta } from '@/components/site/ContactCta';
+import { MethodSection } from '@/components/site/MethodSection';
+import { ToolboxSection } from '@/components/site/ToolboxSection';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { breadcrumbNode, graph, pageMetadata, personNode, profilePageNode, websiteNode } from '@/lib/seo';
 
@@ -111,6 +113,9 @@ export default async function HirePage({ params }: { params: Params }) {
             </p>
           </div>
         </section>
+
+        <MethodSection dict={dict} />
+        <ToolboxSection dict={dict} />
 
         <ContactCta title={copy.ctaTitle} button={copy.ctaButton} subject={copy.emailSubject} />
       </main>

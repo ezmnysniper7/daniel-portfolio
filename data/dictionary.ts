@@ -28,6 +28,8 @@ export type Dictionary = {
     scroll: string;
   };
   services: { index: string; label: string; title: string; intro: string; more: string; hireTitle: string; hireBody: string };
+  /** The 3D "live system" in the hero. Flow captions follow FLOWS order in lib/system-graph.ts. */
+  system: { label: string; live: string; nodes: Record<string, string>; flows: string[] };
   servicesPage: {
     metaTitle: string;
     metaDescription: string;
@@ -170,6 +172,25 @@ const en: Dictionary = {
     cta: 'See the work',
     cta2: 'Start a project',
     scroll: 'Scroll',
+  },
+  system: {
+    label: 'A fintech system like the ones I build, with messages flowing between services',
+    live: 'Live',
+    nodes: {
+      client: 'Client app',
+      api: 'Portal API',
+      mq: 'RabbitMQ',
+      bo: 'Back office',
+      pay: 'Payments',
+      trade: 'Trading engine',
+      db: 'Database',
+      risk: 'Risk monitor',
+    },
+    flows: [
+      'Deposit: client app → API → payments → RabbitMQ → back office',
+      'Trade: client app → API → RabbitMQ → trading engine → risk monitor',
+      'KYC sync: back office → RabbitMQ → portal API → database',
+    ],
   },
   services: {
     index: '03',
@@ -321,8 +342,6 @@ const en: Dictionary = {
       { value: 38, label: 'PRs merged through lead review', note: 'CFI, July to October 2026' },
       { value: 235, label: 'REST endpoints in one Go API', note: 'SolveMY, 31 domain services' },
       { value: 1006, label: 'Go test functions', note: 'SolveMY backend' },
-      { value: 250, prefix: '~', label: 'Commits in six months', note: 'TradersFlow, 5 repositories' },
-      { value: 48, label: 'Screens in one Flutter app', note: 'SolveMY, live on Google Play' },
     ],
   },
   method: {
@@ -433,6 +452,25 @@ const zhCN: Dictionary = {
     cta: '看看作品',
     cta2: '聊聊你的项目',
     scroll: '向下滚动',
+  },
+  system: {
+    label: '我所构建的金融科技系统示意：消息在各个服务之间流动',
+    live: '实时',
+    nodes: {
+      client: '客户端 App',
+      api: '门户 API',
+      mq: 'RabbitMQ',
+      bo: '后台系统',
+      pay: '支付',
+      trade: '交易引擎',
+      db: '数据库',
+      risk: '风控监控',
+    },
+    flows: [
+      '入金：客户端 → API → 支付 → RabbitMQ → 后台系统',
+      '交易：客户端 → API → RabbitMQ → 交易引擎 → 风控监控',
+      'KYC 同步：后台系统 → RabbitMQ → 门户 API → 数据库',
+    ],
   },
   services: {
     index: '03',
@@ -559,8 +597,6 @@ const zhCN: Dictionary = {
       { value: 38, label: '经负责人评审合并的 PR', note: 'CFI，2026 年 7 月至 10 月' },
       { value: 235, label: '一个 Go API 中的 REST 接口', note: 'SolveMY，31 个领域服务' },
       { value: 1006, label: 'Go 测试函数', note: 'SolveMY 后端' },
-      { value: 250, prefix: '~', label: '六个月内的提交', note: 'TradersFlow，5 个代码仓库' },
-      { value: 48, label: '一个 Flutter App 的页面数', note: 'SolveMY，已上架 Google Play' },
     ],
   },
   method: {

@@ -9,7 +9,6 @@ import { NowSection } from '@/components/site/NowSection';
 import { WorkSection } from '@/components/site/WorkSection';
 import { ServicesSection } from '@/components/site/ServicesSection';
 import { StatsSection } from '@/components/site/StatsSection';
-import { MethodSection } from '@/components/site/MethodSection';
 import { ExperienceSection } from '@/components/site/ExperienceSection';
 import { Footer } from '@/components/site/Footer';
 import { JsonLd } from '@/components/seo/JsonLd';
@@ -47,9 +46,8 @@ export default async function HomePage({ params }: { params: Params }) {
           dict={dict}
           projects={getSelectedProjects(locale)}
         />
-        <ServicesSection locale={locale} dict={dict} services={services} />
         <StatsSection dict={dict} locale={locale} />
-        <MethodSection dict={dict} />
+        <ServicesSection locale={locale} dict={dict} services={services} />
         <ExperienceSection dict={dict} locale={locale} experience={experience} projectsByJob={projectsByJob} />
       </main>
       <Footer dict={dict} locale={locale} />

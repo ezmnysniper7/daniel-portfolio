@@ -8,7 +8,7 @@ export function ContactCta({ title, body, button, subject }: Props) {
   return (
     <section className="border-t border-line">
       <div className="gutter mx-auto max-w-page py-24 md:py-32">
-        <h2 className="display-xl max-w-[18ch]" data-split>
+        <h2 className="display-xl max-w-[18ch]">
           {title}
         </h2>
         {body ? (

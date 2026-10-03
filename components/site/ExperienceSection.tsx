@@ -13,19 +13,17 @@ type Props = {
 
 /** Native <details> rows: expandable without any JavaScript. */
 export function ExperienceSection({ dict, locale, experience, projectsByJob }: Props) {
-  const { experience: copy, toolbox } = dict;
+  const { experience: copy } = dict;
   return (
-    <section id="experience" className="border-t border-line py-20 md:py-28">
+    <section id="experience" className="py-24 md:py-32">
       <div className="gutter mx-auto max-w-page">
         <div className="grid gap-6 lg:grid-cols-12">
-          <p className="eyebrow lg:col-span-4">
-            <span className="text-signal">{copy.index}</span> / {copy.label}
-          </p>
+          <p className="eyebrow lg:col-span-4">{copy.label}</p>
           <div className="lg:col-span-8">
-            <h2 className="display-xl" data-split>
+            <h2 className="display-xl">
               {copy.title}
             </h2>
-            <p className="mt-5 max-w-2xl leading-relaxed text-bone-2" data-reveal>
+            <p className="mt-5 max-w-2xl leading-relaxed text-bone-2">
               {copy.intro}
             </p>
           </div>
@@ -114,17 +112,6 @@ export function ExperienceSection({ dict, locale, experience, projectsByJob }: P
           })}
         </div>
 
-        <div className="mt-20 grid gap-8 md:mt-28 lg:grid-cols-12">
-          <p className="eyebrow lg:col-span-2">{toolbox.label}</p>
-          <dl className="grid gap-x-12 gap-y-8 sm:grid-cols-2 lg:col-span-10">
-            {toolbox.groups.map((g) => (
-              <div key={g.name} className="border-t border-line pt-4" data-reveal>
-                <dt className="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-bone-2">{g.name}</dt>
-                <dd className="mt-2 leading-relaxed text-bone">{g.items}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
       </div>
     </section>
   );

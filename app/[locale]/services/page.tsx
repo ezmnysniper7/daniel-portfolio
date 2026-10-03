@@ -68,7 +68,7 @@ export default async function ServicesPage({ params }: { params: Params }) {
               <li key={s.slug} data-reveal>
                 <Link
                   href={`/${locale}/services/${s.slug}`}
-                  data-cursor="view"
+                 
                   className="group flex h-full flex-col rounded-[1.25rem] border border-line bg-ink-2/60 p-7 transition-colors duration-500 hover:border-bone-3 md:p-9"
                 >
                   <span className="font-mono text-xs text-signal">0{n + 1}</span>

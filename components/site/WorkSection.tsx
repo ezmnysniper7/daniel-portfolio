@@ -26,31 +26,22 @@ export function OwnershipBadge({ dict, project, className = '' }: { dict: Dictio
   );
 }
 
-/**
- * Without JS (and on touch / narrow screens) the rail is a native swipe carousel.
- * On desktop with motion allowed, the section pins and vertical scroll drives the rail.
- */
+/** Selected projects as a simple grid; the first (my own product) gets a wide card. */
 export function WorkSection({ locale, dict, projects }: Props) {
   const { work } = dict;
   const kinds: Ownership[] = ['side', 'job', 'freelance'];
   return (
-    <section id="work" className="relative border-t border-line">
-      <div data-hscroll className="flex flex-col justify-center overflow-hidden py-20 md:py-28 lg:min-h-screen lg:py-8">
-        <div className="gutter mx-auto flex w-full max-w-page flex-col gap-6 md:flex-row md:items-end md:justify-between">
+    <section id="work" className="py-24 md:py-32">
+      <div className="gutter mx-auto max-w-page">
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="eyebrow">
-              <span className="text-signal">{work.index}</span> / {work.label}
-            </p>
-            <h2 className="display-xl mt-5" data-split>
-              {work.title}
-            </h2>
+            <p className="eyebrow">{work.label}</p>
+            <h2 className="display-xl mt-5">{work.title}</h2>
           </div>
-          <p className="max-w-md leading-relaxed text-bone-2" data-reveal>
-            {work.intro}
-          </p>
+          <p className="max-w-md leading-relaxed text-bone-2">{work.intro}</p>
         </div>
 
-        <ul className="gutter mx-auto mt-8 flex w-full max-w-page flex-wrap gap-x-6 gap-y-3 lg:mt-5" aria-label={work.label}>
+        <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-3" aria-label={work.label}>
           {kinds.map((k) => (
             <li key={k} className="flex items-center gap-2.5 text-sm text-bone-2">
               <span className={`h-3.5 w-6 rounded-full border ${badgeStyle[k]}`} aria-hidden="true" />
@@ -59,45 +50,31 @@ export function WorkSection({ locale, dict, projects }: Props) {
           ))}
         </ul>
 
-        <ol data-hscroll-track className="hs-track gutter mt-8 md:mt-10 lg:mt-6">
+        <ul className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((p, n) => (
-            <li key={p.slug} className="hs-card">
+            <li key={p.slug} className={n === 0 ? 'md:col-span-2' : ''} data-reveal>
               <Link
                 href={`/${locale}/work/${p.slug}`}
-                data-cursor="view"
                 className="group flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-line bg-ink-2/60 transition-colors duration-500 hover:border-bone-3"
               >
                 <div className="relative">
-                  <CardArt slug={p.slug} className="aspect-[16/9] w-full lg:aspect-auto lg:h-[21vh]" />
-                  <span className="eyebrow absolute left-5 top-5 text-bone">{String(n + 1).padStart(2, '0')}</span>
+                  <CardArt slug={p.slug} className="aspect-[16/9] w-full lg:aspect-auto lg:h-60" />
                   <OwnershipBadge dict={dict} project={p} className="absolute right-4 top-4" />
                 </div>
                 <div className="flex flex-1 flex-col p-6 md:p-7">
-                  <p className="eyebrow">{year(p.startDate)}</p>
-                  <h3 className="mt-2 font-display text-[clamp(1.5rem,2vw,2rem)] leading-[1.1] tracking-[-0.02em]">{p.title}</h3>
-                  <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-bone-2 lg:line-clamp-2">{p.description}</p>
-                  <ul className="mt-5 flex flex-wrap gap-1.5">
-                    {p.techStack.slice(0, 4).map((t) => (
-                      <li key={t} className="chip">
-                        {t}
-                      </li>
-                    ))}
-                  </ul>
-                  <span className="eyebrow mt-auto pt-6 text-bone transition-colors group-hover:text-signal">
-                    {work.open} <span aria-hidden="true">→</span>
+                  <p className="font-mono text-[0.72rem] text-bone-3">{year(p.startDate)}</p>
+                  <h3 className="mt-2 font-display text-[clamp(1.4rem,1.9vw,1.9rem)] leading-[1.1] tracking-[-0.02em] transition-colors duration-500 group-hover:text-signal">
+                    {p.title}
+                  </h3>
+                  <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-bone-2">{p.description}</p>
+                  <span className="mt-auto pt-6 text-sm text-bone">
+                    {work.open} <span aria-hidden="true" className="inline-block transition-transform duration-500 group-hover:translate-x-1">→</span>
                   </span>
                 </div>
               </Link>
             </li>
           ))}
-        </ol>
-
-        <div className="gutter mx-auto mt-8 flex w-full max-w-page items-center gap-6 lg:mt-6" aria-hidden="true">
-          <span className="eyebrow shrink-0">{work.hint}</span>
-          <span className="relative h-px flex-1 bg-line">
-            <span data-hscroll-progress className="absolute inset-0 origin-left scale-x-0 bg-signal" />
-          </span>
-        </div>
+        </ul>
       </div>
     </section>
   );

@@ -207,7 +207,7 @@ export default async function CaseStudyPage({ params }: { params: Params }) {
         <section className="border-t border-line">
           <Link
             href={`/${locale}/work/${next.slug}`}
-            data-cursor="view"
+           
             className="gutter group mx-auto block max-w-page py-24 md:py-36"
           >
             <span className="eyebrow">{copy.next}</span>

@@ -11,7 +11,7 @@ export function Footer({ dict, locale }: { dict: Dictionary; locale: string }) {
     <footer id="contact" className="relative overflow-hidden border-t border-line pt-24 md:pt-36">
       <div className="gutter mx-auto max-w-page">
         <p className="eyebrow">{footer.label}</p>
-        <h2 className="display-xl mt-6" data-split>
+        <h2 className="display-xl mt-6">
           {footer.lines[0]}
           <br />
           {footer.lines[1]}
@@ -67,7 +67,7 @@ export function Footer({ dict, locale }: { dict: Dictionary; locale: string }) {
       </div>
 
       <div className="mt-12 overflow-hidden" aria-hidden="true">
-        <p data-wordmark className="wordmark translate-y-[0.14em] text-center text-bone">
+        <p className="wordmark translate-y-[0.14em] text-center text-bone">
           Daniel Chen
         </p>
       </div>

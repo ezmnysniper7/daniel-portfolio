@@ -1,11 +1,10 @@
 /**
  * Project visuals drawn with CSS and inline SVG: no image requests, crisp at any size.
- * The inner layer is oversized so the motion layer can drift it for parallax.
  */
 export function CardArt({ slug, className = '' }: { slug: string; className?: string }) {
   return (
     <div className={`art ${className}`} aria-hidden="true">
-      <div data-art-inner className={`absolute -inset-x-[8%] inset-y-0 ${bgFor(slug)}`}>
+      <div className={`absolute inset-0 ${bgFor(slug)}`}>
         {svgFor(slug)}
       </div>
     </div>
