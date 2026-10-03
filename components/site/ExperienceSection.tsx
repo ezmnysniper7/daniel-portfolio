@@ -33,7 +33,7 @@ export function ExperienceSection({ dict, locale, experience, projectsByJob }: P
 
         <div className="mt-12 border-t border-line md:mt-16">
           {experience.map((e, n) => {
-            const current = e.endDate === 'Present';
+            const current = e.endDate === 'Present' && e.type !== 'side';
             const projects = projectsByJob[e.id] ?? [];
             return (
               <details key={e.id} className="exp-row border-b border-line" open={n === 0} data-reveal>
@@ -43,7 +43,11 @@ export function ExperienceSection({ dict, locale, experience, projectsByJob }: P
                     {e.type ? (
                       <span
                         className={`rounded-full border px-2.5 py-1 font-mono text-[0.7rem] ${
-                          e.type === 'freelance' ? 'border-dashed border-bone/60 text-bone' : 'border-bone/40 text-bone'
+                          e.type === 'side'
+                            ? 'border-signal bg-signal text-ink'
+                            : e.type === 'freelance'
+                              ? 'border-dashed border-bone/60 text-bone'
+                              : 'border-bone/40 text-bone'
                         }`}
                       >
                         {copy.types[e.type]}

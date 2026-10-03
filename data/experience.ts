@@ -37,6 +37,25 @@ const experienceEn: Experience[] = [
     type: 'full-time',
   },
   {
+    id: 'solvemy-2026',
+    company: 'SolveMY',
+    companyUrl: 'https://www.solvemy.com.my',
+    position: 'Engineering lead, built end to end',
+    location: 'Malaysia',
+    startDate: '2026-01',
+    endDate: 'Present',
+    description:
+      'My own side project: a trilingual local-services marketplace for Malaysia, live on the web and Google Play. I built and run the whole stack: a Go API, a Next.js website and a Flutter app for Android and iOS.',
+    responsibilities: [
+      'Designed a layered Go API on PostgreSQL with PostGIS: 235 endpoints across 31 domain services and 1,006 test functions, with lint and format gates in CI.',
+      'Built the Next.js website with server-rendered SEO pages in English, Malay and Chinese, and the 48-screen Flutter app, shipped to Google Play and submitted to the App Store.',
+      'Run production on Hetzner with Docker, nginx and Let\'s Encrypt, isolated staging, encrypted nightly backups to Cloudflare R2, and Sentry and uptime alerts.',
+      'Integrated Firebase push (Android and iOS), Twilio WhatsApp OTP, Google Maps, Google and Apple sign-in, and AI search on the Claude API.',
+    ],
+    techStack: ['Go', 'PostgreSQL', 'PostGIS', 'Next.js', 'Flutter', 'Docker', 'Cloudflare R2', 'Firebase', 'Claude API'],
+    type: 'side',
+  },
+  {
     id: 'appnovation-2025',
     company: 'Appnovation',
     companyUrl: 'https://www.appnovation.com',
@@ -187,6 +206,25 @@ const experienceZhCN: Experience[] = [
     type: 'full-time',
   },
   {
+    id: 'solvemy-2026',
+    company: 'SolveMY',
+    companyUrl: 'https://www.solvemy.com.my',
+    position: '技术负责人，端到端独立构建',
+    location: '马来西亚',
+    startDate: '2026-01',
+    endDate: 'Present',
+    description:
+      '我自己的个人项目：面向马来西亚的三语本地服务平台，网页与 Google Play 均已上线。整套系统由我搭建并运维：Go API、Next.js 网站，以及 Android 和 iOS 的 Flutter App。',
+    responsibilities: [
+      '设计基于 PostgreSQL 与 PostGIS 的分层 Go API：31 个领域服务、235 个接口、1,006 个测试函数，CI 中有代码检查与格式门禁。',
+      '构建带英文、马来文、中文服务端渲染 SEO 页面的 Next.js 网站，以及 48 个页面的 Flutter App，已上架 Google Play 并提交 App Store。',
+      '在 Hetzner 上运维生产环境（Docker、nginx、Let\'s Encrypt），预发环境隔离，每晚加密备份到 Cloudflare R2，并配置 Sentry 与在线监控告警。',
+      '集成 Firebase 推送（Android 与 iOS）、Twilio WhatsApp 验证码、Google 地图、Google 与 Apple 登录，以及基于 Claude API 的 AI 搜索。',
+    ],
+    techStack: ['Go', 'PostgreSQL', 'PostGIS', 'Next.js', 'Flutter', 'Docker', 'Cloudflare R2', 'Firebase', 'Claude API'],
+    type: 'side',
+  },
+  {
     id: 'appnovation-2025',
     company: 'Appnovation',
     companyUrl: 'https://www.appnovation.com',
@@ -295,6 +333,8 @@ const experienceZhCN: Experience[] = [
   },
 ];
 
+/** Newest start date first. */
 export function getExperience(locale: string): Experience[] {
-  return locale === 'zh-CN' ? experienceZhCN : experienceEn;
+  const list = locale === 'zh-CN' ? experienceZhCN : experienceEn;
+  return [...list].sort((a, b) => b.startDate.localeCompare(a.startDate));
 }

@@ -97,7 +97,10 @@ export default async function HirePage({ params }: { params: Params }) {
                     {formatPeriod(e.startDate, e.endDate, locale, dict.experience.present)}
                   </span>
                   <span className="col-span-12 font-display text-xl md:col-span-4 md:text-2xl">{e.company}</span>
-                  <span className="col-span-12 text-bone-2 md:col-span-5">{e.position}</span>
+                  <span className="col-span-12 text-bone-2 md:col-span-5">
+                    {e.position}
+                    {e.type ? <span className="text-bone-3"> · {dict.experience.types[e.type]}</span> : null}
+                  </span>
                 </li>
               ))}
             </ul>

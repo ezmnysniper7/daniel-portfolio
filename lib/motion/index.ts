@@ -245,8 +245,23 @@ function setupReveals() {
   ScrollTrigger.batch(items, {
     start: 'top 90%',
     once: true,
-    onEnter: (batch) =>
-      gsap.to(batch, { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, overwrite: true }),
+    onEnter: (batch) => {
+      // A jump (anchor link, scrollbar) can enter dozens at once: anything already scrolled past
+      // appears instantly, and only what is on screen animates, with the stagger capped.
+      const passed = batch.filter((el) => el.getBoundingClientRect().bottom < 0);
+      const onScreen = batch.filter((el) => !passed.includes(el));
+      if (passed.length) gsap.set(passed, { opacity: 1, y: 0, overwrite: true });
+      if (onScreen.length) {
+        gsap.to(onScreen, {
+          opacity: 1,
+          y: 0,
+          duration: 1.1,
+          ease: 'expo.out',
+          stagger: { each: 0.08, amount: Math.min(0.4, 0.08 * (onScreen.length - 1)) },
+          overwrite: true,
+        });
+      }
+    },
   });
 }
 

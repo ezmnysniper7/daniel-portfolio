@@ -38,7 +38,7 @@ export interface Experience {
   responsibilities: string[];
   achievements?: string[];
   techStack: string[];
-  type?: 'full-time' | 'contract' | 'internship' | 'freelance';
+  type?: 'full-time' | 'contract' | 'internship' | 'freelance' | 'side';
 }
 
 export interface SiteMetadata {

@@ -338,12 +338,12 @@ const en: Dictionary = {
   experience: {
     index: '06',
     label: 'Work history',
-    title: 'Jobs and contracts.',
-    intro: 'Every job and freelance contract, newest first. Open a row to see what I did there and the projects I built.',
+    title: 'Jobs, contracts and side projects.',
+    intro: 'Everything I’ve worked on, newest first. Each row says whether it was a full-time job, a freelance contract or my own side project. Open one to see what I did and the projects built there.',
     present: 'Present',
     current: 'Current job',
     projects: 'Projects built here',
-    types: { 'full-time': 'Full-time', freelance: 'Freelance', contract: 'Contract', internship: 'Internship' },
+    types: { 'full-time': 'Full-time', freelance: 'Freelance', contract: 'Contract', internship: 'Internship', side: 'Side project' },
   },
   toolbox: {
     label: 'Toolbox',
@@ -576,12 +576,12 @@ const zhCN: Dictionary = {
   experience: {
     index: '06',
     label: '工作经历',
-    title: '全职与合同经历。',
-    intro: '所有全职工作与自由职业合同，按时间倒序。点开每一行，查看我在那里做了什么、开发了哪些项目。',
+    title: '工作、合同与个人项目。',
+    intro: '我做过的所有工作，按时间倒序。每一行都标明是全职工作、自由职业合同，还是我自己的个人项目。点开查看具体工作和开发的项目。',
     present: '至今',
     current: '目前任职',
     projects: '在这里开发的项目',
-    types: { 'full-time': '全职', freelance: '自由职业', contract: '合同', internship: '实习' },
+    types: { 'full-time': '全职', freelance: '自由职业', contract: '合同', internship: '实习', side: '个人项目' },
   },
   toolbox: {
     label: '工具箱',

@@ -12,8 +12,9 @@ export const SELECTED_SLUGS = [
   'hktb-ai-trip-planner',
 ];
 
-/** Which job each project was built in (experience id). Projects not listed are Daniel's own side projects. */
+/** Which Work history entry each project belongs to (experience id). */
 const experienceBySlug: Record<string, string> = {
+  solvemy: 'solvemy-2026',
   tradersflow: 'tradersflow-2025',
   'octopus-payment-microservice': 'appnovation-2025',
   'ocean-park-ticketing': 'appnovation-2025',
@@ -39,7 +40,7 @@ function withOwnership(projects: Project[], locale: string): Project[] {
   const jobs = getExperience(locale);
   return projects.map((p) => {
     const job = jobs.find((e) => e.id === experienceBySlug[p.slug]);
-    if (!job) return { ...p, ownership: 'side' as const, kind: 'side' as const };
+    if (!job || job.type === 'side') return { ...p, experienceId: job?.id, ownership: 'side' as const, kind: 'side' as const };
     return {
       ...p,
       experienceId: job.id,
