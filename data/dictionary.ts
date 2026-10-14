@@ -136,6 +136,9 @@ export type Dictionary = {
     rights: string;
     servicesLabel: string;
     hireLink: string;
+    status: string;
+    city: string;
+    deployed: string;
   };
   caseStudy: {
     type: string;
@@ -439,9 +442,12 @@ const en: Dictionary = {
     lines: ['Building something?', 'Hiring? Let’s talk.'],
     email: 'Email me',
     top: 'Back to top',
-    rights: 'Built from scratch with Next.js, GSAP, Lenis and one WebGL shader.',
+    rights: 'Built from scratch with Next.js, OGL and Lenis.',
     servicesLabel: 'Services',
     hireLink: 'Hire me full-time',
+    status: 'Open to projects and roles',
+    city: 'Kuala Lumpur',
+    deployed: 'Last deployed',
   },
   caseStudy: {
     type: 'Type',
@@ -718,9 +724,12 @@ const zhCN: Dictionary = {
     lines: ['要做系统？', '要招人？我们聊聊。'],
     email: '给我发邮件',
     top: '回到顶部',
-    rights: '使用 Next.js、GSAP、Lenis 和一个 WebGL 着色器从零构建。',
+    rights: '使用 Next.js、OGL 和 Lenis 从零构建。',
     servicesLabel: '服务',
     hireLink: '招聘我（全职）',
+    status: '承接项目，也看工作机会',
+    city: '吉隆坡',
+    deployed: '最近部署',
   },
   caseStudy: {
     type: '类型',

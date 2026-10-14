@@ -1,11 +1,23 @@
+const { execSync } = require('child_process');
 const createNextIntlPlugin = require('next-intl/plugin');
 
 const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
+
+// The commit and time of this build, shown in the footer's status bar.
+function buildSha() {
+  if (process.env.VERCEL_GIT_COMMIT_SHA) return process.env.VERCEL_GIT_COMMIT_SHA;
+  try {
+    return execSync('git rev-parse HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+  } catch {
+    return '';
+  }
+}
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  env: { BUILD_SHA: buildSha(), BUILD_TIME: new Date().toISOString() },
   // One small stylesheet: inline it so it never blocks first paint.
   experimental: { inlineCss: true },
   async redirects() {

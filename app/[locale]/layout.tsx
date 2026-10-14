@@ -15,6 +15,10 @@ const mono = JetBrains_Mono({
   // Preloaded so it's usually ready for first paint; 'optional' means a late arrival never swaps (no layout shift).
   display: 'optional',
 });
+// next/font's own fallback for it is Arial scaled up 135%, far wider than the real font in uppercase labels
+// (the header overflowed on phones when the font missed its window). The CSS stacks use just the real face,
+// then system monospace fonts with the same 0.6em advance.
+const monoFace = { '--font-mono-face': mono.style.fontFamily.split(',')[0] } as React.CSSProperties;
 
 // Runs before first paint: marks that JS is available.
 const bootScript = `document.documentElement.classList.add('js');`;
@@ -66,7 +70,7 @@ export default async function LocaleLayout({
   const dict = getDictionary(locale);
 
   return (
-    <html lang={locale} className={`${display.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang={locale} className={`${display.variable} ${sans.variable} ${mono.variable}`} style={monoFace} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>
