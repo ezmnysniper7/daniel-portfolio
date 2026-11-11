@@ -8,8 +8,9 @@ type Status = 'idle' | 'sending' | 'sent' | 'error' | 'limited';
 
 const NEEDS: ContactNeed[] = ['discovery', 'build', 'lead', 'role', 'other'];
 
+// A visible box on a solid fill: the border needs 3:1 against the page, and the stars must not show through.
 const field =
-  'w-full border-0 border-b border-line bg-transparent px-0 py-3 text-base text-bone outline-none transition-colors placeholder:text-bone-3 focus:border-signal focus:ring-0';
+  'mt-2 block min-h-[48px] w-full rounded-xl border border-bone-3/60 bg-ink-2 px-4 py-3 text-base text-bone outline-none transition-colors placeholder:text-bone-3 hover:border-bone-3 focus:border-signal focus:ring-1 focus:ring-signal';
 
 export function ContactForm({ copy, locale, email }: { copy: Dictionary['form']; locale: string; email: string }) {
   const [need, setNeed] = useState<ContactNeed>('build');
@@ -77,7 +78,7 @@ export function ContactForm({ copy, locale, email }: { copy: Dictionary['form'];
             <label
               key={n}
               className={`inline-flex min-h-[40px] cursor-pointer items-center rounded-full border px-4 text-sm transition-colors ${
-                need === n ? 'border-bone bg-bone text-ink' : 'border-line text-bone-2 hover:border-bone-3 hover:text-bone'
+                need === n ? 'border-bone bg-bone text-ink' : 'border-bone-3/60 bg-ink-2 text-bone-2 hover:border-bone-3 hover:text-bone'
               }`}
             >
               <input type="radio" name="need" value={n} checked={need === n} onChange={() => setNeed(n)} className="sr-only" />
