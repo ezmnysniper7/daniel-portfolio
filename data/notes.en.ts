@@ -56,7 +56,7 @@ const shortNotes: Note[] = [
     tags: ['Payments', 'Webhooks', 'Checkout.com', 'Stripe'],
     title: 'Payment webhooks that never double-credit: signatures, idempotency and reconciliation',
     description:
-      'A practical checklist for card, wallet and bank payment callbacks: verify signatures, process each event once, survive retries and out-of-order events, and reconcile.',
+      'A practical checklist for card, wallet and bank payment callbacks: verify signatures, process each event once, survive retries and reordering, and reconcile.',
     body: [
       {
         p: 'Most payment bugs I have fixed were not on the checkout page. They were in the callback: the webhook that tells your system a payment succeeded. These are the rules I now apply to every integration, whether it is Checkout.com, Stripe or a local gateway.',

@@ -162,7 +162,7 @@ const shortNotes: Note[] = [
     service: 'mobile-app-development',
     basis: 'field',
     tags: ['Flutter', 'App Store', 'Google Play', '移动端'],
-    title: '一个 App，两套商店规则：用 Flutter 把服务平台同时上架 Google Play 和 App Store',
+    title: '一个 App，两套商店规则：Flutter 应用的双平台上架经验',
     description: '在 Android 和 iOS 上发布 Flutter App 的经验：Apple 的应用内购买规则、按平台区分的定价展示、推送通知、旧版本兼容与深度链接。',
     body: [
       {

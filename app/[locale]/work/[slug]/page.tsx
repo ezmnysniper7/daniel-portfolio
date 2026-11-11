@@ -17,6 +17,9 @@ import { articleNode, breadcrumbNode, graph, pageMetadata } from '@/lib/seo';
 
 type Params = Promise<{ locale: string; slug: string }>;
 
+/** Bump when a case study is substantially rewritten. */
+const CASE_STUDIES_PUBLISHED = '2026-11-11';
+
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -85,6 +88,8 @@ export default async function CaseStudyPage({ params }: { params: Params }) {
           description: project.description,
           keywords: project.tags,
           image: `/work/${slug}`,
+          // The structured case studies were written and published with the Nov 2026 relaunch.
+          published: CASE_STUDIES_PUBLISHED,
         }),
         crumbs
       )
