@@ -17,6 +17,8 @@ function bgFor(slug: string) {
       return 'art-map';
     case 'tradersflow':
       return 'art-chart';
+    case 'cfi-broker-payments-crypto-backend':
+      return 'art-lines';
     case 'dan':
       return 'art-grid';
     case 'octopus-payment-microservice':
@@ -54,6 +56,18 @@ function svgFor(slug: string) {
             vectorEffect="non-scaling-stroke"
           />
           <circle cx="352" cy="200" r="5" fill={bone} />
+        </svg>
+      );
+    case 'cfi-broker-payments-crypto-backend':
+      // back office, queue, client portal: two systems kept in step
+      return (
+        <svg viewBox="0 0 400 250" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet">
+          <line x1="110" y1="125" x2="290" y2="125" stroke={stroke} strokeOpacity="0.7" strokeDasharray="3 6" />
+          <rect x="52" y="95" width="68" height="60" rx="10" fill="none" stroke={bone} strokeOpacity="0.75" />
+          <rect x="280" y="95" width="68" height="60" rx="10" fill="none" stroke={bone} strokeOpacity="0.75" />
+          <circle cx="200" cy="125" r="22" fill="hsl(224 30% 5%)" stroke={stroke} />
+          <circle cx="200" cy="125" r="5" fill={stroke} />
+          <path d="M68 118h36M68 132h22M296 118h36M296 132h22" stroke={bone} strokeOpacity="0.5" strokeLinecap="round" />
         </svg>
       );
     case 'dan':

@@ -2,11 +2,11 @@ import Link from 'next/link';
 import type { Dictionary } from '@/data/dictionary';
 import { formatNoteDate, type Note } from '@/data/notes';
 
-/** A quiet list of article titles at the end of the home page: crawlable links, small footprint. */
+/** Latest article titles near the end of the home page: crawlable links, small footprint. */
 export function NotesSection({ locale, dict, notes }: { locale: string; dict: Dictionary; notes: Note[] }) {
   const copy = dict.notes;
   return (
-    <section id="notes" className="pb-20 pt-8 md:pb-28">
+    <section id="notes" className="border-t border-line py-20 md:py-28">
       <div className="gutter mx-auto grid max-w-page gap-8 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <p className="eyebrow">{copy.label}</p>
@@ -20,7 +20,7 @@ export function NotesSection({ locale, dict, notes }: { locale: string; dict: Di
             <li key={n.slug}>
               <Link
                 href={`/${locale}/notes/${n.slug}`}
-                className="group flex items-baseline gap-4 border-b border-line py-3.5 text-[0.95rem] transition-colors hover:text-signal"
+                className="group flex flex-col gap-x-4 gap-y-1 border-b border-line py-3.5 text-[0.95rem] transition-colors hover:text-signal sm:flex-row sm:items-baseline"
               >
                 <span className="w-24 shrink-0 font-mono text-[0.75rem] text-bone-3">{formatNoteDate(n.date, locale)}</span>
                 <span className="flex-1 text-bone-2 transition-colors group-hover:text-signal">{n.title}</span>

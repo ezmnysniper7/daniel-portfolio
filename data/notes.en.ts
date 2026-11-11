@@ -1,12 +1,21 @@
 import type { Note } from './notes';
+// long-form notes: start
+import { note as managerVsWebApi } from './notes/mt5-manager-api-vs-web-api.en';
+import { note as depositExactlyOnce } from './notes/mt5-deposit-credit-exactly-once.en';
+import { note as investorPortal } from './notes/mt5-investor-portal-ib-commissions.en';
+import { note as bBookArchitecture } from './notes/b-book-trading-platform-architecture.en';
+import { note as ledgerDesign } from './notes/double-entry-ledger-fintech-startups.en';
+import { note as firstFintechEngineer } from './notes/first-fintech-engineer.en';
+// long-form notes: end
 
 /** Short, practical articles drawn from real work. No em dashes, by request. */
-export const notesEn: Note[] = [
+const shortNotes: Note[] = [
   {
     slug: 'mt5-manager-api-lessons',
     date: '2026-10-04',
     minutes: 4,
-    service: 'crypto-trading-systems',
+    service: 'mt5-manager-api-developer',
+    basis: 'field',
     tags: ['MetaTrader 5', 'C#', 'Prop trading', 'Risk'],
     title: 'Building on the MetaTrader 5 Manager API: five lessons from a real-time risk monitor',
     description:
@@ -43,6 +52,7 @@ export const notesEn: Note[] = [
     date: '2026-10-04',
     minutes: 4,
     service: 'payment-integration',
+    basis: 'field',
     tags: ['Payments', 'Webhooks', 'Checkout.com', 'Stripe'],
     title: 'Payment webhooks that never double-credit: signatures, idempotency and reconciliation',
     description:
@@ -85,6 +95,7 @@ export const notesEn: Note[] = [
     date: '2026-10-04',
     minutes: 3,
     service: 'backend-development',
+    basis: 'field',
     tags: ['RabbitMQ', 'Event-driven', 'Python', 'Deployments'],
     title: 'Changing a message between two services: why the consumer ships first',
     description:
@@ -118,7 +129,8 @@ export const notesEn: Note[] = [
     slug: 'ai-coding-assistants-verification',
     date: '2026-10-04',
     minutes: 3,
-    service: 'backend-development',
+    service: 'fintech-technical-partner',
+    basis: 'field',
     tags: ['AI', 'Claude Code', 'Code review', 'Engineering practice'],
     title: 'How I use AI coding assistants without shipping their mistakes',
     description:
@@ -154,6 +166,7 @@ export const notesEn: Note[] = [
     date: '2026-10-04',
     minutes: 4,
     service: 'mobile-app-development',
+    basis: 'field',
     tags: ['Flutter', 'App Store', 'Google Play', 'Mobile'],
     title: 'One app, two app store rulebooks: shipping a Flutter marketplace on Google Play and the App Store',
     description:
@@ -187,7 +200,8 @@ export const notesEn: Note[] = [
     slug: 'prop-firm-risk-rules',
     date: '2026-10-04',
     minutes: 4,
-    service: 'crypto-trading-systems',
+    service: 'prop-firm-software-development',
+    basis: 'field',
     tags: ['Prop trading', 'Risk', 'MetaTrader 5', 'Trading'],
     title: 'How prop firms enforce daily loss and max loss rules, and why timing matters',
     description:
@@ -225,3 +239,6 @@ export const notesEn: Note[] = [
     ],
   },
 ];
+
+/** Long-form notes live in one file each under data/notes/. */
+export const notesEn: Note[] = [managerVsWebApi, depositExactlyOnce, investorPortal, bBookArchitecture, ledgerDesign, firstFintechEngineer, ...shortNotes];

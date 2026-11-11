@@ -1,5 +1,4 @@
 import type { CSSProperties } from 'react';
-import Link from 'next/link';
 import type { Dictionary } from '@/data/dictionary';
 import { EDGES, NODES } from '@/lib/system-graph';
 
@@ -33,7 +32,7 @@ function SystemFallback({ dict }: { dict: Dictionary }) {
   );
 }
 
-export function Hero({ dict, locale }: { dict: Dictionary; locale: string }) {
+export function Hero({ dict }: { dict: Dictionary }) {
   const { hero, system } = dict;
   return (
     <section
@@ -49,7 +48,7 @@ export function Hero({ dict, locale }: { dict: Dictionary; locale: string }) {
         data-system-anchor
         role="img"
         aria-label={system.label}
-        className="system relative h-[34svh] min-h-[240px] w-full lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[56%]"
+        className="system relative h-[30svh] min-h-[220px] w-full lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[54%]"
       >
         <SystemFallback dict={dict} />
         <p className="system-caption absolute bottom-6 right-[var(--gutter)] hidden items-center gap-2.5 font-mono text-[0.75rem] text-bone-2 md:flex lg:bottom-[8vh]" aria-hidden="true">
@@ -67,7 +66,7 @@ export function Hero({ dict, locale }: { dict: Dictionary; locale: string }) {
       </div>
 
       <div className="gutter relative z-10 mx-auto w-full max-w-page pb-16 pt-6 lg:py-32">
-        <div className="lg:max-w-[46%]">
+        <div className="lg:max-w-[48%]">
           <p className="eyebrow hero-fade" style={i(0)}>
             {hero.eyebrow}
           </p>
@@ -85,13 +84,10 @@ export function Hero({ dict, locale }: { dict: Dictionary; locale: string }) {
           <p className="hero-fade mt-8 max-w-xl text-base leading-relaxed text-bone-2 md:text-lg" style={i(1)}>
             {hero.sub}
           </p>
-          <p className="hero-fade eyebrow mt-8 flex items-center gap-2.5" style={i(2)}>
-            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-signal" aria-hidden="true" />
-            {hero.status}
-          </p>
-          <div className="hero-fade mt-8 flex flex-wrap items-center gap-x-8 gap-y-4" style={i(3)}>
+          <div className="hero-fade mt-9 flex flex-wrap items-center gap-x-8 gap-y-4" style={i(2)}>
             <a
-              href="#work"
+              href="#contact"
+              data-track="cta_hero_contact"
               data-magnetic
               className="group inline-flex items-center gap-3 rounded-full bg-bone px-6 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-signal"
             >
@@ -100,9 +96,21 @@ export function Hero({ dict, locale }: { dict: Dictionary; locale: string }) {
                 →
               </span>
             </a>
-            <Link href={`/${locale}/services`} className="link-underline eyebrow py-3 text-bone">
-              {hero.cta2} <span aria-hidden="true">→</span>
-            </Link>
+            <a href="#work" data-track="cta_hero_work" className="link-underline eyebrow py-3 text-bone">
+              {hero.cta2} <span aria-hidden="true">↓</span>
+            </a>
+          </div>
+          <p className="hero-fade eyebrow mt-9 flex items-center gap-2.5" style={i(3)}>
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-signal" aria-hidden="true" />
+            {hero.status}
+          </p>
+          <div className="hero-fade mt-8 border-t border-line pt-5" style={i(4)}>
+            <p className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-bone-3">{hero.proofLabel}</p>
+            <ul className="mt-2.5 flex flex-wrap gap-x-5 gap-y-1.5 text-[0.95rem] text-bone-2">
+              {hero.proof.map((name) => (
+                <li key={name}>{name}</li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>

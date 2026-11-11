@@ -1,26 +1,28 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import type { Dictionary } from '@/data/dictionary';
+import type { ContactNeed, Dictionary } from '@/data/dictionary';
+import { track } from '@/lib/track';
 
-type Topic = 'project' | 'job' | 'other';
 type Status = 'idle' | 'sending' | 'sent' | 'error' | 'limited';
+
+const NEEDS: ContactNeed[] = ['discovery', 'build', 'lead', 'role', 'other'];
 
 const field =
   'w-full border-0 border-b border-line bg-transparent px-0 py-3 text-base text-bone outline-none transition-colors placeholder:text-bone-3 focus:border-signal focus:ring-0';
 
 export function ContactForm({ copy, locale, email }: { copy: Dictionary['form']; locale: string; email: string }) {
-  const [topic, setTopic] = useState<Topic>('project');
+  const [need, setNeed] = useState<ContactNeed>('build');
   const [status, setStatus] = useState<Status>('idle');
   const openedAt = useRef(0);
 
   useEffect(() => {
     openedAt.current = Date.now();
-    // Buttons elsewhere on the page (e.g. "Tell me about your project") can preselect the topic.
+    // Buttons elsewhere on the page (e.g. "Send me a message" on the hiring page) can preselect what the visitor needs.
     const onClick = (e: MouseEvent) => {
-      const el = (e.target as Element | null)?.closest<HTMLElement>('[data-contact-topic]');
-      const next = el?.dataset.contactTopic as Topic | undefined;
-      if (next) setTopic(next);
+      const el = (e.target as Element | null)?.closest<HTMLElement>('[data-contact-need]');
+      const next = el?.dataset.contactNeed as ContactNeed | undefined;
+      if (next && NEEDS.includes(next)) setNeed(next);
     };
     document.addEventListener('click', onClick);
     return () => document.removeEventListener('click', onClick);
@@ -38,15 +40,20 @@ export function ContactForm({ copy, locale, email }: { copy: Dictionary['form'];
         body: JSON.stringify({
           name: data.get('name'),
           email: data.get('email'),
+          company: data.get('company'),
           message: data.get('message'),
+          timeline: data.get('timeline'),
+          budget: data.get('budget'),
           website: data.get('website'),
-          topic,
+          need,
           locale,
+          page: window.location.pathname,
           submittedAt: openedAt.current,
         }),
       });
       if (res.ok) {
         setStatus('sent');
+        track('enquiry_submitted', { need, page: window.location.pathname });
         form.reset();
       } else {
         setStatus(res.status === 429 ? 'limited' : 'error');
@@ -56,7 +63,7 @@ export function ContactForm({ copy, locale, email }: { copy: Dictionary['form'];
     }
   }
 
-  const topics: Topic[] = ['project', 'job', 'other'];
+  const optional = <span className="text-bone-3"> {copy.optional}</span>;
 
   return (
     <form onSubmit={onSubmit} className="space-y-8">
@@ -64,24 +71,17 @@ export function ContactForm({ copy, locale, email }: { copy: Dictionary['form'];
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
 
       <fieldset>
-        <legend className="text-sm text-bone-2">{copy.topic}</legend>
+        <legend className="text-sm text-bone-2">{copy.need}</legend>
         <div className="mt-3 flex flex-wrap gap-2">
-          {topics.map((t) => (
+          {NEEDS.map((n) => (
             <label
-              key={t}
+              key={n}
               className={`inline-flex min-h-[40px] cursor-pointer items-center rounded-full border px-4 text-sm transition-colors ${
-                topic === t ? 'border-bone bg-bone text-ink' : 'border-line text-bone-2 hover:border-bone-3 hover:text-bone'
+                need === n ? 'border-bone bg-bone text-ink' : 'border-line text-bone-2 hover:border-bone-3 hover:text-bone'
               }`}
             >
-              <input
-                type="radio"
-                name="topic"
-                value={t}
-                checked={topic === t}
-                onChange={() => setTopic(t)}
-                className="sr-only"
-              />
-              {copy.topics[t]}
+              <input type="radio" name="need" value={n} checked={need === n} onChange={() => setNeed(n)} className="sr-only" />
+              {copy.needs[n]}
             </label>
           ))}
         </div>
@@ -99,6 +99,14 @@ export function ContactForm({ copy, locale, email }: { copy: Dictionary['form'];
       </div>
 
       <label className="block">
+        <span className="text-sm text-bone-2">
+          {copy.company}
+          {optional}
+        </span>
+        <input name="company" type="text" maxLength={160} autoComplete="organization" className={field} />
+      </label>
+
+      <label className="block">
         <span className="text-sm text-bone-2">{copy.message}</span>
         <textarea
           name="message"
@@ -110,6 +118,37 @@ export function ContactForm({ copy, locale, email }: { copy: Dictionary['form'];
           className={`${field} resize-none`}
         />
       </label>
+
+      <div className="grid gap-8 md:grid-cols-2">
+        <label className="block">
+          <span className="text-sm text-bone-2">
+            {copy.timeline}
+            {optional}
+          </span>
+          <select name="timeline" defaultValue="" className={`${field} form-select`}>
+            <option value="">{copy.choose}</option>
+            {copy.timelines.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="block">
+          <span className="text-sm text-bone-2">
+            {copy.budget}
+            {optional}
+          </span>
+          <select name="budget" defaultValue="" className={`${field} form-select`}>
+            <option value="">{copy.choose}</option>
+            {copy.budgets.map((b) => (
+              <option key={b} value={b}>
+                {b}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
 
       <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
         <button
@@ -133,6 +172,7 @@ export function ContactForm({ copy, locale, email }: { copy: Dictionary['form'];
               </a>
             </span>
           ) : null}
+          {status === 'idle' || status === 'sending' ? <span className="text-bone-3">{copy.privacy}</span> : null}
         </p>
       </div>
     </form>

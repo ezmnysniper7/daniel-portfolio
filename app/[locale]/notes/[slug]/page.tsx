@@ -4,21 +4,22 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { locales } from '@/i18n/config';
 import { getDictionary } from '@/data/dictionary';
-import { formatNoteDate, getNotes, noteSlugs } from '@/data/notes';
+import { formatNoteDate, getNoteSlugs, getNotes, noteLocales, noteSeoTitles } from '@/data/notes';
 import { getServices } from '@/data/services';
 import { siteMetadata } from '@/data/metadata';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
 import { ServiceIcon } from '@/components/site/Icons';
+import { NoteBody } from '@/components/notes/NoteBody';
 import { JsonLd } from '@/components/seo/JsonLd';
-import { absolute, breadcrumbNode, graph, pageMetadata } from '@/lib/seo';
+import { articleNode, breadcrumbNode, graph, pageMetadata } from '@/lib/seo';
 
 type Params = Promise<{ locale: string; slug: string }>;
 
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return locales.flatMap((locale) => noteSlugs.map((slug) => ({ locale, slug })));
+  return locales.flatMap((locale) => getNoteSlugs(locale).map((slug) => ({ locale, slug })));
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
@@ -29,13 +30,22 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const meta = pageMetadata({
     locale,
     path: `/notes/${slug}`,
-    title: `${note.title} | ${by}`,
+    title: `${(locale === 'en' && noteSeoTitles[slug]) || note.title} | ${by}`,
     description: note.description,
     keywords: note.tags,
+    image: `/notes/${slug}`,
+    available: noteLocales(slug),
   });
   return {
     ...meta,
-    openGraph: { ...meta.openGraph, type: 'article', publishedTime: note.date, authors: [siteMetadata.name], tags: note.tags },
+    openGraph: {
+      ...meta.openGraph,
+      type: 'article',
+      publishedTime: note.date,
+      modifiedTime: note.updated ?? note.date,
+      authors: [siteMetadata.name],
+      tags: note.tags,
+    },
   };
 }
 
@@ -49,25 +59,22 @@ export default async function NotePage({ params }: { params: Params }) {
   const note = notes.find((n) => n.slug === slug);
   if (!note) notFound();
   const service = getServices(locale).find((s) => s.slug === note.service);
-  const others = notes.filter((n) => n.slug !== slug).slice(0, 3);
-  const url = absolute(`/${locale}/notes/${slug}`);
+  // Same topic first, then the newest of the rest.
+  const others = [...notes.filter((n) => n.slug !== slug && n.service === note.service), ...notes.filter((n) => n.slug !== slug && n.service !== note.service)].slice(0, 4);
 
   const jsonLd = graph(
-    {
-      '@type': 'BlogPosting',
-      '@id': `${url}#article`,
+    articleNode({
+      // Long pieces with code are technical articles; the short ones stay blog posts.
+      type: note.body.some((b) => 'code' in b) ? 'TechArticle' : 'BlogPosting',
+      locale,
+      path: `/notes/${slug}`,
       headline: note.title,
       description: note.description,
-      url,
-      mainEntityOfPage: url,
-      datePublished: note.date,
-      dateModified: note.date,
-      inLanguage: locale,
-      keywords: note.tags.join(', '),
-      image: absolute(`/${locale}/opengraph-image`),
-      author: { '@type': 'Person', '@id': absolute('/#person'), name: siteMetadata.name, url: absolute(`/${locale}`) },
-      publisher: { '@type': 'Person', '@id': absolute('/#person'), name: siteMetadata.name },
-    },
+      published: note.date,
+      modified: note.updated,
+      keywords: note.tags,
+      image: `/notes/${slug}`,
+    }),
     breadcrumbNode([
       { name: dict.crumbs.home, path: `/${locale}` },
       { name: copy.label, path: `/${locale}/notes` },
@@ -77,7 +84,8 @@ export default async function NotePage({ params }: { params: Params }) {
 
   return (
     <>
-      <Header locale={locale} dict={dict} path={`/notes/${slug}`} />
+      {/* A note without a version in the other language switches to that language's notes index. */}
+      <Header locale={locale} dict={dict} path={noteLocales(slug).length > 1 ? `/notes/${slug}` : '/notes'} />
       <main id="top">
         <article className="gutter mx-auto max-w-page pb-16 pt-36 md:pt-44">
           <nav aria-label="Breadcrumb" className="eyebrow hero-fade flex flex-wrap gap-2" style={i(0)}>
@@ -89,41 +97,34 @@ export default async function NotePage({ params }: { params: Params }) {
               {copy.label}
             </Link>
           </nav>
-          <h1 className="hero-fade mt-10 max-w-4xl font-display text-[clamp(2rem,4vw,3.4rem)] leading-[1.08] tracking-[-0.025em]" style={i(1)}>
+          <p
+            className={`hero-fade mt-10 inline-flex rounded-full border px-3 py-1.5 font-mono text-[0.72rem] ${
+              note.basis === 'design' ? 'border-dashed border-signal/60 text-signal' : 'border-line text-bone-2'
+            }`}
+            style={i(0)}
+          >
+            {copy.basis[note.basis]}
+          </p>
+          <h1 className="hero-fade mt-5 max-w-4xl font-display text-[clamp(2rem,4vw,3.4rem)] leading-[1.08] tracking-[-0.025em]" style={i(1)}>
             {note.title}
           </h1>
           <p className="hero-fade mt-6 font-mono text-[0.75rem] text-bone-3" style={i(2)}>
-            {copy.by} · <time dateTime={note.date}>{formatNoteDate(note.date, locale)}</time> · {copy.minutes.replace('{n}', String(note.minutes))}
+            <Link href={`/${locale}/about`} className="hover:text-bone">
+              {copy.by}
+            </Link>{' '}
+            · <time dateTime={note.date}>{formatNoteDate(note.date, locale)}</time>
+            {note.updated ? (
+              <>
+                {' '}
+                · {copy.updated} <time dateTime={note.updated}>{formatNoteDate(note.updated, locale)}</time>
+              </>
+            ) : null}{' '}
+            · {copy.minutes.replace('{n}', String(note.minutes))}
           </p>
 
-          <div className="mt-12 max-w-[68ch] text-[1.075rem] leading-[1.8] text-bone-2">
-            {note.body.map((block, n) => {
-              if ('h2' in block)
-                return (
-                  <h2 key={n} className="mt-12 font-display text-[clamp(1.35rem,2vw,1.75rem)] leading-snug text-bone">
-                    {block.h2}
-                  </h2>
-                );
-              if ('list' in block)
-                return (
-                  <ul key={n} className="mt-5 space-y-3">
-                    {block.list.map((item) => (
-                      <li key={item} className="flex gap-4">
-                        <span className="mt-[0.85em] h-px w-4 shrink-0 bg-signal" aria-hidden="true" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                );
-              return (
-                <p key={n} className="mt-5 first:mt-0">
-                  {block.p}
-                </p>
-              );
-            })}
-          </div>
+          <NoteBody blocks={note.body} locale={locale} />
 
-          <ul className="mt-10 flex flex-wrap gap-2">
+          <ul className="mt-12 flex flex-wrap gap-2">
             {note.tags.map((t) => (
               <li key={t} className="chip">
                 {t}
@@ -136,6 +137,7 @@ export default async function NotePage({ params }: { params: Params }) {
           <section className="gutter mx-auto max-w-page pb-16">
             <Link
               href={`/${locale}/services/${service.slug}`}
+              data-track="note_to_service"
               className="group flex flex-col gap-4 rounded-[1.25rem] border border-line bg-ink-2/60 p-7 transition-colors duration-500 hover:border-bone-3 md:flex-row md:items-center md:justify-between md:p-9"
             >
               <span className="flex items-center gap-5">
@@ -144,9 +146,7 @@ export default async function NotePage({ params }: { params: Params }) {
                 </span>
                 <span>
                   <span className="eyebrow block">{copy.related}</span>
-                  <span className="mt-1 block font-display text-[clamp(1.3rem,2vw,1.8rem)] transition-colors group-hover:text-signal">
-                    {service.title}
-                  </span>
+                  <span className="mt-1 block font-display text-[clamp(1.3rem,2vw,1.8rem)] transition-colors group-hover:text-signal">{service.title}</span>
                 </span>
               </span>
               <span className="text-sm text-bone">
@@ -161,7 +161,10 @@ export default async function NotePage({ params }: { params: Params }) {
           <ul className="mt-6">
             {others.map((n) => (
               <li key={n.slug}>
-                <Link href={`/${locale}/notes/${n.slug}`} className="group flex items-baseline gap-4 border-b border-line py-4 transition-colors hover:text-signal">
+                <Link
+                  href={`/${locale}/notes/${n.slug}`}
+                  className="group flex flex-col gap-x-4 gap-y-1 border-b border-line py-4 transition-colors hover:text-signal sm:flex-row sm:items-baseline"
+                >
                   <span className="w-24 shrink-0 font-mono text-[0.75rem] text-bone-3">{formatNoteDate(n.date, locale)}</span>
                   <span className="flex-1">{n.title}</span>
                 </Link>

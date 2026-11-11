@@ -5,6 +5,7 @@ import { locales, type Locale } from '@/i18n/config';
 import { getDictionary } from '@/data/dictionary';
 import { siteMetadata } from '@/data/metadata';
 import { MotionBoot } from '@/components/motion/MotionBoot';
+import { Analytics } from '@/components/Analytics';
 
 const display = Fraunces({ subsets: ['latin'], variable: '--font-display', display: 'swap' });
 const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
@@ -80,6 +81,7 @@ export default async function LocaleLayout({
         <canvas data-space-canvas className="space-canvas pointer-events-none fixed inset-0 -z-10 h-full w-full" aria-hidden="true" />
         {children}
         <MotionBoot />
+        <Analytics />
       </body>
     </html>
   );

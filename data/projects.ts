@@ -5,17 +5,18 @@ import { getExperience } from './experience';
 
 // The cards on the landing page, in order. Every other project is listed under its job in Work history.
 export const SELECTED_SLUGS = [
-  'solvemy',
   'tradersflow',
+  'cfi-broker-payments-crypto-backend',
   'octopus-payment-microservice',
+  'solvemy',
   'ocean-park-ticketing',
-  'hktb-ai-trip-planner',
 ];
 
 /** Which Work history entry each project belongs to (experience id). */
 const experienceBySlug: Record<string, string> = {
   solvemy: 'solvemy-2026',
   tradersflow: 'tradersflow-2025',
+  'cfi-broker-payments-crypto-backend': 'cfi-2026',
   'octopus-payment-microservice': 'appnovation-2025',
   'ocean-park-ticketing': 'appnovation-2025',
   'echealth-booking-system': 'appnovation-2025',

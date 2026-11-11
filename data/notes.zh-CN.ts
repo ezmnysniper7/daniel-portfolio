@@ -1,12 +1,21 @@
 import type { Note } from './notes';
+// long-form notes: start
+import { note as managerVsWebApi } from './notes/mt5-manager-api-vs-web-api.zh-CN';
+import { note as depositExactlyOnce } from './notes/mt5-deposit-credit-exactly-once.zh-CN';
+import { note as investorPortal } from './notes/mt5-investor-portal-ib-commissions.zh-CN';
+import { note as bBookArchitecture } from './notes/b-book-trading-platform-architecture.zh-CN';
+import { note as ledgerDesign } from './notes/double-entry-ledger-fintech-startups.zh-CN';
+import { note as firstFintechEngineer } from './notes/first-fintech-engineer.zh-CN';
+// long-form notes: end
 
 /** 中文版文章。按要求不使用破折号。 */
-export const notesZhCN: Note[] = [
+const shortNotes: Note[] = [
   {
     slug: 'mt5-manager-api-lessons',
     date: '2026-10-04',
     minutes: 4,
-    service: 'crypto-trading-systems',
+    service: 'mt5-manager-api-developer',
+    basis: 'field',
     tags: ['MetaTrader 5', 'C#', '自营交易', '风控'],
     title: '基于 MetaTrader 5 Manager API 开发：实时风控监控的五条经验',
     description: '为自营交易平台基于 MT5 Manager API 开发 C#/.NET 服务的经验：推送缓存、线程安全、数据校验与安全部署。',
@@ -42,6 +51,7 @@ export const notesZhCN: Note[] = [
     date: '2026-10-04',
     minutes: 4,
     service: 'payment-integration',
+    basis: 'field',
     tags: ['支付', 'Webhook', 'Checkout.com', 'Stripe'],
     title: '永不重复入账的支付回调：签名校验、幂等与对账',
     description: '银行卡、电子钱包与银行转账回调的实用清单：校验签名、每个事件只处理一次、应对重试和乱序事件，并定期对账。',
@@ -81,6 +91,7 @@ export const notesZhCN: Note[] = [
     date: '2026-10-04',
     minutes: 3,
     service: 'backend-development',
+    basis: 'field',
     tags: ['RabbitMQ', '事件驱动', 'Python', '部署'],
     title: '修改两个服务之间的消息：为什么要先上线消费者',
     description: '当两个服务通过 RabbitMQ 通信时，新增的字段可能会被悄悄丢掉。如何找到它在哪里消失，以及保证两边都正常的部署顺序。',
@@ -113,7 +124,8 @@ export const notesZhCN: Note[] = [
     slug: 'ai-coding-assistants-verification',
     date: '2026-10-04',
     minutes: 3,
-    service: 'backend-development',
+    service: 'fintech-technical-partner',
+    basis: 'field',
     tags: ['AI', 'Claude Code', '代码评审', '工程实践'],
     title: '我如何使用 AI 编程助手，又不把它的错误带上线',
     description: 'Claude Code、Codex 等 AI 助手能加快熟悉代码、写样板代码和代码评审。以下习惯能把它们“自信的错误”挡在生产环境之外。',
@@ -148,6 +160,7 @@ export const notesZhCN: Note[] = [
     date: '2026-10-04',
     minutes: 4,
     service: 'mobile-app-development',
+    basis: 'field',
     tags: ['Flutter', 'App Store', 'Google Play', '移动端'],
     title: '一个 App，两套商店规则：用 Flutter 把服务平台同时上架 Google Play 和 App Store',
     description: '在 Android 和 iOS 上发布 Flutter App 的经验：Apple 的应用内购买规则、按平台区分的定价展示、推送通知、旧版本兼容与深度链接。',
@@ -178,7 +191,8 @@ export const notesZhCN: Note[] = [
     slug: 'prop-firm-risk-rules',
     date: '2026-10-04',
     minutes: 4,
-    service: 'crypto-trading-systems',
+    service: 'prop-firm-software-development',
+    basis: 'field',
     tags: ['自营交易', '风控', 'MetaTrader 5', '交易'],
     title: '自营交易公司如何执行日亏损与最大亏损规则，以及为什么时效很重要',
     description: '用通俗的方式讲清楚自营交易挑战的规则（盈利目标、日亏损、最大亏损、一致性），以及近实时执行这些规则需要做什么。',
@@ -215,3 +229,6 @@ export const notesZhCN: Note[] = [
     ],
   },
 ];
+
+/** Long-form notes live in one file each under data/notes/. */
+export const notesZhCN: Note[] = [managerVsWebApi, depositExactlyOnce, investorPortal, bBookArchitecture, ledgerDesign, firstFintechEngineer, ...shortNotes];

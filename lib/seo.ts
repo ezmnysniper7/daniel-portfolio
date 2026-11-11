@@ -18,6 +18,8 @@ export function pageMetadata({
   title,
   description,
   keywords,
+  image: imagePath,
+  available = locales,
 }: {
   locale: string;
   /** Path after the locale, '' for the home page. */
@@ -25,9 +27,13 @@ export function pageMetadata({
   title: string;
   description: string;
   keywords?: string[];
+  /** Path after the locale of the page's own share image; the site-wide one otherwise. */
+  image?: string;
+  /** Locales this page exists in, when it is not all of them. */
+  available?: string[];
 }): Metadata {
   const url = absolute(`/${locale}${path}`);
-  const image = { url: absolute(`/${locale}/opengraph-image`), width: 1200, height: 630, alt: title };
+  const image = { url: absolute(`/${locale}${imagePath ?? ''}/opengraph-image`), width: 1200, height: 630, alt: title };
   return {
     title: { absolute: title },
     description,
@@ -35,7 +41,7 @@ export function pageMetadata({
     alternates: {
       canonical: url,
       languages: {
-        ...Object.fromEntries(locales.map((l) => [l, absolute(`/${l}${path}`)])),
+        ...Object.fromEntries(available.map((l) => [l, absolute(`/${l}${path}`)])),
         'x-default': absolute(`/en${path}`),
       },
     },
@@ -46,7 +52,7 @@ export function pageMetadata({
       description,
       siteName: siteMetadata.name,
       locale: ogLocale(locale),
-      alternateLocale: locales.filter((l) => l !== locale).map(ogLocale),
+      alternateLocale: available.filter((l) => l !== locale).map(ogLocale),
       images: [image],
     },
     twitter: { card: 'summary_large_image', title, description, images: [image.url] },
@@ -64,11 +70,11 @@ export function personNode(locale: string) {
     '@id': personId,
     name: siteMetadata.name,
     alternateName: siteMetadata.nameZh,
-    jobTitle: locale === 'zh-CN' ? '高级后端工程师' : 'Senior Backend Engineer',
+    jobTitle: locale === 'zh-CN' ? '金融科技软件工程师' : 'Fintech Software Engineer',
     description:
       locale === 'zh-CN'
-        ? '吉隆坡软件工程师，开发加密货币与交易平台、支付对接、网站和手机 App。'
-        : 'Kuala Lumpur software engineer building crypto and trading platforms, payment integrations, websites and mobile apps.',
+        ? '面向创始人、券商与自营交易公司的资深金融科技工程师：MT5 Manager API 集成、交易平台与支付系统，从架构到上线。'
+        : 'Senior fintech engineer and independent technical partner for founders, brokers and prop firms: MT5 Manager API integrations, trading platforms and payment systems.',
     url: absolute(`/${locale}`),
     image: absolute(`/${locale}/opengraph-image`),
     email: `mailto:${siteMetadata.email}`,
@@ -76,23 +82,29 @@ export function personNode(locale: string) {
     sameAs: [siteMetadata.social.linkedin, siteMetadata.social.github],
     knowsLanguage: ['en', 'zh'],
     knowsAbout: [
+      'MetaTrader 5 Manager API',
+      'MetaTrader 5 integration',
+      'Prop trading platforms',
+      'Broker back office systems',
+      'Trading platform architecture',
+      'Real-time risk monitoring',
+      'Payment gateway integration',
+      'Checkout.com',
+      'Payment webhooks and idempotency',
+      'Payment reconciliation',
+      'Double-entry ledgers',
+      'Fintech software architecture',
       'Backend development',
       'Python',
       'FastAPI',
       'Go',
       'TypeScript',
       'C#',
+      '.NET',
       'RabbitMQ',
       'PostgreSQL',
-      'Payment gateway integration',
-      'Crypto trading platforms',
-      'MetaTrader 5',
-      'Prop trading platforms',
       'Next.js',
-      'React',
       'Flutter',
-      'Mobile app development',
-      'Web development',
     ],
   };
 }
@@ -118,8 +130,11 @@ export function serviceNode(locale: string, slug: string) {
     description: s.short,
     url: absolute(`/${locale}/services/${slug}`),
     provider: { '@id': personId },
+    // Delivered remotely from Malaysia; these are the markets served, not office locations.
     areaServed: [
-      { '@type': 'Country', name: 'Malaysia' },
+      { '@type': 'Country', name: 'United States' },
+      { '@type': 'Country', name: 'United Kingdom' },
+      { '@type': 'Place', name: 'European Union' },
       { '@type': 'Country', name: 'Singapore' },
       { '@type': 'Place', name: 'Worldwide (remote)' },
     ],
@@ -157,6 +172,46 @@ export function profilePageNode(locale: string, path: string) {
     inLanguage: locale,
     isPartOf: { '@id': websiteId },
     mainEntity: { '@id': personId },
+  };
+}
+
+/** A case study or article written by Daniel, with him as the author entity. */
+export function articleNode({
+  type,
+  locale,
+  path,
+  headline,
+  description,
+  published,
+  modified,
+  keywords,
+  image,
+}: {
+  type: 'Article' | 'BlogPosting' | 'TechArticle';
+  locale: string;
+  path: string;
+  headline: string;
+  description: string;
+  published?: string;
+  modified?: string;
+  keywords?: string[];
+  /** Path after the locale of the page's own share image. */
+  image?: string;
+}) {
+  const url = absolute(`/${locale}${path}`);
+  return {
+    '@type': type,
+    '@id': `${url}#article`,
+    headline,
+    description,
+    url,
+    mainEntityOfPage: url,
+    ...(published ? { datePublished: published, dateModified: modified ?? published } : {}),
+    inLanguage: locale,
+    ...(keywords?.length ? { keywords: keywords.join(', ') } : {}),
+    image: absolute(`/${locale}${image ?? ''}/opengraph-image`),
+    author: { '@type': 'Person', '@id': personId, name: siteMetadata.name, url: absolute(`/${locale}/about`) },
+    publisher: { '@type': 'Person', '@id': personId, name: siteMetadata.name },
   };
 }
 

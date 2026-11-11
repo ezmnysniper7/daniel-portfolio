@@ -6,6 +6,7 @@ import { getServices } from '@/data/services';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
 import { ContactCta } from '@/components/site/ContactCta';
+import { EngagementSection } from '@/components/site/EngagementSection';
 import { Icon, ServiceIcon } from '@/components/site/Icons';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { breadcrumbNode, faqNode, graph, pageMetadata, personNode, serviceNode, websiteNode, absolute } from '@/lib/seo';
@@ -25,6 +26,8 @@ export default async function ServicesPage({ params }: { params: Params }) {
   const dict = getDictionary(locale);
   const copy = dict.servicesPage;
   const services = getServices(locale);
+  const primary = services.filter((s) => s.tier === 'primary');
+  const secondary = services.filter((s) => s.tier === 'secondary');
 
   const jsonLd = graph(
     websiteNode(locale),
@@ -62,40 +65,59 @@ export default async function ServicesPage({ params }: { params: Params }) {
           </p>
         </section>
 
-        <section className="gutter mx-auto max-w-page pb-20 md:pb-28">
-          <h2 className="eyebrow">{copy.listLabel}</h2>
+        <section className="gutter mx-auto max-w-page pb-16 md:pb-20">
+          <h2 className="eyebrow">{copy.primaryLabel}</h2>
           <ul className="mt-8 grid gap-5 md:grid-cols-2">
-            {services.map((s) => (
-              <li key={s.slug} data-reveal>
+            {primary.map((s, n) => (
+              <li key={s.slug} className={n === 0 ? 'md:col-span-2' : ''} data-reveal>
                 <Link
                   href={`/${locale}/services/${s.slug}`}
-                 
                   className="group flex h-full flex-col rounded-[1.25rem] border border-line bg-ink-2/60 p-7 transition-colors duration-500 hover:border-bone-3 md:p-9"
                 >
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-bone transition-colors duration-500 group-hover:border-signal group-hover:text-signal"><ServiceIcon slug={s.slug} className="h-5 w-5" /></span>
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-bone transition-colors duration-500 group-hover:border-signal group-hover:text-signal">
+                    <ServiceIcon slug={s.slug} className="h-5 w-5" />
+                  </span>
                   <h3 className="display-lg mt-5 transition-colors duration-500 group-hover:text-signal">{s.title}</h3>
-                  <p className="mt-4 leading-relaxed text-bone-2">{s.short}</p>
+                  <p className="mt-4 max-w-2xl leading-relaxed text-bone-2">{s.short}</p>
+                  {s.audience ? <p className="mt-4 text-sm text-bone-3">{s.audience}</p> : null}
                   <span className="eyebrow mt-auto pt-8 text-bone">
                     {dict.services.more} <span aria-hidden="true">→</span>
                   </span>
                 </Link>
               </li>
             ))}
+          </ul>
+        </section>
+
+        <section className="gutter mx-auto max-w-page pb-20 md:pb-28">
+          <h2 className="eyebrow">{copy.secondaryLabel}</h2>
+          <ul className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {secondary.map((s) => (
+              <li key={s.slug} data-reveal>
+                <Link
+                  href={`/${locale}/services/${s.slug}`}
+                  className="group flex h-full flex-col rounded-[1.25rem] border border-line p-6 transition-colors duration-500 hover:border-bone-3"
+                >
+                  <ServiceIcon slug={s.slug} className="h-5 w-5 text-bone-2 transition-colors group-hover:text-signal" />
+                  <h3 className="mt-4 font-display text-xl leading-tight transition-colors duration-500 group-hover:text-signal">{s.title}</h3>
+                  <p className="mt-3 text-[0.95rem] leading-relaxed text-bone-2">{s.short}</p>
+                </Link>
+              </li>
+            ))}
             <li data-reveal>
               <Link
                 href={`/${locale}/hire`}
-                className="group flex h-full flex-col rounded-[1.25rem] border border-dashed border-line p-7 transition-colors duration-500 hover:border-bone-3 md:p-9"
+                className="group flex h-full flex-col rounded-[1.25rem] border border-dashed border-line p-6 transition-colors duration-500 hover:border-bone-3"
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-bone transition-colors duration-500 group-hover:border-signal group-hover:text-signal"><Icon name="send" className="h-5 w-5" /></span>
-                <h3 className="display-lg mt-5 transition-colors duration-500 group-hover:text-signal">{dict.services.hireTitle}</h3>
-                <p className="mt-4 leading-relaxed text-bone-2">{dict.services.hireBody}</p>
-                <span className="eyebrow mt-auto pt-8 text-bone">
-                  {dict.nav.hire} <span aria-hidden="true">→</span>
-                </span>
+                <Icon name="send" className="h-5 w-5 text-bone-2 transition-colors group-hover:text-signal" />
+                <h3 className="mt-4 font-display text-xl leading-tight transition-colors duration-500 group-hover:text-signal">{dict.services.hireTitle}</h3>
+                <p className="mt-3 text-[0.95rem] leading-relaxed text-bone-2">{dict.services.hireBody}</p>
               </Link>
             </li>
           </ul>
         </section>
+
+        <EngagementSection dict={dict} />
 
         <section className="gutter mx-auto max-w-page border-t border-line py-20 md:py-28">
           <div className="grid gap-10 lg:grid-cols-12">
@@ -126,7 +148,7 @@ export default async function ServicesPage({ params }: { params: Params }) {
           </div>
         </section>
 
-        <ContactCta title={copy.ctaTitle} body={copy.ctaBody} button={copy.ctaButton} topic="project" orEmail={dict.form.orEmail} subject={copy.emailSubject} />
+        <ContactCta title={copy.ctaTitle} body={copy.ctaBody} button={copy.ctaButton} need="build" orEmail={dict.form.orEmail} subject={copy.emailSubject} />
       </main>
       <Footer dict={dict} locale={locale} />
       <JsonLd data={jsonLd} />

@@ -107,8 +107,8 @@ export default async function HirePage({ params }: { params: Params }) {
               ))}
             </ul>
             <p className="lg:col-span-9 lg:col-start-4">
-              <Link href={`/${locale}#experience`} className="eyebrow link-underline inline-block py-3 text-bone">
-                {dict.nav.experience} <span aria-hidden="true">→</span>
+              <Link href={`/${locale}/about#experience`} className="eyebrow link-underline inline-block py-3 text-bone">
+                {dict.experience.full} <span aria-hidden="true">→</span>
               </Link>
             </p>
           </div>
@@ -117,7 +117,7 @@ export default async function HirePage({ params }: { params: Params }) {
         <MethodSection dict={dict} />
         <ToolboxSection dict={dict} />
 
-        <ContactCta title={copy.ctaTitle} button={copy.ctaButton} topic="job" orEmail={dict.form.orEmail} subject={copy.emailSubject} />
+        <ContactCta title={copy.ctaTitle} button={copy.ctaButton} need="role" orEmail={dict.form.orEmail} subject={copy.emailSubject} />
       </main>
       <Footer dict={dict} locale={locale} />
       <JsonLd data={jsonLd} />

@@ -6,13 +6,11 @@ type Props = {
   dict: Dictionary;
   /** Path after the locale, used for the language switch (e.g. '' or '/work/solvemy'). */
   path: string;
-  /** On the landing page, section links are plain in-page anchors. */
-  home?: boolean;
 };
 
-export function Header({ locale, dict, path, home }: Props) {
+export function Header({ locale, dict, path }: Props) {
   const other = locale === 'en' ? 'zh-CN' : 'en';
-  const anchor = (id: string) => (home ? `#${id}` : `/${locale}#${id}`);
+  const { nav } = dict;
   // 40px+ tall hit areas for touch; the underline lives on the inner span so it hugs the text.
   const link = 'group inline-flex min-h-[40px] items-center whitespace-nowrap hover:text-bone';
 
@@ -22,36 +20,48 @@ export function Header({ locale, dict, path, home }: Props) {
       <div className="gutter relative mx-auto flex max-w-page items-center justify-between py-3 md:py-4">
         <Link
           href={`/${locale}`}
-          className="inline-flex min-h-[40px] shrink-0 items-center whitespace-nowrap font-mono text-[0.75rem] uppercase tracking-[0.16em] text-bone md:tracking-[0.22em]"
+          className="inline-flex min-h-[40px] shrink-0 items-center whitespace-nowrap font-mono text-[0.75rem] uppercase tracking-[0.12em] text-bone sm:tracking-[0.16em] md:tracking-[0.22em]"
           data-magnetic
         >
-          Daniel Chen<span className="text-signal">.</span>
+          Daniel Chen
+          <span className="ml-2 hidden text-bone-3 sm:inline" aria-hidden="true">
+            / builds
+          </span>
         </Link>
-        <nav aria-label="Primary" className="flex items-center gap-3.5 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-bone-2 md:gap-7">
-          <a href={anchor('work')} className={`${link} hidden md:inline-flex`} data-magnetic>
-            <span className="link-underline">{dict.nav.work}</span>
-          </a>
+        <nav aria-label="Primary" className="flex items-center gap-2.5 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-bone-2 sm:gap-3.5 sm:tracking-[0.14em] md:gap-6">
           <Link href={`/${locale}/services`} className={link} data-magnetic>
-            <span className="link-underline">{dict.nav.services}</span>
+            <span className="link-underline">{nav.services}</span>
           </Link>
-          <a href={anchor('experience')} className={`${link} hidden lg:inline-flex`} data-magnetic>
-            <span className="link-underline">{dict.nav.experience}</span>
-          </a>
-          <Link href={`/${locale}/hire`} className={`${link} hidden md:inline-flex`} data-magnetic>
-            <span className="link-underline">{dict.nav.hire}</span>
+          <Link href={`/${locale}/work`} className={`${link} hidden md:inline-flex`} data-magnetic>
+            <span className="link-underline">{nav.work}</span>
           </Link>
-          {/* Every page ends with the contact footer, so this stays on the current page. */}
-          <a href="#contact" className={link} data-magnetic>
-            <span className="link-underline">{dict.nav.contact}</span>
+          <Link href={`/${locale}/services/fintech-technical-partner`} className={`${link} hidden lg:inline-flex`} data-magnetic>
+            <span className="link-underline">{nav.founders}</span>
+          </Link>
+          <Link href={`/${locale}/notes`} className={`${link} hidden xl:inline-flex`} data-magnetic>
+            <span className="link-underline">{nav.notes}</span>
+          </Link>
+          <Link href={`/${locale}/about`} className={`${link} hidden md:inline-flex`} data-magnetic>
+            <span className="link-underline">{nav.about}</span>
+          </Link>
+          {/* Every page ends with the contact form, so this stays on the current page. */}
+          <a
+            href="#contact"
+            data-track="cta_header"
+            className="inline-flex min-h-[40px] items-center whitespace-nowrap rounded-full bg-bone px-3 text-ink transition-colors hover:bg-signal sm:px-4"
+            data-magnetic
+          >
+            <span className="xl:hidden">{nav.contact}</span>
+            <span className="hidden xl:inline">{nav.cta}</span>
           </a>
           <Link
             href={`/${other}${path}`}
             hrefLang={other}
             lang={other}
-            className="inline-flex min-h-[40px] items-center whitespace-nowrap rounded-full border border-line px-3.5 text-bone transition-colors hover:border-bone-3"
+            className="inline-flex min-h-[40px] items-center whitespace-nowrap rounded-full border border-line px-3 text-bone transition-colors hover:border-bone-3 sm:px-3.5"
             data-magnetic
           >
-            {dict.nav.switchTo}
+            {nav.switchTo}
           </Link>
         </nav>
       </div>

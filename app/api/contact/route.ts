@@ -6,14 +6,25 @@ export const runtime = 'nodejs';
 type ContactPayload = {
   name?: string;
   email?: string;
+  company?: string;
   message?: string;
-  topic?: string;
+  need?: string;
+  timeline?: string;
+  budget?: string;
+  page?: string;
   locale?: string;
   website?: string;
   submittedAt?: number;
 };
 
-const TOPICS: Record<string, string> = { project: 'Project', job: 'Job / role', other: 'Other' };
+/** What the visitor says they need; the keys match ContactNeed in data/dictionary.ts. */
+const NEEDS: Record<string, string> = {
+  discovery: 'Discovery / architecture',
+  build: 'MVP or platform build',
+  lead: 'Founding engineer / technical lead',
+  role: 'Permanent role',
+  other: 'Other',
+};
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const urlRegex = /(https?:\/\/|www\.)/gi;
@@ -27,6 +38,10 @@ const MIN_SUBMIT_TIME_MS = 2500;
 const MAX_NAME_LENGTH = 120;
 const MAX_EMAIL_LENGTH = 254;
 const MAX_MESSAGE_LENGTH = 4000;
+const MAX_SHORT_FIELD = 160;
+
+/** Optional one-line fields: trimmed, capped, never trusted. */
+const short = (value: unknown) => (typeof value === 'string' ? value.trim().slice(0, MAX_SHORT_FIELD) : '');
 
 function escapeHtml(value: string) {
   return value
@@ -83,8 +98,12 @@ export async function POST(request: Request) {
     const payload = {
       name: body.name?.trim() || '',
       email: body.email?.trim() || '',
+      company: short(body.company),
       message: body.message?.trim() || '',
-      topic: TOPICS[body.topic || ''] ? (body.topic as string) : 'other',
+      need: NEEDS[body.need || ''] ? (body.need as string) : 'other',
+      timeline: short(body.timeline),
+      budget: short(body.budget),
+      page: short(body.page),
       locale: body.locale === 'zh-CN' ? 'zh-CN' : 'en',
       website: body.website?.trim() || '',
       submittedAt: Number(body.submittedAt || 0),
@@ -118,18 +137,23 @@ export async function POST(request: Request) {
     const resend = new Resend(apiKey);
     const safeName = escapeHtml(payload.name);
     const safeEmail = escapeHtml(payload.email);
+    const row = (label: string, value: string) => (value ? `<p><strong>${label}:</strong> ${escapeHtml(value)}</p>` : '');
     const safeMessage = escapeHtml(payload.message).replace(/\n/g, '<br>');
 
     const { error } = await resend.emails.send({
       from: 'Portfolio Contact <onboarding@resend.dev>',
       to: toEmail,
-      subject: `[${TOPICS[payload.topic]}] ${payload.name} via danielchen.tech`,
+      subject: `[${NEEDS[payload.need]}] ${payload.name}${payload.company ? ` (${payload.company})` : ''} via danielchenbuilds.com`,
       replyTo: payload.email,
       html: `
-        <h2>New message from danielchen.tech</h2>
-        <p><strong>About:</strong> ${TOPICS[payload.topic]}</p>
+        <h2>New enquiry from danielchenbuilds.com</h2>
+        <p><strong>Needs:</strong> ${NEEDS[payload.need]}</p>
         <p><strong>From:</strong> ${safeName}</p>
         <p><strong>Email:</strong> ${safeEmail}</p>
+        ${row('Company or project', payload.company)}
+        ${row('Timeline', payload.timeline)}
+        ${row('Budget range', payload.budget)}
+        ${row('Sent from page', payload.page)}
         <p><strong>Site language:</strong> ${payload.locale}</p>
         <p><strong>Message:</strong></p>
         <p>${safeMessage}</p>

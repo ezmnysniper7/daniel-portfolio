@@ -69,6 +69,9 @@ export default async function NotesPage({ params }: { params: Params }) {
                   <span className="font-mono text-[0.75rem] text-bone-3 md:col-span-2">
                     {formatNoteDate(n.date, locale)}
                     <span className="block">{copy.minutes.replace('{n}', String(n.minutes))}</span>
+                    <span className={`mt-2 inline-flex rounded-full border px-2.5 py-1 text-[0.7rem] ${n.basis === 'design' ? 'border-dashed border-signal/60 text-signal' : 'border-line text-bone-2'}`}>
+                      {copy.basis[n.basis]}
+                    </span>
                   </span>
                   <span className="md:col-span-10">
                     <span className="block font-display text-[clamp(1.35rem,2vw,1.85rem)] leading-snug tracking-[-0.015em] transition-colors group-hover:text-signal">
@@ -80,6 +83,13 @@ export default async function NotesPage({ params }: { params: Params }) {
               </li>
             ))}
           </ul>
+          {copy.moreElsewhere ? (
+            <p className="mt-8">
+              <Link href="/en/notes" hrefLang="en" lang="en" className="eyebrow link-underline inline-block py-3 text-bone">
+                {copy.moreElsewhere} <span aria-hidden="true">→</span>
+              </Link>
+            </p>
+          ) : null}
         </section>
       </main>
       <Footer dict={dict} locale={locale} />

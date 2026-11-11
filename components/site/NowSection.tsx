@@ -1,17 +1,21 @@
+import Link from 'next/link';
 import type { Dictionary } from '@/data/dictionary';
 import { Icon, NOW_ICONS } from './Icons';
 
-/** Current job: a short intro and four highlights. */
-export function NowSection({ dict }: { dict: Dictionary }) {
+/** Current full-time role: a short intro and four highlights, as evidence of live fintech work. */
+export function NowSection({ dict, locale }: { dict: Dictionary; locale: string }) {
   const { now } = dict;
   return (
-    <section id="now" className="py-24 md:py-32">
+    <section id="now" className="border-t border-line py-24 md:py-32">
       <div className="gutter mx-auto grid max-w-page gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5" data-reveal>
           <p className="eyebrow">{now.label}</p>
           <h2 className="display-lg mt-5">{now.title}</h2>
           <p className="mt-6 max-w-md leading-relaxed text-bone-2">{now.intro}</p>
           <p className="eyebrow mt-6">{now.since}</p>
+          <Link href={`/${locale}/work/cfi-broker-payments-crypto-backend`} className="link-underline mt-5 inline-block py-2 text-sm text-bone">
+            {now.caseStudy} <span aria-hidden="true">→</span>
+          </Link>
         </div>
         <ol className="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:col-span-7">
           {now.chapters.map((c, n) => (

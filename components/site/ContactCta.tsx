@@ -1,17 +1,18 @@
+import type { ContactNeed } from '@/data/dictionary';
 import { siteMetadata } from '@/data/metadata';
 
 type Props = {
   title: string;
   body?: string;
   button: string;
-  /** Topic preselected in the contact form when the button is used. */
-  topic: 'project' | 'job' | 'other';
+  /** Preselected in the contact form when the button is used. */
+  need: ContactNeed;
   orEmail: string;
   subject: string;
 };
 
-/** The call to action on service and hire pages: jumps to the contact form, with email as the alternative. */
-export function ContactCta({ title, body, button, topic, orEmail, subject }: Props) {
+/** The call to action on service, case study and hiring pages: jumps to the contact form, with email as the alternative. */
+export function ContactCta({ title, body, button, need, orEmail, subject }: Props) {
   const mailto = `mailto:${siteMetadata.email}?subject=${encodeURIComponent(subject)}`;
   return (
     <section className="border-t border-line">
@@ -25,7 +26,8 @@ export function ContactCta({ title, body, button, topic, orEmail, subject }: Pro
         <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-5" data-reveal>
           <a
             href="#contact"
-            data-contact-topic={topic}
+            data-contact-need={need}
+            data-track="cta_page_contact"
             data-magnetic
             className="group inline-flex items-center gap-3 rounded-full bg-bone px-7 py-4 font-medium text-ink transition-colors hover:bg-signal"
           >

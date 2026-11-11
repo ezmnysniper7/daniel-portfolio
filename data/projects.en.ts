@@ -2,44 +2,153 @@ import { Project } from '@/types';
 
 export const projectsEn: Project[] = [
   {
-    slug: 'octopus-payment-microservice',
-    title: 'Octopus Payment Gateway Microservice',
-    description: 'Standalone multi-tenant payment gateway service with HMAC-SHA256 signing, JWT authentication, and merchant management system.',
-    longDescription: 'Architected and developed a production-ready payment gateway microservice that extracts and generalizes payment processing logic into a reusable service. Features comprehensive security infrastructure including APIP-compliant authentication, AES-256-GCM encryption, and automated webhook delivery with retry logic.',
+    slug: 'cfi-broker-payments-crypto-backend',
+    title: 'Payments and crypto back office at a live broker',
+    description:
+      'Wallet payment methods in production, crypto back-office APIs with field-level permissions, and cross-service debugging on an event-driven platform at CFI Financial.',
+    longDescription:
+      'CFI Financial is an online multi-asset broker (FX/CFD and crypto). I work on its crypto trading platform and its payment-provider integrations: Python services on PostgreSQL and MySQL, with RabbitMQ keeping a client portal and a back office in sync. Anything internal to CFI is left out on purpose.',
+    status: 'In production · my current full-time role',
+    evidence: 'production',
     techStack: [
-      'Java 17',
-      'Spring Boot',
-      'Spring Security',
+      'Python',
+      'FastAPI',
+      'SQLAlchemy',
+      'Pydantic',
       'PostgreSQL',
+      'MySQL',
+      'RabbitMQ',
+      'Redis',
       'Docker',
-      'JWT',
-      'HMAC-SHA256',
-      'AES-256-GCM',
+      'Kubernetes',
+      'Casbin',
+      'Checkout.com',
+      'Grafana / Loki',
+      'SonarQube',
     ],
-    role: 'Platform & DevSecOps Engineer',
+    role: 'Senior Backend Engineer',
     responsibilities: [
-      'Designed and implemented complete cryptographic service with SHA-256 hashing and AES-256-GCM encryption',
-      'Built HMAC-SHA256 request signature system with replay attack prevention',
-      'Created merchant management APIs with key rotation and profile management',
-      'Implemented async webhook delivery system with retry logic and failure handling',
-      'Developed comprehensive test suite with unit and integration tests',
+      "Delivered Apple Pay, Google Pay and Benefit as separate Checkout.com deposit methods for the Bahrain entity. All three are live in production. Wrote the team's end-to-end local testing guide for deposits and refunds.",
+      'Took on 26 backend tickets in my first two months on the crypto platform, across 7 services and shared libraries: back-office API, access-control API, two RabbitMQ consumer services, client-portal API and two shared Python libraries.',
+      'Built paginated, filterable list and CSV/PDF export endpoints with field-level permissions (Casbin) for the maker-checker order-cancellation flow.',
+      'Extended 8-decimal precision for crypto amounts across APIs, models and access-control definitions.',
+      'Added Braze events for first deposits.',
     ],
     highlights: [
-      'Contributed 3,680+ lines of production code in 2 weeks',
-      'APIP-compliant multi-tenant architecture',
-      'Automatic API key rotation with graceful expiration',
-      'Production-ready with complete security infrastructure',
+      'An HTTP 500 on crypto trades: I traced it by correlation id in Grafana and Loki to duplicate asset-pair records, then made symbol resolution deterministic. That also closed the same failure on the market-order and limit-order paths.',
+      'A KYC edit in the back office never reached the client portal. The payload was being dropped at both the RabbitMQ producer and the consumer. I reproduced it on the exact pinned library versions and confirmed it in logs before designing the fix.',
+    ],
+    startDate: '2026-07',
+    endDate: 'Present',
+    category: 'professional',
+    featured: true,
+    metrics: ['3 wallet payment methods live', '26 tickets in the first two months', '7 services and shared libraries', '8-decimal crypto precision'],
+    tags: ['Payments', 'Crypto', 'FastAPI', 'RabbitMQ', 'Access control'],
+    caseStudy: {
+      problem:
+        'A regulated broker keeps adding payment methods and crypto features to a platform that already serves clients. Every change touches money, permissions and two systems that must stay in step: the client portal and the back office.',
+      complexity: [
+        'Deposits and refunds run through a payment provider with sessions, webhooks and wallet-specific rules for Apple Pay and Google Pay.',
+        'Crypto amounts need 8-decimal precision through every API, model and permission definition, not only in the database.',
+        'Back-office actions follow maker-checker approval, with access control down to individual fields.',
+        'State crosses services through RabbitMQ. A field dropped anywhere on the path fails silently.',
+      ],
+      architecture:
+        'Python services (FastAPI, SQLAlchemy, Pydantic) on PostgreSQL and MySQL. A client portal and a back office each own their data and exchange changes as RabbitMQ messages. Payments go through Checkout.com. Access control is policy-based (Casbin) and reaches individual fields. Logs are searchable by correlation id in Grafana and Loki.',
+      decisions: [
+        {
+          title: 'One deposit method per wallet',
+          body: 'Apple Pay, Google Pay and Benefit were delivered as separate deposit methods, not as variations of one card flow. Each has its own session rules and was tested end to end before release.',
+        },
+        {
+          title: 'Write the local testing guide',
+          body: 'Running a deposit and a refund end to end on a laptop was undocumented. I wrote the guide, traps included, so the next engineer does not start from zero.',
+        },
+        {
+          title: 'Prove the cause before changing code',
+          body: 'The trade failure was reproduced and traced to its data cause first. The fix then went into symbol resolution, the one place every order path shares, instead of patching the endpoint that happened to fail.',
+        },
+        {
+          title: 'Fix both ends of a message, consumer first',
+          body: 'The KYC field was lost twice, at the producer and at the consumer. Fixing one side would have passed review and still failed in production. The consumer ships first so it never rejects a message it does not yet understand.',
+        },
+      ],
+      outcomes: [
+        'Apple Pay, Google Pay and Benefit are live in production as deposit methods.',
+        '26 backend tickets delivered in the first two months, across 7 services and shared libraries.',
+        'List and export endpoints with field-level permissions in use for the maker-checker order-cancellation flow.',
+        '8-decimal precision for crypto amounts across APIs, models and access-control definitions.',
+      ],
+      demonstrates:
+        'I work inside a live brokerage every day: payments, permissions, precision and event-driven sync. When I design a back office or a payment flow for your product, it comes from systems that run with real client money.',
+    },
+  },
+  {
+    slug: 'octopus-payment-microservice',
+    title: 'Octopus payment gateway microservice',
+    description: 'A production-ready, multi-tenant payment gateway service with HMAC-SHA256 request signing, replay protection, merchant key rotation and webhook delivery.',
+    longDescription:
+      'At Appnovation I designed and built a production-ready payment gateway microservice that takes Octopus payment processing out of a single client project and turns it into a service several merchants and applications can share: authentication, request signing, encryption at rest, merchant management and webhook delivery with retries.',
+    techStack: ['Java 17', 'Spring Boot', 'Spring Security', 'PostgreSQL', 'Docker', 'JWT', 'HMAC-SHA256', 'AES-256-GCM'],
+    role: 'Platform & DevSecOps Engineer',
+    responsibilities: [
+      'Designed and implemented the cryptographic service: SHA-256 hashing and AES-256-GCM encryption for secrets at rest.',
+      'Built the HMAC-SHA256 request signature system with replay-attack prevention.',
+      'Created merchant management APIs with key rotation and profile management.',
+      'Implemented asynchronous webhook delivery with retry logic and failure handling.',
+      'Wrote the unit and integration test suite.',
+    ],
+    highlights: [
+      'Multi-tenant from the start: each merchant has its own credentials, keys and profile.',
+      'API keys rotate automatically, with a graceful expiry so merchants can switch without an outage.',
     ],
     startDate: '2025-09',
     endDate: '2025-10',
     category: 'professional',
     featured: false,
-    metrics: ['3,680+ lines of code', 'Multi-tenant architecture', 'APIP compliant'],
-    tags: ['Microservices', 'Security', 'Payment Gateway', 'Spring Boot'],
+    metrics: ['About 3,680 lines of code in two weeks', 'Multi-tenant architecture', 'HMAC-SHA256 with replay protection'],
+    tags: ['Microservices', 'Security', 'Payment gateway', 'Spring Boot'],
+    caseStudy: {
+      problem:
+        "Octopus is Hong Kong's stored-value payment network. The payment logic for it lived inside one client project. A second and a third project would have meant copying security-critical code, so it needed to become a standalone service that several merchants and applications could call.",
+      complexity: [
+        'Multi-tenant: each merchant has its own credentials, keys and profile, isolated from the others.',
+        'Every request must be authenticated and tamper-proof, and a captured request must not be replayable.',
+        'Secrets have to be encrypted at rest, and keys have to rotate without downtime.',
+        'Webhooks out to merchant systems must survive slow or failing endpoints.',
+      ],
+      architecture:
+        'A Spring Boot service (Java 17) on PostgreSQL, packaged with Docker. Callers authenticate with JWT and sign each request with HMAC-SHA256. A cryptographic service handles hashing and AES-256-GCM encryption. Merchant management APIs own profiles and keys. Webhook delivery runs asynchronously, outside the request path.',
+      decisions: [
+        {
+          title: 'Sign every request and reject replays',
+          body: 'An HMAC-SHA256 signature proves who sent a request and that it was not altered. Replay protection means a captured request cannot simply be sent again.',
+        },
+        {
+          title: 'Rotate keys gracefully',
+          body: 'API keys rotate automatically and the old key keeps working for a grace period, so a merchant can switch without an outage.',
+        },
+        {
+          title: 'Deliver webhooks asynchronously',
+          body: 'Delivery to merchant systems runs outside the payment request, with retries and failure handling, so one slow endpoint cannot hold up a payment.',
+        },
+        {
+          title: 'Encrypt what must be stored',
+          body: 'Secrets at rest are encrypted with AES-256-GCM, and hashing is used wherever the original value is never needed again.',
+        },
+      ],
+      outcomes: [
+        'A production-ready, standalone, multi-tenant payment gateway service with merchant management APIs.',
+        'About 3,680 lines of code delivered in two weeks, with unit and integration tests.',
+        'Request signing, replay protection, key rotation and webhook retries implemented as shared infrastructure instead of per-project code.',
+      ],
+      demonstrates:
+        'I can design the security-critical core of a payment system (request signing, key management, encryption and reliable webhooks) as a service other teams build on.',
+    },
   },
   {
     slug: 'ocean-park-ticketing',
-    title: 'Ocean Park E-Commerce Ticketing Platform',
+    title: 'Ocean Park e-commerce ticketing platform',
     description: 'Complete A-to-Z ticket purchase flow with Type Approval compliant payment monitoring and automated reconciliation.',
     longDescription: 'Built enterprise-grade e-commerce ticketing system for Ocean Park Hong Kong, integrating Octopus payment gateway and TAS (Ticketing Administration System). Implemented Type Approval (TA) compliant payment status polling meeting regulatory requirements by Octopus Cards Limited.',
     techStack: [
@@ -61,16 +170,16 @@ export const projectsEn: Project[] = [
       'Integrated Octopus payment gateway with XML-based protocol',
     ],
     highlights: [
-      'Type Approval compliant payment monitoring system',
-      '99.9% transaction success rate',
-      'Zero revenue loss through automated reconciliation',
-      'Real-time payment status updates every 10 seconds',
+      'Type Approval compliant payment monitoring.',
+      'Payment status polled every 10 seconds, with termination logic so polling stops when the outcome is known.',
+      'Idempotent fulfilment: a repeated callback never issues tickets twice.',
+      'An automatic reconciliation job that catches payments whose callback was missed.',
     ],
     startDate: '2025-09',
     endDate: '2025-11',
     category: 'professional',
     featured: false,
-    metrics: ['99.9% success rate', 'TA compliant', 'Zero revenue loss'],
+    metrics: ['Type Approval compliant', 'Status polling every 10 s', 'Idempotent fulfilment'],
     tags: ['E-commerce', 'Payment Processing', 'Enterprise'],
   },
   {
@@ -305,7 +414,8 @@ export const projectsEn: Project[] = [
       'GitHub Actions',
       'Sentry',
     ],
-    role: 'Engineering lead, built end to end',
+    role: 'CTO and hands-on engineering lead',
+    evidence: 'production',
     responsibilities: [
       'Designed a layered Go API (domain, services, repositories, HTTP) with chi and pgx: 235 endpoints across 31 domain services, 1,006 test functions, golangci-lint and gofmt gates in CI.',
       'PostGIS radius and nearest-first search for providers, merchants and requests, plus a merchant map with clustered pins on the app and the website.',
@@ -334,15 +444,59 @@ export const projectsEn: Project[] = [
       '834 commits in 8 months',
     ],
     tags: ['Go', 'PostGIS', 'Flutter', 'Next.js', 'DevOps'],
+    caseStudy: {
+      problem:
+        'Finding a reliable local service provider in Malaysia means asking around in three languages. SolveMY is a marketplace where customers post a request and verified providers and merchants quote and chat. It needed a website, Android and iOS apps, an admin side and the operations behind them, and there was no engineering team. There was me.',
+      complexity: [
+        'Three client surfaces (web, Android, iOS) against one API, in English, Malay and Chinese.',
+        'Location search: radius and nearest-first across providers, merchants and requests.',
+        'Sessions that can be revoked per device, and chat that still behaves on old app versions.',
+        'Two app stores with different rules on pricing and payments, served from one codebase.',
+        'Running production alone: deployments, backups, monitoring and incident response.',
+      ],
+      architecture:
+        "One layered Go service (domain, services, repositories, HTTP) on PostgreSQL with PostGIS. A Next.js website with server-rendered pages. A Flutter app for Android and iOS. Production runs on a self-managed server with Docker, nginx and Let's Encrypt, with Cloudflare R2 for storage and backups and Vercel for the website. Staging and production are isolated.",
+      decisions: [
+        {
+          title: 'One deployable, clean layers',
+          body: '235 endpoints across 31 domain services live in one Go service. One engineer can reason about it, and the boundaries are clean enough to split later if a team ever needs to.',
+        },
+        {
+          title: 'PostgreSQL with PostGIS for search',
+          body: 'Radius and nearest-first queries run in the database that already holds the data, instead of adding a separate search system to operate.',
+        },
+        {
+          title: 'Rotating refresh tokens with reuse detection',
+          body: 'Short access tokens and opaque refresh tokens that rotate. If an old token is ever reused, the whole token family is revoked.',
+        },
+        {
+          title: 'Staging as a true canary, backups encrypted nightly',
+          body: 'Every release goes through an isolated staging environment first. Backups are encrypted with AES-256 and shipped off the server every night.',
+        },
+        {
+          title: 'Quality gates in CI',
+          body: '1,006 test functions, with lint and format checks that block a merge.',
+        },
+      ],
+      outcomes: [
+        'Live on the web and Google Play, and submitted to the App Store.',
+        '235 REST endpoints, 31 domain services, 1,006 Go test functions and 116 SQL migrations.',
+        '48 app screens and 75 web routes in three languages.',
+        'Production run by one engineer, with monitoring, alerts and nightly encrypted backups.',
+      ],
+      demonstrates:
+        'This is the closest thing in my history to a founder engagement: one engineer taking a product from an empty repository to live apps, including the unglamorous parts. It is what I mean by technical ownership.',
+    },
   },
   {
     slug: 'tradersflow',
-    title: 'MT5 risk engine',
+    title: 'MT5 Manager API service and real-time risk monitor',
     description: 'A C#/.NET service on MetaQuotes\' native Manager API, and a monitor that enforces every trading account\'s loss rules within seconds, for a live prop-trading platform.',
     longDescription: 'The platform read trader data through MetaTrader 5\'s HTTP Web API. One positions call could take several seconds, and breach checks ran from a periodic backend job, so a trader could keep trading past a limit for minutes. I built a C#/.NET 7 service on the native Manager API that reads from its live pumped cache, and a monitor that checks every active account\'s loss rules every few seconds. Around it I built the backend client, health monitoring, marketing attribution and the admin tooling the operations team uses daily.',
     company: 'TradersFlow (TRFC)',
     kind: 'work',
     status: 'In production',
+    evidence: 'production',
     techStack: [
       'C#',
       '.NET 7',
@@ -386,6 +540,53 @@ export const projectsEn: Project[] = [
       '2 equity sources before any promotion',
     ],
     tags: ['C#', '.NET', 'MetaTrader 5', 'Redis', 'Concurrency'],
+    caseStudy: {
+      problem:
+        "A live prop-trading firm has to enforce loss limits on every trader's account. Its platform read trading data through MetaTrader 5's HTTP Web API. One positions call could take several seconds, and breach checks ran from a periodic backend job, so a trader could keep trading past a limit for minutes. For a prop firm that is real money.",
+      complexity: [
+        'The native MT5 Manager API is a Windows SDK with its own connection lifecycle and a locally pumped cache. It is fast, and it is not thread-safe.',
+        'A risk engine acts on what it reads: it disables trading and fails accounts. A wrong number is worse than a slow one.',
+        'Rules differ by account type and phase, and the monitor and the backend must never disagree about whether an account has failed.',
+        'The change had to go live on a running platform with real traders, on separate demo and live servers.',
+      ],
+      architecture:
+        'A C#/.NET 7 service holds the Manager API connection and its pumped cache, and exposes account, position, deal, order and history endpoints over HTTP, secured with API keys and an IP allow-list. The existing TypeScript backend calls it through a typed client and publishes rule snapshots to Redis. A monitor inside the service checks every active account against those rules every few seconds and reports breaches to the backend through an idempotent callback. Demo and live run as separate Windows services.',
+      decisions: [
+        {
+          title: 'Read from the pumped cache, keep the request as a fallback',
+          body: 'Position reads moved from multi-second network requests to the local copy the Manager API keeps up to date. The slower request stays for the rare moment the cache is not ready.',
+        },
+        {
+          title: 'Serialise every SDK call',
+          body: "Under concurrent load some accounts read another account's figures. I traced it to the SDK not being thread-safe, put every call behind one lock, locked connect and shutdown as well, and added a guard that the login returned is the login requested. Slower batch reads were an acceptable price for correct ones.",
+        },
+        {
+          title: 'Refuse to act on numbers that do not add up',
+          body: 'The monitor skips an account instead of failing it when the data looks wrong. No account is promoted unless its equity agrees across two independent MT5 sources.',
+        },
+        {
+          title: 'Make the fail flow idempotent and loud',
+          body: 'A breach is reported through a callback that is safe to repeat. The fail flow throws if MT5 refuses the rights change, so the database and MT5 cannot silently disagree. That closed a bug where an inverted rights bitmask let failed accounts keep trading.',
+        },
+        {
+          title: 'One fail calculation',
+          body: 'The calculation lives in one shared service. That ended false fails from swap being counted twice and from instant accounts that have no daily limit.',
+        },
+        {
+          title: 'Deploy with the monitor off',
+          body: 'The runbook stops both services, deploys, verifies a known-bad and a known-good account by hand with the monitor off, and only then switches it on.',
+        },
+      ],
+      outcomes: [
+        'Position reads moved from multi-second network requests to the local pumped cache.',
+        'Every active account is checked against its loss rules about every 5 seconds, where checks used to run from a periodic job.',
+        'No account is promoted unless equity agrees across two independent MT5 sources.',
+        'The cross-account data incident was traced to its cause and guarded against.',
+        'In production, as separate demo and live services.',
+      ],
+      demonstrates:
+        'I can own the riskiest integration in a trading business, find the real cause of a data-integrity incident, and ship a fix operations can trust. The same skills apply to investor portals, broker back offices and any system that has to agree with MetaTrader 5.',
+    },
   },
   {
     slug: 'dan',

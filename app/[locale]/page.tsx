@@ -1,15 +1,16 @@
 import type { Metadata } from 'next';
 import { getDictionary } from '@/data/dictionary';
 import { getExperience } from '@/data/experience';
-import { getProjectsForJob, getSelectedProjects } from '@/data/projects';
+import { getSelectedProjects } from '@/data/projects';
 import { getServices } from '@/data/services';
 import { Header } from '@/components/site/Header';
 import { Hero } from '@/components/site/Hero';
 import { NowSection } from '@/components/site/NowSection';
 import { WorkSection } from '@/components/site/WorkSection';
 import { ServicesSection } from '@/components/site/ServicesSection';
+import { EngagementSection } from '@/components/site/EngagementSection';
 import { StatsSection } from '@/components/site/StatsSection';
-import { ExperienceSection } from '@/components/site/ExperienceSection';
+import { ExperienceGlance } from '@/components/site/ExperienceGlance';
 import { Footer } from '@/components/site/Footer';
 import { NotesSection } from '@/components/site/NotesSection';
 import { getNotes } from '@/data/notes';
@@ -28,30 +29,30 @@ export default async function HomePage({ params }: { params: Params }) {
   const { locale } = await params;
   const dict = getDictionary(locale);
   const services = getServices(locale);
-  const experience = getExperience(locale);
-  const projectsByJob = Object.fromEntries(experience.map((e) => [e.id, getProjectsForJob(locale, e.id)]));
+  const experience = getExperience(locale).filter((e) => e.type !== 'internship');
 
   const jsonLd = graph(
     websiteNode(locale),
-    { ...personNode(locale), makesOffer: services.map((s) => ({ '@type': 'Offer', itemOffered: serviceNode(locale, s.slug) })) },
+    {
+      ...personNode(locale),
+      makesOffer: services.filter((s) => s.tier === 'primary').map((s) => ({ '@type': 'Offer', itemOffered: serviceNode(locale, s.slug) })),
+    },
     profilePageNode(locale, '')
   );
 
+  // Order follows a founder's questions: what do you build, can you prove it, how do we start, where does it come from.
   return (
     <>
-      <Header locale={locale} dict={dict} path="" home />
+      <Header locale={locale} dict={dict} path="" />
       <main>
-        <Hero dict={dict} locale={locale} />
-        <NowSection dict={dict} />
-        <WorkSection
-          locale={locale}
-          dict={dict}
-          projects={getSelectedProjects(locale)}
-        />
-        <StatsSection dict={dict} locale={locale} />
+        <Hero dict={dict} />
         <ServicesSection locale={locale} dict={dict} services={services} />
-        <ExperienceSection dict={dict} locale={locale} experience={experience} projectsByJob={projectsByJob} />
-        <NotesSection locale={locale} dict={dict} notes={getNotes(locale)} />
+        <WorkSection locale={locale} dict={dict} projects={getSelectedProjects(locale)} />
+        <EngagementSection dict={dict} />
+        <NowSection dict={dict} locale={locale} />
+        <StatsSection dict={dict} locale={locale} />
+        <ExperienceGlance dict={dict} locale={locale} experience={experience} />
+        <NotesSection locale={locale} dict={dict} notes={getNotes(locale).slice(0, 7)} />
       </main>
       <Footer dict={dict} locale={locale} />
       <JsonLd data={jsonLd} />

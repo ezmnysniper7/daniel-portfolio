@@ -1,5 +1,5 @@
 /** Line illustrations for services and highlights: inline SVG, inherits the text colour. */
-type IconName = 'chart' | 'card' | 'browser' | 'phone' | 'servers' | 'search' | 'layers' | 'send';
+type IconName = 'chart' | 'card' | 'browser' | 'phone' | 'servers' | 'search' | 'layers' | 'send' | 'plug' | 'shield' | 'compass';
 
 const paths: Record<IconName, React.ReactNode> = {
   // candlesticks on a baseline
@@ -67,6 +67,28 @@ const paths: Record<IconName, React.ReactNode> = {
       <path d="m21 3-7 18-4-7-7-4z" />
     </>
   ),
+  // a plug: integrations
+  plug: (
+    <>
+      <path d="M9 2.5v4.5M15 2.5v4.5" />
+      <path d="M6 7h12v4a6 6 0 0 1-12 0z" />
+      <path d="M12 17v4.5" />
+    </>
+  ),
+  // a shield with a tick: rules that are enforced
+  shield: (
+    <>
+      <path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z" />
+      <path d="m9 12 2.2 2.2L15 10.5" />
+    </>
+  ),
+  // a compass: technical direction
+  compass: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="m15.5 8.5-2 5-5 2 2-5z" />
+    </>
+  ),
 };
 
 export function Icon({ name, className = 'h-6 w-6' }: { name: IconName; className?: string }) {
@@ -78,7 +100,10 @@ export function Icon({ name, className = 'h-6 w-6' }: { name: IconName; classNam
 }
 
 const serviceIcons: Record<string, IconName> = {
-  'crypto-trading-systems': 'chart',
+  'fintech-technical-partner': 'compass',
+  'mt5-manager-api-developer': 'plug',
+  'prop-firm-software-development': 'shield',
+  'trading-platform-engineering': 'chart',
   'payment-integration': 'card',
   'web-development': 'browser',
   'mobile-app-development': 'phone',
