@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { getDictionary } from '@/data/dictionary';
 import { siteMetadata } from '@/data/metadata';
 import { Header } from '@/components/site/Header';
-import { DirectContact, Footer } from '@/components/site/Footer';
+import { DirectContact, Footer, NextSteps } from '@/components/site/Footer';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { absolute, breadcrumbNode, graph, pageMetadata, personNode, websiteNode } from '@/lib/seo';
@@ -58,15 +58,7 @@ export default async function ContactPage({ params }: { params: Params }) {
               <ContactForm copy={dict.form} locale={locale} email={siteMetadata.email} />
             </div>
             <div className="lg:col-span-4 lg:col-start-9">
-              <h2 className="eyebrow">{copy.nextLabel}</h2>
-              <ol className="mt-4 border-t border-line">
-                {copy.next.map((step, n) => (
-                  <li key={step} className="flex gap-4 border-b border-line py-4 leading-relaxed text-bone-2">
-                    <span className="mt-[0.2em] font-mono text-xs text-signal">0{n + 1}</span>
-                    <span>{step}</span>
-                  </li>
-                ))}
-              </ol>
+              <NextSteps dict={dict} heading="h2" />
               <h2 className="eyebrow mt-12">{copy.directLabel}</h2>
               <div className="mt-4">
                 <DirectContact dict={dict} />

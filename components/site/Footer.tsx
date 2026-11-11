@@ -40,6 +40,24 @@ export function DirectContact({ dict }: { dict: Dictionary }) {
   );
 }
 
+/** What happens after the form is sent. It sits beside every contact form, where the decision is made. */
+export function NextSteps({ dict, heading: Heading = 'h3' }: { dict: Dictionary; heading?: 'h2' | 'h3' }) {
+  const copy = dict.contactPage;
+  return (
+    <>
+      <Heading className="eyebrow">{copy.nextLabel}</Heading>
+      <ol className="mt-4 border-t border-line">
+        {copy.next.map((step, n) => (
+          <li key={step} className="flex gap-4 border-b border-line py-4 leading-relaxed text-bone-2">
+            <span className="mt-[0.2em] font-mono text-xs text-signal">0{n + 1}</span>
+            <span>{step}</span>
+          </li>
+        ))}
+      </ol>
+    </>
+  );
+}
+
 export function Footer({ dict, locale, form = true }: Props) {
   const { footer, nav } = dict;
   const year = new Date().getFullYear();
@@ -68,7 +86,7 @@ export function Footer({ dict, locale, form = true }: Props) {
           <>
             <p className="eyebrow">{footer.label}</p>
             <h2 className="display-xl mt-6">
-              {footer.lines[0]}
+              {footer.lines[0]}{' '}
               <br />
               {footer.lines[1]}
             </h2>
@@ -78,7 +96,10 @@ export function Footer({ dict, locale, form = true }: Props) {
                 <ContactForm copy={dict.form} locale={locale} email={siteMetadata.email} />
               </div>
               <div className="lg:col-span-4 lg:col-start-9">
-                <DirectContact dict={dict} />
+                <NextSteps dict={dict} />
+                <div className="mt-10">
+                  <DirectContact dict={dict} />
+                </div>
               </div>
             </div>
           </>

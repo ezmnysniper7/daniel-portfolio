@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Dictionary } from '@/data/dictionary';
+import { MobileMenu } from './MobileMenu';
 
 type Props = {
   locale: string;
@@ -29,7 +30,19 @@ export function Header({ locale, dict, path }: Props) {
           </span>
         </Link>
         <nav aria-label="Primary" className="flex items-center gap-2.5 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-bone-2 sm:gap-3.5 sm:tracking-[0.14em] md:gap-6">
-          <Link href={`/${locale}/services`} className={link} data-magnetic>
+          <MobileMenu
+            label={nav.menu}
+            closeLabel={nav.close}
+            links={[
+              { href: `/${locale}/services`, label: nav.services },
+              { href: `/${locale}/work`, label: nav.work },
+              { href: `/${locale}/services/fintech-technical-partner`, label: nav.founders },
+              { href: `/${locale}/notes`, label: nav.notes },
+              { href: `/${locale}/about`, label: nav.about },
+              { href: `/${locale}/contact`, label: nav.contact },
+            ]}
+          />
+          <Link href={`/${locale}/services`} className={`${link} hidden md:inline-flex`} data-magnetic>
             <span className="link-underline">{nav.services}</span>
           </Link>
           <Link href={`/${locale}/work`} className={`${link} hidden md:inline-flex`} data-magnetic>

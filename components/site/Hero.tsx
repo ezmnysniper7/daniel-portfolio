@@ -23,7 +23,15 @@ function SystemFallback({ dict }: { dict: Dictionary }) {
         <g key={node.id}>
           <circle cx={node.x} cy={-node.y} r={node.hub ? 0.2 : 0.14} fill={node.hub ? 'hsl(187 96% 58% / 0.16)' : 'hsl(40 30% 92% / 0.08)'} />
           <circle cx={node.x} cy={-node.y} r={node.hub ? 0.06 : 0.045} fill={node.hub ? 'hsl(187 96% 58%)' : 'hsl(40 30% 92%)'} />
-          <text x={node.x + 0.13} y={-node.y - 0.1} fontSize="0.13" fill="hsl(40 8% 66%)" className="hidden md:inline">
+          {/* The right-most node carries its label on the left, so it is never cut off by the edge. */}
+          <text
+            x={node.x > 1.9 ? node.x - 0.13 : node.x + 0.13}
+            y={-node.y - 0.1}
+            textAnchor={node.x > 1.9 ? 'end' : 'start'}
+            fontSize="0.13"
+            fill="hsl(40 8% 66%)"
+            className="hidden md:inline"
+          >
             {dict.system.nodes[node.id]}
           </text>
         </g>
@@ -100,7 +108,7 @@ export function Hero({ dict }: { dict: Dictionary }) {
               {hero.cta2} <span aria-hidden="true">↓</span>
             </a>
           </div>
-          <p className="hero-fade eyebrow mt-9 flex items-center gap-2.5" style={i(3)}>
+          <p className="hero-fade eyebrow mt-9 flex items-center gap-2.5 [text-wrap:balance]" style={i(3)}>
             <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-signal" aria-hidden="true" />
             {hero.status}
           </p>

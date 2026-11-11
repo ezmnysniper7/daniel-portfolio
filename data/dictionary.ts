@@ -24,6 +24,9 @@ export type Dictionary = {
     /** The button in the header. */
     cta: string;
     switchTo: string;
+    /** The menu button on phones. */
+    menu: string;
+    close: string;
   };
   hero: {
     eyebrow: string;
@@ -65,6 +68,8 @@ export type Dictionary = {
     capabilityNote: string;
     caveatLabel: string;
     proofLabel: string;
+    /** Heading of the case study card beside a service page headline. */
+    evidenceLabel: string;
     notesLabel: string;
     faqLabel: string;
     faqs: { q: string; a: string }[];

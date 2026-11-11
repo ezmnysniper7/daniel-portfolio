@@ -32,6 +32,8 @@ export const en: Dictionary = {
     contact: 'Contact',
     cta: 'Discuss your project',
     switchTo: '中文',
+    menu: 'Menu',
+    close: 'Close',
   },
   hero: {
     eyebrow: 'Daniel Chen · Independent fintech engineer',
@@ -133,6 +135,7 @@ export const en: Dictionary = {
     capabilityNote: 'Not yet delivered as a finished product',
     caveatLabel: 'Before it goes live',
     proofLabel: 'Proof, not promises',
+    evidenceLabel: 'Where I have done this',
     notesLabel: 'Related notes',
     faqLabel: 'Questions',
     faqs: [

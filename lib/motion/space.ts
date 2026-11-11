@@ -402,6 +402,9 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
   // ---------- Page wiring (anchor, labels, caption) ----------
   let anchor: HTMLElement | null = null;
   let labels: HTMLElement[] = [];
+  /** Label widths, and whether each label currently sits to the left of its node (to stay on screen). */
+  let labelWidths: number[] = [];
+  let labelFlipped: boolean[] = [];
   let labelLayer: HTMLElement | null = null;
   let caption: HTMLElement | null = null;
   let captions: string[] = [];
@@ -412,6 +415,7 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
   let anchorMeasuredAt = 0;
   const measureAnchor = () => {
     anchorMeasuredAt = performance.now();
+    labelWidths = labels.map((l) => l.offsetWidth);
     if (!anchor) return (anchorBox = null);
     const r = anchor.getBoundingClientRect();
     anchorBox = { left: r.left, top: r.top + window.scrollY, width: r.width, height: r.height };
@@ -420,6 +424,7 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
     anchor = hero?.querySelector<HTMLElement>('[data-system-anchor]') ?? null;
     labelLayer = hero?.querySelector<HTMLElement>('[data-system-labels]') ?? null;
     labels = labelLayer ? Array.from(labelLayer.querySelectorAll<HTMLElement>('[data-system-label]')) : [];
+    labelFlipped = labels.map(() => false);
     caption = hero?.querySelector<HTMLElement>('[data-system-caption]') ?? null;
     try {
       captions = JSON.parse(hero?.dataset.flows || '[]');
@@ -560,7 +565,14 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
         const label = showLabels ? labels[i] : undefined;
         if (label) {
           labelsShown = true;
-          label.style.transform = `translate3d(${sx.toFixed(1)}px, ${sy.toFixed(1)}px, 0)`;
+          // A label that would run off the right edge moves to the left of its node. The 48px of slack
+          // before it moves back stops it flickering as the graph turns. 15px is the CSS gap to the node.
+          const w = labelWidths[i] || 0;
+          const over = sx + 15 + w - (width - 12);
+          if (over > 0) labelFlipped[i] = true;
+          else if (over < -48) labelFlipped[i] = false;
+          const lx = labelFlipped[i] ? sx - w - 30 : sx;
+          label.style.transform = `translate3d(${lx.toFixed(1)}px, ${sy.toFixed(1)}px, 0)`;
           label.style.opacity = String(fade * (0.45 + 0.55 * Math.min(1, Math.max(nodeGlow[i], i === hovered ? 1 : 0))));
         }
       });

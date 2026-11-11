@@ -49,6 +49,8 @@ export default async function ServicePage({ params }: { params: Params }) {
   const projects = getProjects(locale);
   const notes = getNotes(locale).filter((n) => n.service === slug);
   const primary = service.tier === 'primary';
+  // The first case study in the proof list is shown beside the headline.
+  const evidence = service.proof.map((p) => projects.find((x) => x.slug === p.slug)).find((p) => p !== undefined);
 
   const jsonLd = graph(
     websiteNode(locale),
@@ -79,38 +81,83 @@ export default async function ServicePage({ params }: { params: Params }) {
           <span className="hero-fade mt-10 flex h-14 w-14 items-center justify-center rounded-full border border-line text-signal md:mt-12" style={i(0)}>
             <ServiceIcon slug={slug} className="h-7 w-7" />
           </span>
-          <h1 className="display-xl mt-6 max-w-[20ch]">
-            <span className="line-mask">
-              <span className="hero-line" style={i(0)}>
-                {service.headline ?? service.title}
-              </span>
-            </span>
-          </h1>
-          {service.audience ? (
-            <p className="hero-fade eyebrow mt-7 flex items-center gap-2.5 text-bone" style={i(1)}>
-              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-signal" aria-hidden="true" />
-              {service.audience}
-            </p>
-          ) : null}
-          <p className="hero-fade mt-7 max-w-3xl text-lg leading-relaxed text-bone-2 md:text-2xl" style={i(1)}>
-            {service.intro}
-          </p>
-          <div className="hero-fade mt-10 flex flex-wrap items-center gap-x-8 gap-y-4" style={i(2)}>
-            <a
-              href="#contact"
-              data-contact-need={slug === 'fintech-technical-partner' ? 'lead' : 'build'}
-              data-track="cta_service_contact"
-              data-magnetic
-              className="group inline-flex items-center gap-3 rounded-full bg-bone px-6 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-signal"
-            >
-              {copy.ctaButton}
-              <span aria-hidden="true" className="transition-transform duration-500 group-hover:translate-y-0.5">
-                ↓
-              </span>
-            </a>
-            <a href="#proof" className="link-underline eyebrow py-3 text-bone">
-              {copy.proofLabel} <span aria-hidden="true">↓</span>
-            </a>
+          <div className="grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-10">
+            <div className={evidence ? 'lg:col-span-8' : 'lg:col-span-12'}>
+              <h1 className="display-xl mt-6 max-w-[20ch]">
+                <span className="line-mask">
+                  <span className="hero-line" style={i(0)}>
+                    {service.headline ?? service.title}
+                  </span>
+                </span>
+              </h1>
+              {service.audience ? (
+                <p className="hero-fade eyebrow mt-7 flex items-center gap-2.5 text-bone" style={i(1)}>
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-signal" aria-hidden="true" />
+                  {service.audience}
+                </p>
+              ) : null}
+              <p className="hero-fade mt-7 max-w-3xl text-lg leading-relaxed text-bone-2 md:text-2xl" style={i(1)}>
+                {service.intro}
+              </p>
+              <div className="hero-fade mt-10 flex flex-wrap items-center gap-x-8 gap-y-4" style={i(2)}>
+                <a
+                  href="#contact"
+                  data-contact-need={slug === 'fintech-technical-partner' ? 'lead' : 'build'}
+                  data-track="cta_service_contact"
+                  data-magnetic
+                  className="group inline-flex items-center gap-3 rounded-full bg-bone px-6 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-signal"
+                >
+                  {copy.ctaButton}
+                  <span aria-hidden="true" className="transition-transform duration-500 group-hover:translate-y-0.5">
+                    ↓
+                  </span>
+                </a>
+                <a href="#proof" className="link-underline eyebrow py-3 text-bone">
+                  {copy.proofLabel} <span aria-hidden="true">↓</span>
+                </a>
+              </div>
+            </div>
+
+            {/* The claim and its evidence side by side: the case study this page rests on. */}
+            {evidence ? (
+              <Link
+                href={`/${locale}/work/${evidence.slug}`}
+                data-track="service_hero_proof"
+                className="hero-fade group block rounded-[1.25rem] border border-bone-3/40 bg-ink-2 p-6 transition-colors hover:border-bone-3 lg:col-span-4"
+                style={i(2)}
+              >
+                <p className="eyebrow">{copy.evidenceLabel}</p>
+                <p className="mt-4 flex flex-wrap gap-2">
+                  <OwnershipBadge dict={dict} project={evidence} />
+                  {evidence.evidence === 'production' ? (
+                    <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-line px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.04em] text-bone-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-signal" aria-hidden="true" />
+                      {dict.caseStudy.evidence.production}
+                    </span>
+                  ) : null}
+                </p>
+                <p className="mt-5 font-display text-[1.6rem] leading-[1.15] tracking-[-0.015em] transition-colors duration-500 group-hover:text-signal">
+                  {evidence.title}
+                </p>
+                <p className="mt-3 line-clamp-2 text-[0.95rem] leading-snug text-bone-2">{evidence.description}</p>
+                {evidence.metrics?.length ? (
+                  <ul className="mt-5 space-y-2 text-[0.95rem] leading-snug text-bone-2">
+                    {evidence.metrics.slice(0, 3).map((m) => (
+                      <li key={m} className="flex gap-3">
+                        <span className="mt-[0.6em] h-px w-3 shrink-0 bg-signal" aria-hidden="true" />
+                        {m}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+                <span className="mt-6 inline-block text-sm text-bone">
+                  {dict.work.open}{' '}
+                  <span aria-hidden="true" className="inline-block transition-transform duration-500 group-hover:translate-x-1">
+                    →
+                  </span>
+                </span>
+              </Link>
+            ) : null}
           </div>
         </section>
 

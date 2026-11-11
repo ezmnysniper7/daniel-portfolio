@@ -32,6 +32,8 @@ export const zhCN: Dictionary = {
     contact: '联系',
     cta: '聊聊你的项目',
     switchTo: 'EN',
+    menu: '菜单',
+    close: '关闭',
   },
   hero: {
     eyebrow: '曾祈荣 · 独立金融科技工程师',
@@ -128,6 +130,7 @@ export const zhCN: Dictionary = {
     capabilityNote: '尚未作为成品交付',
     caveatLabel: '上线之前',
     proofLabel: '看证据，不靠承诺',
+    evidenceLabel: '我在哪里做过这件事',
     notesLabel: '相关笔记',
     faqLabel: '常见问题',
     faqs: [

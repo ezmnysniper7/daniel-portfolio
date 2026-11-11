@@ -9,7 +9,8 @@ export function StatsSection({ dict, locale }: { dict: Dictionary; locale: strin
         <p className="eyebrow">{stats.label}</p>
         <dl className="mt-10 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4" data-reveal>
           {stats.items.map((s) => (
-            <div key={s.label} className="flex flex-col-reverse">
+            // justify-end is the top in a reversed column: every number starts on the same line.
+            <div key={s.label} className="flex flex-col-reverse justify-end">
               <dt className="mt-3">
                 <span className="block text-bone">{s.label}</span>
                 <span className="mt-1 block font-mono text-[0.72rem] uppercase tracking-[0.12em] text-bone-3">{s.note}</span>
