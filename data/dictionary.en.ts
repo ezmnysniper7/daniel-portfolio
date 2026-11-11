@@ -107,6 +107,7 @@ export const en: Dictionary = {
       'Written scope and milestones',
       'Source code, access and documentation handed over',
       'NDA on request',
+      'Full-time, 40+ hours a week, from about three weeks after we agree',
     ],
   },
   servicesPage: {
@@ -142,6 +143,10 @@ export const en: Dictionary = {
       {
         q: 'Where are you based, and can you work with US, UK and European teams?',
         a: 'I am based in Kuala Lumpur, Malaysia (GMT+8) and work remotely. European mornings overlap my afternoons, and US hours overlap my mornings and evenings, so we agree fixed overlap hours at the start. I have no office in the US or Europe and do not claim one.',
+      },
+      {
+        q: 'How soon can you start, and how much of your time do I get?',
+        a: 'Full-time, 40 hours a week or more, starting about three weeks after we agree the scope. A short discovery sprint can begin earlier, part-time, so the plan is ready when the build starts.',
       },
       {
         q: 'Are you an agency?',
