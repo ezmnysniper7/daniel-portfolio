@@ -178,8 +178,132 @@ export const servicesEn: Service[] = [
         a: 'Yes. Slow reads, accounts showing the wrong figures and rule calculations that disagree with the terminal are problems I have traced and fixed. I reproduce the problem and prove the cause before changing code.',
       },
       {
+        q: "Do you also work with MT4?",
+        a: "Yes, starting with a proof of concept. MT4 has its own, older Manager API. My production work is on MT5, and the design carries over: one service that owns the connection, a local copy of the data for fast reads, and writes that are safe to retry.",
+      },
+      {
+        q: "Do you build MT5 server plugins?",
+        a: "I can take one on, and I have not shipped one yet. My production work is on the Manager API and Web API, which cover a lot of what firms ask a plugin for: account and balance operations, monitoring and reporting. A server plugin is C++ running inside the trade server itself, where a fault affects every client. So I start with a small proof of concept on a test server and have it reviewed before it goes near production.",
+      },
+      {
         q: 'Do you build Expert Advisors, indicators or trading bots?',
         a: 'No. I build server-side systems for firms: integrations, monitoring, back offices and portals. Not strategies or signals.',
+      },
+    ],
+  },
+  {
+    slug: 'forex-crm-development',
+    tier: 'primary',
+    title: "Forex CRM & trader's room development",
+    headline: "Custom forex CRM and trader's room development on MT5.",
+    audience: 'For brokers and investment firms that have outgrown an off-the-shelf CRM.',
+    evidenceLabel: 'Related work in production',
+    short:
+      "Client areas, back offices, investor dashboards and IB commission systems connected to MetaTrader 5, built custom when a standard forex CRM does not fit.",
+    metaTitle: "Custom Forex CRM & Trader's Room Development (MT5) | Daniel Chen",
+    metaDescription:
+      "Custom forex CRM, trader's room and IB commission system development on MetaTrader 5, from an engineer with broker back-office and MT5 work in production.",
+    serviceType: "Forex CRM, trader's room and IB commission system development",
+    intro:
+      'A forex CRM is three systems that have to agree: the client area, the back office and MetaTrader 5. I have built parts of each on live platforms, for a prop firm and for a multi-asset broker. I have not shipped a complete forex CRM as one product, and this page says exactly which parts are proven.',
+    offeringsLabel: 'Parts I have delivered in production',
+    offerings: [
+      {
+        title: 'MT5 data inside your own system',
+        body: 'A Manager API service that serves accounts, positions, deals, orders and daily history to the back office in milliseconds, with trading-rights control.',
+      },
+      {
+        title: 'Back-office APIs with approvals',
+        body: 'Transaction views, maker-checker approvals, paginated lists and CSV or PDF exports, behind role and field-level permissions.',
+      },
+      {
+        title: 'Client area and back office in step',
+        body: 'Client profile and KYC changes carried between the client portal and the back office through a message queue, so the two never disagree for long.',
+      },
+      {
+        title: 'Deposits',
+        body: 'Apple Pay, Google Pay and Benefit as deposit methods through Checkout.com at a live broker, with webhooks and refunds.',
+      },
+      {
+        title: 'Admin tooling on MT5 accounts',
+        body: 'Account statistics and guarded staff actions: manual pass or fail, freeze and close all positions.',
+      },
+      {
+        title: 'Attribution and fraud signals',
+        body: 'First-touch campaign capture, a funnel from click to purchase, and login IP history with duplicate-IP flags.',
+      },
+    ],
+    capability: {
+      title: 'The complete CRM: client area, wallets and IB commissions',
+      intro:
+        'These are the parts that turn those pieces into a full forex CRM. I can design and build them. I have not delivered them as one finished product, so each starts with a written design and a proof of concept on your MT5 access.',
+      items: [
+        {
+          title: "Trader's room",
+          body: 'Registration, KYC status, MT5 account opening, deposits, withdrawals, internal transfers and trading history in one client area.',
+        },
+        {
+          title: 'Investor portal',
+          body: 'P&L, balance, equity, margin and performance reports per account, with statements an investor can download and balance alerts.',
+        },
+        {
+          title: 'Wallets on a ledger',
+          body: 'Client, investor and IB wallets on a double-entry ledger, where every deposit, withdrawal, transfer and fee is posted exactly once.',
+        },
+        {
+          title: 'Multi-level IB commissions',
+          body: 'Referral trees with sub-IBs, lot, spread or volume based formulas agreed in writing with worked examples, and commission runs that can be resumed and audited.',
+        },
+        {
+          title: 'Performance fees',
+          body: 'Fees on investor profit with a high-water mark, calculated from MT5 deals and shown line by line on the statement.',
+        },
+        {
+          title: 'Staff roles and audit trail',
+          body: 'Permissions enforced on the server for every action, second-person approval for money movements, and a log of who did what.',
+        },
+      ],
+      caveat:
+        "Two things decide feasibility before any code: what MT5 access you really have (a Manager login belongs to one broker's server) and whether the wallet you describe is regulated in your market. A discovery sprint answers both.",
+    },
+    proof: [
+      {
+        text: 'The MT5 Manager API service, admin tooling and marketing attribution for a live prop-trading platform.',
+        slug: 'tradersflow',
+      },
+      {
+        text: 'Back-office APIs, maker-checker flows, field-level permissions and payment methods at a live multi-asset broker.',
+        slug: 'cfi-broker-payments-crypto-backend',
+      },
+    ],
+    faqs: [
+      {
+        q: 'Should we buy a forex CRM or build one?',
+        a: 'Buy one if a standard product fits how you operate: it is faster and cheaper to start. Build or extend when your IB plan, investor structure or approval rules do not fit the product, or when you need to own the code and the data. I will say so in the first call if buying is the better answer for you.',
+      },
+      {
+        q: 'Can you connect MT5 to the CRM or client area we already have?',
+        a: 'Yes. MT5 integration is work I have done in production. Accounts, groups, balances and trading history are kept in step through one adapter on the Manager API or Web API, so the rest of your system never calls MT5 directly.',
+      },
+      {
+        q: 'How do you calculate multi-level IB commissions?',
+        a: 'From MT5 deals, with a formula we agree in writing first, including worked examples for each tier. Runs are idempotent, so a failed month-end can be resumed without paying anyone twice, and every figure can be traced back to the deals behind it.',
+      },
+      {
+        q: 'Do you build PAMM, MAM or copy-trading systems?',
+        a: "Yes, as a new build. I have not delivered one yet, and I say so up front. The core is allocation accounting: each investor's share of the master account's results, worked out from MT5 deals and posted exactly once, with performance fees on a high-water mark. That rests on what I already run in production: reading MT5 deals reliably and making money events safe to retry. MAM and copy trading also place trades on client accounts, which depends on the rights your MT5 server grants, so I start with a proof of concept on your server.",
+      },
+      {
+        q: 'Do you work with MT4, cTrader, Match-Trader or DXtrade?',
+        a: 'Yes. The job is the same on each platform: one adapter that keeps accounts, balances and trading history in step with your system, with every write made safe to retry. My production work so far is on MetaTrader 5 and I have not yet shipped on the others, so on a new platform I begin with a short proof of concept against your server before quoting the build.',
+      },
+      {
+        q: 'Is a client wallet regulated?',
+        a: 'Often, yes. Holding client money or moving it between people can need a licence, depending on your market. I am an engineer, not a lawyer or a regulated firm: I design the system so the rules can be met, and your legal adviser confirms what those rules are.',
+      },
+      {
+        q: 'Do you have your own MT5 server or Manager API licence?',
+        a: 'No. Manager API access belongs to the broker or the firm that licenses the MT5 server. I build with the access you have, and the first step is confirming exactly what that access allows.',
       },
     ],
   },
@@ -323,39 +447,6 @@ export const servicesEn: Service[] = [
         body: 'Tracing a failure across services by correlation id to the exact line, proving the cause, then making the smallest safe fix.',
       },
     ],
-    capability: {
-      title: 'A proprietary trading engine',
-      intro:
-        'Some founders want their own execution core instead of renting one. I have not shipped a complete proprietary trading engine in production, and I will not pretend otherwise. I have built and run the systems around one. This is how I would approach the engine itself.',
-      items: [
-        {
-          title: 'Price ingestion',
-          body: 'Normalised quotes from data or liquidity providers with staleness detection, so no order is ever filled against a dead price.',
-        },
-        {
-          title: 'Order lifecycle',
-          body: 'Market, limit and stop orders as an explicit state machine: every transition recorded, every request idempotent.',
-        },
-        {
-          title: 'Positions, P&L and margin',
-          body: 'Realised and unrealised P&L, equity, used and free margin computed by one implementation in fixed-point decimals.',
-        },
-        {
-          title: 'Margin call and stop-out',
-          body: 'Deterministic liquidation rules, tested by replaying recorded price sequences before they touch a live account.',
-        },
-        {
-          title: 'B-Book first, A-Book later',
-          body: 'An execution interface that starts with internal fills and leaves room for external routing and hybrid models.',
-        },
-        {
-          title: 'Multi-brand from the first schema',
-          body: 'Tenant, brand and entity modelled from the start, so white-label operation is configuration and not a rewrite.',
-        },
-      ],
-      caveat:
-        'A trading engine that holds client money needs independent testing, a security review and legal and regulatory sign-off before it goes live. I plan for those. I do not replace them.',
-    },
     proof: [
       {
         text: 'Senior Backend Engineer on a live multi-asset broker: crypto back-office APIs, maker-checker flows, field-level permissions and payment methods in production.',
@@ -386,6 +477,126 @@ export const servicesEn: Service[] = [
       {
         q: 'Do you build trading bots or strategies?',
         a: 'No. I build the platforms, integrations and risk systems that brokers and trading firms run on.',
+      },
+    ],
+  },
+  {
+    slug: 'white-label-trading-platform-development',
+    tier: 'primary',
+    title: 'White-label trading platform development',
+    headline: 'White-label trading platform and B-Book engine development.',
+    audience: 'For founders and brokers who want to own their trading infrastructure.',
+    evidenceLabel: 'Closest work in production',
+    short:
+      'Your own multi-brand trading platform, designed around a B-Book engine: prices, orders, margin, risk and the back office around them. I say plainly which parts I have run in production.',
+    metaTitle: 'White-Label Trading Platform & B-Book Engine Development | Daniel Chen',
+    metaDescription:
+      'Build your own white-label trading platform or B-Book engine: architecture, risk and back office from an engineer on live broker systems. Clear on what is proven.',
+    serviceType: 'White-label trading platform and B-Book trading engine development',
+    intro:
+      'Renting a white-label platform is the fast way to start a brokerage. Owning one makes sense later, when fees, limits on customisation or reliance on one vendor cost more than building. I have not shipped a complete proprietary trading engine in production. I work on the systems around one every day at a live broker, and this page is how I would take on yours.',
+    offeringsLabel: 'What I have run in production around a trading core',
+    offerings: [
+      {
+        title: 'Broker back-office APIs',
+        body: 'Order and transaction views, maker-checker approvals, paginated lists and CSV or PDF exports, behind role and field-level permissions.',
+      },
+      {
+        title: 'Real-time risk monitoring',
+        body: 'Loss and equity rules checked every few seconds on live accounts, with safeguards that refuse to act on numbers that do not add up.',
+      },
+      {
+        title: 'Multi-tenant services',
+        body: 'A payment gateway where every merchant has its own credentials, keys and profile, isolated from the others. The same discipline a multi-brand platform needs.',
+      },
+      {
+        title: 'Deposits and refunds',
+        body: 'Apple Pay, Google Pay and Benefit as deposit methods at a live broker, with webhooks and refunds, built so a payment is never credited twice or lost.',
+      },
+      {
+        title: 'Crypto and multi-asset precision',
+        body: '8-decimal amounts carried correctly through APIs, models and access-control definitions.',
+      },
+      {
+        title: 'Event-driven sync',
+        body: 'Client portal and back office kept consistent through a message queue, including the deploy order that keeps both sides working.',
+      },
+    ],
+    capability: {
+      title: 'The engine and the white-label layer',
+      intro:
+        'This is the part I would design and build with you, and have not yet delivered as a finished product. It starts with a paid technical sprint that proves the core before anything else is built on it.',
+      items: [
+        {
+          title: 'Price ingestion',
+          body: 'Normalised quotes from data or liquidity providers, a markup per client group, and staleness detection so no order is ever filled against a dead price.',
+        },
+        {
+          title: 'Order lifecycle',
+          body: 'Market, limit and stop orders as an explicit state machine: every transition recorded, every request idempotent.',
+        },
+        {
+          title: 'Positions, P&L and margin',
+          body: 'Realised and unrealised P&L, equity, used and free margin computed by one implementation in fixed-point decimals.',
+        },
+        {
+          title: 'Margin call and stop-out',
+          body: 'Deterministic liquidation rules, tested by replaying recorded price sequences before they touch a live account.',
+        },
+        {
+          title: 'B-Book first, A-Book later',
+          body: 'An execution interface that starts with internal fills and leaves room for routing selected flow to a liquidity provider, and for hybrid models.',
+        },
+        {
+          title: 'Multi-brand from the first schema',
+          body: 'Tenant, brand and legal entity modelled from the start, so adding a white-label client is configuration and not a rewrite.',
+        },
+      ],
+      caveat:
+        'A trading engine that holds client money needs independent testing, a security review and legal and regulatory sign-off before it goes live. I plan for those. I do not replace them.',
+    },
+    proof: [
+      {
+        text: 'Senior Backend Engineer on a live multi-asset broker: crypto back-office APIs, maker-checker flows, field-level permissions and payment methods in production.',
+        slug: 'cfi-broker-payments-crypto-backend',
+      },
+      {
+        text: 'The MT5 integration service and real-time breach monitor for a live prop-trading platform.',
+        slug: 'tradersflow',
+      },
+      {
+        text: 'A multi-tenant payment gateway service with per-merchant keys, request signing and key rotation.',
+        slug: 'octopus-payment-microservice',
+      },
+    ],
+    faqs: [
+      {
+        q: 'White label or custom build: which should we choose?',
+        a: 'Start on a white label if you are launching: it is live in weeks and the vendor carries the maintenance. Build your own when the fees, the limits on what you can change, or the reliance on one vendor have become the real cost. A custom core is a project of many months with a running cost afterwards, and I will tell you if a white label is still the better answer.',
+      },
+      {
+        q: 'Have you built a proprietary trading engine before?',
+        a: 'Not a complete one in production. I have built the MetaTrader 5 integration and risk monitor for a live prop firm, and back-office and payment systems at a live broker. An engine is the next layer down, which is why I start with a sprint that proves it.',
+      },
+      {
+        q: 'How would the project start?',
+        a: 'With a paid technical sprint that proves the core on its own: prices in, orders through, margin and stop-out correct under replay tests. You keep the design and the code, whoever builds the rest.',
+      },
+      {
+        q: 'B-Book, A-Book or hybrid?',
+        a: 'The design starts B-Book: internal fills against a price feed, with exposure tracked per symbol and client group. The execution interface leaves room to route selected flow to a liquidity provider later. Which model you are allowed to run is a question for your licence and your legal adviser.',
+      },
+      {
+        q: 'Can one platform serve several brands?',
+        a: 'Yes, if it is designed in from the start. Tenant, brand and legal entity sit in the first schema, with data and configuration isolated per brand. Adding it to a single-brand system later is the expensive way.',
+      },
+      {
+        q: 'Can we keep MT5 running while the new platform is built?',
+        a: 'Yes, and it is the sensible way to do it. MT5 integration is work I have done in production, so the new platform can run beside your MT5 setup and take over one client group at a time.',
+      },
+      {
+        q: 'Do you provide liquidity, a licence or a ready-made platform?',
+        a: 'No. I am an independent engineer, not a platform vendor or a regulated firm. Liquidity, custody and licensing come from specialist providers and your own advisers, and I integrate what you choose.',
       },
     ],
   },

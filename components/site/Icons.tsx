@@ -104,6 +104,8 @@ const serviceIcons: Record<string, IconName> = {
   'mt5-manager-api-developer': 'plug',
   'prop-firm-software-development': 'shield',
   'trading-platform-engineering': 'chart',
+  'forex-crm-development': 'layers',
+  'white-label-trading-platform-development': 'servers',
   'payment-integration': 'card',
   'web-development': 'browser',
   'mobile-app-development': 'phone',

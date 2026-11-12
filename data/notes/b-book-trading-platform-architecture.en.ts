@@ -4,7 +4,7 @@ export const note: Note = {
   slug: 'b-book-trading-platform-architecture',
   date: '2026-11-11',
   minutes: 10,
-  service: 'trading-platform-engineering',
+  service: 'white-label-trading-platform-development',
   basis: 'design',
   tags: ['Trading platform', 'B-Book', 'Architecture', 'Risk', 'Go'],
   title: 'How I would architect a proprietary B-Book trading platform',

@@ -4,7 +4,7 @@ export const note: Note = {
   slug: 'mt5-investor-portal-ib-commissions',
   date: '2026-11-11',
   minutes: 10,
-  service: 'mt5-manager-api-developer',
+  service: 'forex-crm-development',
   basis: 'design',
   tags: ['MetaTrader 5', 'Investor portal', 'IB commissions', 'Ledger', 'Architecture'],
   title:

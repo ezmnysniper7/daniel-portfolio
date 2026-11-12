@@ -126,7 +126,7 @@ export default async function ServicePage({ params }: { params: Params }) {
                 className="hero-fade group block rounded-[1.25rem] border border-bone-3/40 bg-ink-2 p-6 transition-colors hover:border-bone-3 lg:col-span-4"
                 style={i(2)}
               >
-                <p className="eyebrow">{copy.evidenceLabel}</p>
+                <p className="eyebrow">{service.evidenceLabel ?? copy.evidenceLabel}</p>
                 <p className="mt-4 flex flex-wrap gap-2">
                   <OwnershipBadge dict={dict} project={evidence} />
                   {evidence.evidence === 'production' ? (

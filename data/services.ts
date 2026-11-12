@@ -29,6 +29,8 @@ export type Service = {
   intro: string;
   /** Heading for the offerings list, e.g. "Delivered in production". */
   offeringsLabel?: string;
+  /** Overrides the heading of the case study card beside the headline. */
+  evidenceLabel?: string;
   offerings: { title: string; body: string }[];
   /**
    * Work I can design and build but have not delivered as a finished product.

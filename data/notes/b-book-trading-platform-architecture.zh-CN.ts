@@ -4,7 +4,7 @@ export const note: Note = {
   slug: 'b-book-trading-platform-architecture',
   date: '2026-11-11',
   minutes: 10,
-  service: 'trading-platform-engineering',
+  service: 'white-label-trading-platform-development',
   basis: 'design',
   tags: ['交易平台', 'B-Book', '架构', '风控', 'Go'],
   title: '我会如何设计一套自研 B-Book 交易平台的架构',
