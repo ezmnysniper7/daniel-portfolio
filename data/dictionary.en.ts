@@ -70,6 +70,7 @@ export const en: Dictionary = {
     intro:
       'Most of the risk in a financial product sits where money, trading data and third-party systems meet. That is where I work, and I stay hands-on from the first architecture sketch to production.',
     more: 'Learn more',
+    all: 'All services',
     alsoLabel: 'Also available',
     hireTitle: 'Hiring for your team?',
     hireBody: 'I am also open to senior backend and full-stack roles, full-time or contract.',

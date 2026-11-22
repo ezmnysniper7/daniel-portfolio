@@ -9,6 +9,8 @@ import { Footer } from '@/components/site/Footer';
 import { ContactCta } from '@/components/site/ContactCta';
 import { ExperienceSection } from '@/components/site/ExperienceSection';
 import { MethodSection } from '@/components/site/MethodSection';
+import { NowSection } from '@/components/site/NowSection';
+import { StatsSection } from '@/components/site/StatsSection';
 import { ToolboxSection } from '@/components/site/ToolboxSection';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { breadcrumbNode, graph, pageMetadata, personNode, profilePageNode, websiteNode } from '@/lib/seo';
@@ -77,6 +79,8 @@ export default async function AboutPage({ params }: { params: Params }) {
           </div>
         </section>
 
+        <NowSection dict={dict} locale={locale} />
+        <StatsSection dict={dict} locale={locale} />
         <MethodSection dict={dict} />
         <ExperienceSection dict={dict} locale={locale} experience={experience} projectsByJob={projectsByJob} />
         <ToolboxSection dict={dict} />

@@ -42,7 +42,7 @@ export type Dictionary = {
   /** The 3D "live system" in the hero. Flow captions follow FLOWS order in lib/system-graph.ts. */
   system: { label: string; live: string; nodes: Record<string, string>; flows: string[] };
   /** Services summary on the landing page. */
-  services: { label: string; title: string; intro: string; more: string; alsoLabel: string; hireTitle: string; hireBody: string };
+  services: { label: string; title: string; intro: string; more: string; all: string; alsoLabel: string; hireTitle: string; hireBody: string };
   /** Ways to engage, shown on the landing page and the founders page. No prices by design. */
   engagement: {
     label: string;

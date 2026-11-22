@@ -4,7 +4,13 @@ import type { Project } from '@/types';
 import { CardArt } from './CardArt';
 import { year } from '@/lib/format';
 
-type Props = { locale: string; dict: Dictionary; projects: Project[] };
+type Props = {
+  locale: string;
+  dict: Dictionary;
+  projects: Project[];
+  /** Home page: three equal cards and no legend. */
+  compact?: boolean;
+};
 type Kind = 'side' | 'job' | 'freelance' | 'prototype';
 
 /** A prototype is labelled as one wherever it appears, ahead of who owns it. */
@@ -76,10 +82,10 @@ export function WorkCard({ locale, dict, project, wide = false }: { locale: stri
 }
 
 /** Selected case studies as a grid; the first gets a wide card. */
-export function WorkSection({ locale, dict, projects }: Props) {
+export function WorkSection({ locale, dict, projects, compact = false }: Props) {
   const { work } = dict;
   return (
-    <section id="work" className="py-24 md:py-32">
+    <section id="work" className="py-20 md:py-28">
       <div className="gutter mx-auto max-w-page">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
@@ -89,12 +95,12 @@ export function WorkSection({ locale, dict, projects }: Props) {
           <p className="max-w-md leading-relaxed text-bone-2">{work.intro}</p>
         </div>
 
-        <WorkLegend dict={dict} className="mt-8" />
+        {compact ? null : <WorkLegend dict={dict} className="mt-8" />}
 
         <ul className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((p, n) => (
-            <li key={p.slug} className={n === 0 ? 'md:col-span-2' : ''} data-reveal>
-              <WorkCard locale={locale} dict={dict} project={p} wide={n === 0} />
+            <li key={p.slug} className={!compact && n === 0 ? 'md:col-span-2' : ''} data-reveal>
+              <WorkCard locale={locale} dict={dict} project={p} wide={!compact && n === 0} />
             </li>
           ))}
         </ul>
