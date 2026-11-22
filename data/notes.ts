@@ -7,7 +7,9 @@ export type DiagramId =
   | 'mt5-access-routes'
   | 'deposit-to-mt5-flow'
   | 'investor-portal-architecture'
-  | 'ledger-entries';
+  | 'ledger-entries'
+  | 'risk-check-timing'
+  | 'sdk-lock-guard';
 
 /**
  * Article body blocks. Text fields accept two inline marks only:

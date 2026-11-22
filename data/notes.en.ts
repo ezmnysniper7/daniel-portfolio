@@ -36,6 +36,11 @@ const shortNotes: Note[] = [
       {
         p: "Under concurrent load we saw accounts briefly reading another account's figures. The cause was the SDK itself: concurrent calls on one manager instance corrupted its internal state. The fix was to serialise every SDK call behind one lock, take the same lock for connect and shutdown, and check that the login returned is the login requested. It made batch reads slower. The better long-term design is a small pool of manager connections, each used by one caller at a time.",
       },
+      {
+        diagram: 'sdk-lock-guard',
+        caption:
+          'Two reads arrive together. One lock lets a single SDK call through at a time, and the login check stops any figures that belong to a different account from reaching the risk rules.',
+      },
       { h2: '4. Never act on numbers that do not add up' },
       {
         p: 'A risk engine closes positions and disables trading, so a wrong number costs real money. We skip an account instead of failing it when the data looks wrong: deals for another login, a zero starting balance, a login mismatch. Before an account is promoted to the next phase, its equity is cross-checked against a second, independent source. Correct but slower beats fast but wrong.',
@@ -227,6 +232,11 @@ const shortNotes: Note[] = [
       { h2: 'Near real time, not once an hour' },
       {
         p: 'If breaches are checked by an hourly job, a trader can keep trading past a limit for most of that hour. A monitor that evaluates every active account every few seconds, from a fast local copy of the trading data, closes that gap. Publish the rules from the main backend so both sides always work from the same numbers.',
+      },
+      {
+        diagram: 'risk-check-timing',
+        caption:
+          'An illustrative equity line that dips below the loss limit and recovers. Two hourly checks both land outside the dip and see nothing wrong; a check every few seconds catches it at once.',
       },
       { h2: 'Failing an account must be reliable' },
       {

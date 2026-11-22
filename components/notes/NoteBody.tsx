@@ -138,7 +138,7 @@ export function NoteBody({ blocks, locale }: { blocks: NoteBlock[]; locale: stri
           return (
             <figure key={n} className="mt-8 max-w-[86ch]">
               <div className="overflow-hidden rounded-[1rem] border border-line bg-ink-2/60 p-3 md:p-5">
-                <Diagram id={block.diagram} label={block.caption} />
+                <Diagram id={block.diagram} label={block.caption} locale={locale} />
               </div>
               <figcaption className="mt-2.5 text-[0.85rem] leading-relaxed text-bone-3">{block.caption}</figcaption>
             </figure>
