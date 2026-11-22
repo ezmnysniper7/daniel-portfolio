@@ -127,121 +127,257 @@ function Frame({ id, width, height, label, children }: { id: string; width: numb
 
 type DiagramProps = { label: string; locale: string };
 
-function BBookArchitecture({ label }: DiagramProps) {
+/** Box text as [title, sub?, sub2?]. */
+type Lines = [string, string?, string?];
+const box = ([title, sub, sub2]: Lines) => ({ title, sub, sub2 });
+const zh = (locale: string) => locale === 'zh-CN';
+
+const BBOOK_TEXT = {
+  en: {
+    feeds: ['Price feeds', 'data or liquidity providers'],
+    quote: ['Quote service', 'normalise · mark up · staleness'],
+    clients: ['Client apps', 'WebTrader · client portal'],
+    gateway: ['Order gateway', 'auth · validation', 'idempotency keys'],
+    core: ['Execution core', 'one writer per account', 'order state machine'],
+    back: ['Back office', 'groups · spreads · leverage'],
+    journal: ['Journal and ledger', 'append-only · PostgreSQL'],
+    risk: ['Risk', 'margin · stop-out · exposure'],
+    quotes: 'quotes',
+    every: 'every transition',
+    reads: 'reads',
+    streaming: 'streaming',
+  },
+  zh: {
+    feeds: ['报价源', '数据或流动性提供商'],
+    quote: ['报价服务', '标准化 · 加点 · 过期检测'],
+    clients: ['客户端', 'WebTrader · 客户门户'],
+    gateway: ['订单网关', '认证 · 校验', '幂等键'],
+    core: ['执行核心', '每个账户单一写入者', '订单状态机'],
+    back: ['后台', '分组 · 点差 · 杠杆'],
+    journal: ['日志与账本', '只追加 · PostgreSQL'],
+    risk: ['风控', '保证金 · 强平 · 敞口'],
+    quotes: '报价',
+    every: '每次状态变化',
+    reads: '读取',
+    streaming: '推送',
+  },
+};
+
+function BBookArchitecture({ label, locale }: DiagramProps) {
   const id = 'bbook';
+  const t = zh(locale) ? BBOOK_TEXT.zh : BBOOK_TEXT.en;
   return (
     <Frame id={id} width={720} height={340} label={label}>
-      <Box x={20} y={20} w={160} h={58} title="Price feeds" sub="data or liquidity providers" />
-      <Box x={240} y={20} w={200} h={58} title="Quote service" sub="normalise · mark up · staleness" />
-      <Box x={20} y={140} w={160} h={64} title="Client apps" sub="WebTrader · client portal" />
-      <Box x={240} y={140} w={180} h={64} title="Order gateway" sub="auth · validation" sub2="idempotency keys" />
-      <Box x={480} y={140} w={220} h={64} title="Execution core" sub="one writer per account" sub2="order state machine" accent />
-      <Box x={20} y={262} w={160} h={58} title="Back office" sub="groups · spreads · leverage" />
-      <Box x={240} y={262} w={180} h={58} title="Journal and ledger" sub="append-only · PostgreSQL" />
-      <Box x={480} y={262} w={220} h={58} title="Risk" sub="margin · stop-out · exposure" />
+      <Box x={20} y={20} w={160} h={58} {...box(t.feeds as Lines)} />
+      <Box x={240} y={20} w={200} h={58} {...box(t.quote as Lines)} />
+      <Box x={20} y={140} w={160} h={64} {...box(t.clients as Lines)} />
+      <Box x={240} y={140} w={180} h={64} {...box(t.gateway as Lines)} />
+      <Box x={480} y={140} w={220} h={64} {...box(t.core as Lines)} accent />
+      <Box x={20} y={262} w={160} h={58} {...box(t.back as Lines)} />
+      <Box x={240} y={262} w={180} h={58} {...box(t.journal as Lines)} />
+      <Box x={480} y={262} w={220} h={58} {...box(t.risk as Lines)} />
 
       <Arrow id={id} points={[[180, 49], [240, 49]]} accent />
-      <Arrow id={id} points={[[440, 49], [590, 49], [590, 140]]} label="quotes" at={[598, 100]} anchor="start" accent />
+      <Arrow id={id} points={[[440, 49], [590, 49], [590, 140]]} label={t.quotes} at={[598, 100]} anchor="start" accent />
       <Arrow id={id} points={[[180, 172], [240, 172]]} accent />
       <Arrow id={id} points={[[420, 172], [480, 172]]} accent />
       <Arrow id={id} points={[[590, 204], [590, 262]]} both />
-      <Arrow id={id} points={[[500, 204], [410, 262]]} label="every transition" at={[395, 236]} anchor="end" />
-      <Arrow id={id} points={[[240, 291], [180, 291]]} label="reads" at={[210, 283]} />
-      <Arrow id={id} points={[[260, 78], [140, 140]]} dashed label="streaming" at={[150, 104]} anchor="end" />
+      <Arrow id={id} points={[[500, 204], [410, 262]]} label={t.every} at={[395, 236]} anchor="end" />
+      <Arrow id={id} points={[[240, 291], [180, 291]]} label={t.reads} at={[210, 283]} />
+      <Arrow id={id} points={[[260, 78], [140, 140]]} dashed label={t.streaming} at={[150, 104]} anchor="end" />
     </Frame>
   );
 }
 
-function Mt5AccessRoutes({ label }: DiagramProps) {
+const ROUTES_TEXT = {
+  en: {
+    backend: ['Your backend', 'any language · Linux'],
+    web: ['MT5 Web API', 'HTTPS · JSON commands', 'one round trip per read'],
+    win: ['Windows service', 'Manager API connection', 'pumped cache in memory'],
+    server: ['MT5 trade server', 'one broker'],
+    https: 'HTTPS per request',
+    http: 'HTTP · API key',
+    login: 'manager login',
+    note: ['low-volume reads and writes', 'above, fast reads and monitoring below'],
+  },
+  zh: {
+    backend: ['你的后端', '任意语言 · Linux'],
+    web: ['MT5 Web API', 'HTTPS · JSON 命令', '每次读取一次网络往返'],
+    win: ['Windows 服务', 'Manager API 连接', '内存中的推送缓存'],
+    server: ['MT5 交易服务器', '单个经纪商'],
+    https: '每个请求走 HTTPS',
+    http: 'HTTP · API 密钥',
+    login: '管理员登录',
+    note: ['上方：低频读取和写入', '下方：高速读取和监控'],
+  },
+};
+
+function Mt5AccessRoutes({ label, locale }: DiagramProps) {
   const id = 'mt5routes';
+  const t = zh(locale) ? ROUTES_TEXT.zh : ROUTES_TEXT.en;
   return (
     <Frame id={id} width={720} height={300} label={label}>
-      <Box x={20} y={115} w={170} h={70} title="Your backend" sub="any language · Linux" />
-      <Box x={270} y={24} w={200} h={64} title="MT5 Web API" sub="HTTPS · JSON commands" sub2="one round trip per read" />
-      <Box x={270} y={206} w={200} h={72} title="Windows service" sub="Manager API connection" sub2="pumped cache in memory" accent />
-      <Box x={540} y={115} w={160} h={70} title="MT5 trade server" sub="one broker" />
+      <Box x={20} y={115} w={170} h={70} {...box(t.backend as Lines)} />
+      <Box x={270} y={24} w={200} h={64} {...box(t.web as Lines)} />
+      <Box x={270} y={206} w={200} h={72} {...box(t.win as Lines)} accent />
+      <Box x={540} y={115} w={160} h={70} {...box(t.server as Lines)} />
 
-      <Arrow id={id} points={[[190, 135], [270, 62]]} label="HTTPS per request" at={[226, 84]} anchor="end" />
+      <Arrow id={id} points={[[190, 135], [270, 62]]} label={t.https} at={[226, 84]} anchor="end" />
       <Arrow id={id} points={[[470, 56], [540, 132]]} />
-      <Arrow id={id} points={[[190, 165], [270, 236]]} label="HTTP · API key" at={[226, 220]} anchor="end" accent />
-      <Arrow id={id} points={[[470, 242], [540, 168]]} label="manager login" at={[512, 226]} anchor="start" accent />
-      <text x={370} y={150} textAnchor="middle" fontSize="11" fill={C.dim}>
-        low-volume reads and writes
-      </text>
-      <text x={370} y={166} textAnchor="middle" fontSize="11" fill={C.dim}>
-        above, fast reads and monitoring below
-      </text>
+      <Arrow id={id} points={[[190, 165], [270, 236]]} label={t.http} at={[226, 220]} anchor="end" accent />
+      <Arrow id={id} points={[[470, 242], [540, 168]]} label={t.login} at={[512, 226]} anchor="start" accent />
+      {t.note.map((line, i) => (
+        <text key={line} x={370} y={150 + i * 16} textAnchor="middle" fontSize="11" fill={C.dim}>
+          {line}
+        </text>
+      ))}
     </Frame>
   );
 }
 
-function DepositToMt5Flow({ label }: DiagramProps) {
+const DEPOSIT_TEXT = {
+  en: {
+    provider: ['Payment provider', 'webhook'],
+    verify: ['Verify signature', 'on the raw body'],
+    store: ['Store the event', 'unique provider key'],
+    row: ['Credit row', 'status: pending'],
+    claim: ['Claim', 'one atomic UPDATE'],
+    op: ['MT5 balance operation', 'your reference', 'in the comment'],
+    done: ['Done', 'deal ticket stored'],
+    unknown: ['Unknown', 'look up the deal', 'by reference'],
+    recon: ['Reconciliation', 'compares provider,', 'credits and MT5'],
+    success: 'success',
+    timeout: 'timeout or crash',
+    found: 'deal found',
+  },
+  zh: {
+    provider: ['支付服务商', 'webhook'],
+    verify: ['校验签名', '基于原始请求体'],
+    store: ['存储事件', '服务商唯一键'],
+    row: ['入金记录', '状态：pending'],
+    claim: ['认领', '一条原子 UPDATE'],
+    op: ['MT5 余额操作', '你的参考号', '写在注释里'],
+    done: ['完成', '已保存成交单号'],
+    unknown: ['结果未知', '按参考号', '查找成交'],
+    recon: ['对账', '核对服务商、', '入金记录与 MT5'],
+    success: '成功',
+    timeout: '超时或崩溃',
+    found: '找到成交',
+  },
+};
+
+function DepositToMt5Flow({ label, locale }: DiagramProps) {
   const id = 'deposit';
+  const t = zh(locale) ? DEPOSIT_TEXT.zh : DEPOSIT_TEXT.en;
   return (
     <Frame id={id} width={720} height={330} label={label}>
-      <Box x={20} y={20} w={150} h={58} title="Payment provider" sub="webhook" n={1} />
-      <Box x={198} y={20} w={150} h={58} title="Verify signature" sub="on the raw body" n={2} />
-      <Box x={376} y={20} w={150} h={58} title="Store the event" sub="unique provider key" n={3} />
-      <Box x={554} y={20} w={146} h={58} title="Credit row" sub="status: pending" n={4} />
+      <Box x={20} y={20} w={150} h={58} {...box(t.provider as Lines)} n={1} />
+      <Box x={198} y={20} w={150} h={58} {...box(t.verify as Lines)} n={2} />
+      <Box x={376} y={20} w={150} h={58} {...box(t.store as Lines)} n={3} />
+      <Box x={554} y={20} w={146} h={58} {...box(t.row as Lines)} n={4} />
 
-      <Box x={20} y={136} w={150} h={58} title="Claim" sub="one atomic UPDATE" accent n={5} />
-      <Box x={198} y={136} w={180} h={58} title="MT5 balance operation" sub="your reference" sub2="in the comment" n={6} />
-      <Box x={554} y={136} w={146} h={58} title="Done" sub="deal ticket stored" n={7} />
-      <Box x={198} y={248} w={180} h={58} title="Unknown" sub="look up the deal" sub2="by reference" dashed />
-      <Box x={20} y={248} w={150} h={58} title="Reconciliation" sub="compares provider," sub2="credits and MT5" />
+      <Box x={20} y={136} w={150} h={58} {...box(t.claim as Lines)} accent n={5} />
+      <Box x={198} y={136} w={180} h={58} {...box(t.op as Lines)} n={6} />
+      <Box x={554} y={136} w={146} h={58} {...box(t.done as Lines)} n={7} />
+      <Box x={198} y={248} w={180} h={58} {...box(t.unknown as Lines)} dashed />
+      <Box x={20} y={248} w={150} h={58} {...box(t.recon as Lines)} />
 
       <Arrow id={id} points={[[170, 49], [198, 49]]} accent />
       <Arrow id={id} points={[[348, 49], [376, 49]]} accent />
       <Arrow id={id} points={[[526, 49], [554, 49]]} accent />
       <Arrow id={id} points={[[627, 78], [627, 106], [95, 106], [95, 136]]} accent />
       <Arrow id={id} points={[[170, 165], [198, 165]]} accent />
-      <Arrow id={id} points={[[378, 165], [554, 165]]} label="success" at={[466, 157]} accent />
-      <Arrow id={id} points={[[288, 194], [288, 248]]} dashed label="timeout or crash" at={[296, 226]} anchor="start" />
-      <Arrow id={id} points={[[378, 277], [627, 277], [627, 194]]} dashed label="deal found" at={[502, 269]} />
+      <Arrow id={id} points={[[378, 165], [554, 165]]} label={t.success} at={[466, 157]} accent />
+      <Arrow id={id} points={[[288, 194], [288, 248]]} dashed label={t.timeout} at={[296, 226]} anchor="start" />
+      <Arrow id={id} points={[[378, 277], [627, 277], [627, 194]]} dashed label={t.found} at={[502, 269]} />
     </Frame>
   );
 }
 
-function InvestorPortalArchitecture({ label }: DiagramProps) {
+const PORTAL_TEXT = {
+  en: {
+    a: ['Broker A', 'MT5 server'],
+    b: ['Broker B', 'MT5 server'],
+    adapters: ['Broker adapters', 'one per access route', 'identity: server + login'],
+    sync: ['Sync', 'classify deals', 'no data = failure'],
+    deals: ['Deals store', 'per account'],
+    engine: ['Commission engine', 'one key per', 'account and period'],
+    ledger: ['Ledger', 'double-entry', 'investor and IB wallets'],
+    dash: ['Dashboards', 'investors · IBs'],
+    back: ['Back office', 'approves runs'],
+    posts: 'posts once',
+  },
+  zh: {
+    a: ['经纪商 A', 'MT5 服务器'],
+    b: ['经纪商 B', 'MT5 服务器'],
+    adapters: ['经纪商适配器', '每条接入路线一个', '身份：服务器 + 登录号'],
+    sync: ['同步', '成交分类', '无数据 = 失败'],
+    deals: ['成交库', '按账户'],
+    engine: ['佣金引擎', '每个账户和周期', '一个唯一键'],
+    ledger: ['账本', '复式记账', '投资者与 IB 钱包'],
+    dash: ['仪表盘', '投资者 · IB'],
+    back: ['后台', '审批结算'],
+    posts: '只记账一次',
+  },
+};
+
+function InvestorPortalArchitecture({ label, locale }: DiagramProps) {
   const id = 'portal';
+  const t = zh(locale) ? PORTAL_TEXT.zh : PORTAL_TEXT.en;
   return (
     <Frame id={id} width={720} height={320} label={label}>
-      <Box x={20} y={24} w={140} h={50} title="Broker A" sub="MT5 server" />
-      <Box x={20} y={98} w={140} h={50} title="Broker B" sub="MT5 server" />
-      <Box x={205} y={46} w={150} h={80} title="Broker adapters" sub="one per access route" sub2="identity: server + login" accent />
-      <Box x={400} y={46} w={150} h={80} title="Sync" sub="classify deals" sub2="no data = failure" />
-      <Box x={590} y={46} w={110} h={80} title="Deals store" sub="per account" />
+      <Box x={20} y={24} w={140} h={50} {...box(t.a as Lines)} />
+      <Box x={20} y={98} w={140} h={50} {...box(t.b as Lines)} />
+      <Box x={205} y={46} w={150} h={80} {...box(t.adapters as Lines)} accent />
+      <Box x={400} y={46} w={150} h={80} {...box(t.sync as Lines)} />
+      <Box x={590} y={46} w={110} h={80} {...box(t.deals as Lines)} />
 
-      <Box x={400} y={216} w={150} h={70} title="Commission engine" sub="one key per" sub2="account and period" />
-      <Box x={205} y={216} w={150} h={70} title="Ledger" sub="double-entry" sub2="investor and IB wallets" />
-      <Box x={20} y={216} w={140} h={70} title="Dashboards" sub="investors · IBs" />
-      <Box x={590} y={216} w={110} h={70} title="Back office" sub="approves runs" />
+      <Box x={400} y={216} w={150} h={70} {...box(t.engine as Lines)} />
+      <Box x={205} y={216} w={150} h={70} {...box(t.ledger as Lines)} />
+      <Box x={20} y={216} w={140} h={70} {...box(t.dash as Lines)} />
+      <Box x={590} y={216} w={110} h={70} {...box(t.back as Lines)} />
 
       <Arrow id={id} points={[[160, 49], [205, 70]]} accent />
       <Arrow id={id} points={[[160, 123], [205, 102]]} accent />
       <Arrow id={id} points={[[355, 86], [400, 86]]} accent />
       <Arrow id={id} points={[[550, 86], [590, 86]]} accent />
       <Arrow id={id} points={[[645, 126], [645, 170], [475, 170], [475, 216]]} accent />
-      <Arrow id={id} points={[[400, 251], [355, 251]]} label="posts once" at={[378, 206]} accent />
+      <Arrow id={id} points={[[400, 251], [355, 251]]} label={t.posts} at={[378, 206]} accent />
       <Arrow id={id} points={[[205, 251], [160, 251]]} accent />
       <Arrow id={id} points={[[590, 251], [550, 251]]} />
     </Frame>
   );
 }
 
-function LedgerEntries({ label }: DiagramProps) {
+const LEDGER_TEXT = {
+  en: {
+    tx: ['Transaction: card deposit', 'idempotency key = provider event id'],
+    clearing: ['Provider clearing account', 'entry: -100.00 USD'],
+    wallet: ['User wallet account', 'entry: +100.00 USD'],
+    zero: 'entries sum to zero',
+  },
+  zh: {
+    tx: ['交易：银行卡入金', '幂等键 = 服务商事件 ID'],
+    clearing: ['服务商清算账户', '分录：-100.00 USD'],
+    wallet: ['用户钱包账户', '分录：+100.00 USD'],
+    zero: '分录合计为零',
+  },
+};
+
+function LedgerEntries({ label, locale }: DiagramProps) {
   const id = 'ledger';
+  const t = zh(locale) ? LEDGER_TEXT.zh : LEDGER_TEXT.en;
   return (
     <Frame id={id} width={720} height={250} label={label}>
-      <Box x={170} y={20} w={380} h={56} title="Transaction: card deposit" sub="idempotency key = provider event id" accent />
-      <Box x={40} y={150} w={250} h={76} title="Provider clearing account" sub="entry: -100.00 USD" />
-      <Box x={430} y={150} w={250} h={76} title="User wallet account" sub="entry: +100.00 USD" />
+      <Box x={170} y={20} w={380} h={56} {...box(t.tx as Lines)} accent />
+      <Box x={40} y={150} w={250} h={76} {...box(t.clearing as Lines)} />
+      <Box x={430} y={150} w={250} h={76} {...box(t.wallet as Lines)} />
 
       <Arrow id={id} points={[[280, 76], [165, 150]]} accent />
       <Arrow id={id} points={[[440, 76], [555, 150]]} accent />
       <Arrow id={id} points={[[290, 188], [430, 188]]} label="100.00 USD" at={[360, 180]} />
       <text x={360} y={212} textAnchor="middle" fontSize="11" fill={C.dim}>
-        entries sum to zero
+        {t.zero}
       </text>
     </Frame>
   );
