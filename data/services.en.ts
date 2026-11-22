@@ -186,6 +186,10 @@ export const servicesEn: Service[] = [
         a: "I can take one on, and I have not shipped one yet. My production work is on the Manager API and Web API, which cover a lot of what firms ask a plugin for: account and balance operations, monitoring and reporting. A server plugin is C++ running inside the trade server itself, where a fault affects every client. So I start with a small proof of concept on a test server and have it reviewed before it goes near production.",
       },
       {
+        q: 'Do you build MT5 FIX API integrations?',
+        a: "I can take one on, and I have not shipped a FIX integration yet. FIX is the standard messaging protocol between trading systems: brokers use it to connect MT5 to liquidity providers, and some offer FIX access to institutional clients. It is a different job from the Manager API: sessions, sequence numbers, resend requests and order-state messages rather than accounts and balances. I would start with a proof of concept against your provider's test session, built on an established FIX engine such as QuickFIX/n rather than writing the protocol by hand.",
+      },
+      {
         q: 'Do you build Expert Advisors, indicators or trading bots?',
         a: 'No. I build server-side systems for firms: integrations, monitoring, back offices and portals. Not strategies or signals.',
       },
@@ -610,7 +614,7 @@ export const servicesEn: Service[] = [
       'Card, wallet, bank and crypto payments built so money is never credited twice or lost: signed webhooks, idempotency, refunds and reconciliation.',
     metaTitle: 'Checkout.com & Payment Integration Developer | Daniel Chen',
     metaDescription:
-      'Payment integration that never double-credits or loses a callback: Checkout.com, Apple Pay, Google Pay, HMAC webhooks, idempotency, refunds and reconciliation.',
+      'Payment integration that never double-credits or loses a callback: Checkout.com, Apple Pay, Google Pay, Octopus, HMAC webhooks, idempotency, refunds and reconciliation.',
     serviceType: 'Payment gateway integration and payment infrastructure development',
     intro:
       'A payment that works in the demo is easy. One that never double-charges, never loses a callback and reconciles at month end takes care. I have shipped payment integrations for a live broker, a theme park and a multi-tenant payment gateway service.',

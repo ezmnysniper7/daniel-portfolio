@@ -86,7 +86,7 @@ export const projectsZhCN: Project[] = [
   {
     slug: 'octopus-payment-microservice',
     title: 'Octopus（八达通）支付网关微服务',
-    description: '可用于生产环境的多租户支付网关服务，具备 HMAC-SHA256 请求签名、防重放、商户密钥轮换和 webhook 投递。',
+    description: '面向香港储值支付网络八达通（Octopus）的多租户支付网关服务，具备 HMAC-SHA256 请求签名、防重放、商户密钥轮换和 webhook 投递。',
     longDescription:
       '在 Appnovation，我设计并开发了一个达到生产标准的支付网关微服务，把 Octopus 支付处理从单个客户项目里抽出来，做成多个商户和应用可以共用的服务：身份认证、请求签名、静态数据加密、商户管理，以及带重试的 webhook 投递。',
     techStack: ['Java 17', 'Spring Boot', 'Spring Security', 'PostgreSQL', 'Docker', 'JWT', 'HMAC-SHA256', 'AES-256-GCM'],

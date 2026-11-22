@@ -86,7 +86,7 @@ export const projectsEn: Project[] = [
   {
     slug: 'octopus-payment-microservice',
     title: 'Octopus payment gateway microservice',
-    description: 'A production-ready, multi-tenant payment gateway service with HMAC-SHA256 request signing, replay protection, merchant key rotation and webhook delivery.',
+    description: "A multi-tenant payment gateway for Octopus, Hong Kong's stored-value payment network: HMAC-SHA256 request signing, replay protection, key rotation and webhook delivery.",
     longDescription:
       'At Appnovation I designed and built a production-ready payment gateway microservice that takes Octopus payment processing out of a single client project and turns it into a service several merchants and applications can share: authentication, request signing, encryption at rest, merchant management and webhook delivery with retries.',
     techStack: ['Java 17', 'Spring Boot', 'Spring Security', 'PostgreSQL', 'Docker', 'JWT', 'HMAC-SHA256', 'AES-256-GCM'],
