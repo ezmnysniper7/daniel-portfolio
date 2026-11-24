@@ -80,7 +80,7 @@ export function personNode(locale: string) {
         ? '面向创始人、券商与自营交易公司的资深金融科技工程师：MT5 Manager API 集成、交易平台与支付系统，从架构到上线。'
         : 'Senior fintech engineer and independent technical partner for founders, brokers and prop firms: MT5 Manager API integrations, trading platforms and payment systems.',
     url: absolute(`/${locale}`),
-    image: absolute(`/${locale}/opengraph-image`),
+    image: absolute('/images/daniel-chen-qi-rong-640.jpg'),
     email: `mailto:${siteMetadata.email}`,
     address: { '@type': 'PostalAddress', addressLocality: 'Kuala Lumpur', addressCountry: 'MY' },
     sameAs: [siteMetadata.social.linkedin, siteMetadata.social.github],

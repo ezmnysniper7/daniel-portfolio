@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { ContactNeed } from '@/data/dictionary';
 import { siteMetadata } from '@/data/metadata';
 import { TraceSection } from './Trace';
+import { Portrait } from './Portrait';
 
 type Props = {
   title: string;
@@ -54,6 +55,7 @@ export function ContactInvite({ locale, label, title, body, button }: { locale: 
       <p className="display-xl max-w-[18ch]">{title}</p>
       <p className="mt-5 max-w-md leading-relaxed text-bone-2">{body}</p>
       <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+        <Portrait locale={locale} size="small" className="h-14 w-14 rounded-full border border-line object-cover" />
         <Link
           href={`/${locale}/contact`}
           data-track="cta_home_contact"

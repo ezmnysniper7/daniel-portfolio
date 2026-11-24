@@ -13,6 +13,7 @@ import { NowSection } from '@/components/site/NowSection';
 import { StatsSection } from '@/components/site/StatsSection';
 import { ToolboxSection } from '@/components/site/ToolboxSection';
 import { JsonLd } from '@/components/seo/JsonLd';
+import { Portrait } from '@/components/site/Portrait';
 import { breadcrumbNode, graph, pageMetadata, personNode, profilePageNode, websiteNode } from '@/lib/seo';
 
 type Params = Promise<{ locale: string }>;
@@ -66,6 +67,7 @@ export default async function AboutPage({ params }: { params: Params }) {
               ))}
             </div>
             <aside className="hero-fade lg:col-span-4 lg:col-start-9" style={i(2)}>
+              <Portrait locale={locale} size="large" className="mb-10 aspect-square w-full max-w-[17rem] rounded-2xl border border-line object-cover" />
               <h2 className="eyebrow">{copy.factsLabel}</h2>
               <dl className="mt-4 border-t border-line">
                 {copy.facts.map((f) => (
