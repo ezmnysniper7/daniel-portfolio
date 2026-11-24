@@ -29,7 +29,7 @@ export function MobileMenu({ label, closeLabel, links }: Props) {
         aria-expanded={open}
         aria-controls="site-menu"
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex min-h-[40px] items-center gap-2 whitespace-nowrap uppercase text-bone"
+        className="inline-flex min-h-[40px] items-center gap-2 whitespace-nowrap text-bone"
       >
         <span aria-hidden="true" className="relative block h-2.5 w-4">
           <span className={`absolute inset-x-0 top-0 h-px bg-current transition-transform duration-300 ${open ? 'translate-y-[5px] rotate-45' : ''}`} />

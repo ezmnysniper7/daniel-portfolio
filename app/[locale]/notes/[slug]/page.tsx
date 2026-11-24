@@ -98,7 +98,7 @@ export default async function NotePage({ params }: { params: Params }) {
             </Link>
           </nav>
           <p
-            className={`hero-fade mt-10 inline-flex rounded-full border px-3 py-1.5 font-mono text-[0.72rem] ${
+            className={`hero-fade mt-10 inline-flex rounded-full border px-3 py-1.5 text-[0.8rem] tabular-nums ${
               note.basis === 'design' ? 'border-dashed border-signal/60 text-signal' : 'border-line text-bone-2'
             }`}
             style={i(0)}
@@ -108,7 +108,7 @@ export default async function NotePage({ params }: { params: Params }) {
           <h1 className="hero-fade mt-5 max-w-4xl font-display text-[clamp(2rem,4vw,3.4rem)] leading-[1.08] tracking-[-0.025em]" style={i(1)}>
             {note.title}
           </h1>
-          <p className="hero-fade mt-6 font-mono text-[0.75rem] text-bone-3" style={i(2)}>
+          <p className="hero-fade mt-6 text-[0.8rem] tabular-nums text-bone-3" style={i(2)}>
             <Link href={`/${locale}/about`} className="hover:text-bone">
               {copy.by}
             </Link>{' '}
@@ -165,7 +165,7 @@ export default async function NotePage({ params }: { params: Params }) {
                   href={`/${locale}/notes/${n.slug}`}
                   className="group flex flex-col gap-x-4 gap-y-1 border-b border-line py-4 transition-colors hover:text-signal sm:flex-row sm:items-baseline"
                 >
-                  <span className="w-24 shrink-0 font-mono text-[0.75rem] text-bone-3">{formatNoteDate(n.date, locale)}</span>
+                  <span className="w-24 shrink-0 text-[0.8rem] tabular-nums text-bone-3">{formatNoteDate(n.date, locale)}</span>
                   <span className="flex-1">{n.title}</span>
                 </Link>
               </li>

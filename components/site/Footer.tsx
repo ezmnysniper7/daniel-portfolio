@@ -3,7 +3,6 @@ import type { Dictionary } from '@/data/dictionary';
 import { siteMetadata } from '@/data/metadata';
 import { getServices } from '@/data/services';
 import { ContactForm } from '@/components/contact/ContactForm';
-import { LocalTime } from './LocalTime';
 
 type Props = {
   dict: Dictionary;
@@ -62,14 +61,6 @@ export function Footer({ dict, locale, form = true }: Props) {
   const { footer, nav } = dict;
   const year = new Date().getFullYear();
   const services = getServices(locale);
-  const sha = process.env.BUILD_SHA ?? '';
-  const builtAt = new Date(process.env.BUILD_TIME ?? Date.now());
-  const builtOn = new Intl.DateTimeFormat(locale === 'en' ? 'en-GB' : 'zh-CN', {
-    day: 'numeric',
-    month: locale === 'en' ? 'short' : 'long',
-    year: 'numeric',
-    timeZone: 'Asia/Kuala_Lumpur',
-  }).format(builtAt);
   const site = [
     { href: `/${locale}/work`, label: nav.work },
     { href: `/${locale}/notes`, label: nav.notes },
@@ -132,37 +123,12 @@ export function Footer({ dict, locale, form = true }: Props) {
           </nav>
         </div>
 
-        <div className="mt-12 flex flex-col gap-2 border-t border-line pt-6 text-sm text-bone-3 md:flex-row md:items-center md:justify-between">
-          <span className="font-mono text-[0.72rem] uppercase tracking-[0.12em]">
-            © {year} {siteMetadata.name} · {siteMetadata.nameZh}
+        <div className="mt-12 flex items-center justify-between gap-6 border-t border-line py-6 text-sm text-bone-3">
+          <span>
+            © {year} {siteMetadata.fullName} ({siteMetadata.nameZh})
           </span>
-          <span>{footer.rights}</span>
-        </div>
-      </div>
-
-      {/* Sign-off: the page ends like the status bar of a running system (live local time, the real last deploy). */}
-      <div className="mt-10 border-t border-line bg-bone/[0.03]">
-        <div className="gutter mx-auto flex max-w-page flex-wrap items-center gap-x-6 py-3 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-bone-3 md:py-0">
-          <span className="flex items-center gap-2.5 py-1.5 text-bone-2 md:py-3">
-            <span className="status-dot" aria-hidden="true" />
-            {footer.status}
-          </span>
-          <span className="py-1.5 md:border-l md:border-line md:py-3 md:pl-6">
-            {footer.city} <LocalTime className="tabular-nums text-bone-2" /> GMT+8
-          </span>
-          {sha ? (
-            <a
-              href={`${siteMetadata.social.github}/daniel-portfolio/commit/${sha}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="py-2 transition-colors hover:text-bone md:border-l md:border-line md:py-3 md:pl-6"
-            >
-              {footer.deployed} <time dateTime={builtAt.toISOString()}>{builtOn}</time> ·{' '}
-              <span className="normal-case">{sha.slice(0, 7)}</span>
-            </a>
-          ) : null}
-          <a href="#top" data-magnetic className="link-underline ml-auto w-fit py-2 text-bone md:py-3">
-            {footer.top} <span aria-hidden="true">↑</span>
+          <a href="#top" className="link-underline py-2 hover:text-bone">
+            {footer.top}
           </a>
         </div>
       </div>

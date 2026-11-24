@@ -6,9 +6,10 @@ import { Header } from '@/components/site/Header';
 import { Hero } from '@/components/site/Hero';
 import { WorkSection } from '@/components/site/WorkSection';
 import { ServicesSection } from '@/components/site/ServicesSection';
-import { EngagementSection } from '@/components/site/EngagementSection';
 import { Footer } from '@/components/site/Footer';
 import { NotesSection } from '@/components/site/NotesSection';
+import { ContactInvite } from '@/components/site/ContactCta';
+import { Trace } from '@/components/site/Trace';
 import { getNotes } from '@/data/notes';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { graph, pageMetadata, personNode, profilePageNode, serviceNode, websiteNode } from '@/lib/seo';
@@ -35,18 +36,20 @@ export default async function HomePage({ params }: { params: Params }) {
     profilePageNode(locale, '')
   );
 
-  // Short on purpose: what I build, proof, how we start, then contact. Work history and the current role are on /about.
+  // Short on purpose: who I am, proof, what I build, writing, contact. Engagement models are on the services pages; work history is on /about.
   return (
     <>
       <Header locale={locale} dict={dict} path="" />
       <main>
         <Hero dict={dict} />
-        <ServicesSection locale={locale} dict={dict} services={services} />
-        <WorkSection locale={locale} dict={dict} projects={getSelectedProjects(locale).slice(0, 3)} compact />
-        <EngagementSection dict={dict} />
-        <NotesSection locale={locale} dict={dict} notes={getNotes(locale).slice(0, 4)} />
+        <Trace>
+          <WorkSection locale={locale} dict={dict} projects={getSelectedProjects(locale).slice(0, 3)} />
+          <ServicesSection locale={locale} dict={dict} services={services} />
+          <NotesSection locale={locale} dict={dict} notes={getNotes(locale).slice(0, 4)} />
+          <ContactInvite locale={locale} label={dict.nav.contact} title={dict.footer.lines.join(' ')} body={dict.footer.invite} button={dict.nav.cta} />
+        </Trace>
       </main>
-      <Footer dict={dict} locale={locale} />
+      <Footer dict={dict} locale={locale} form={false} />
       <JsonLd data={jsonLd} />
     </>
   );

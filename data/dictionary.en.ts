@@ -3,11 +3,13 @@ import type { Dictionary } from './dictionary';
 /** English is the primary commercial language. No em dashes, by request. */
 export const en: Dictionary = {
   meta: {
-    title: 'Daniel Chen | Fintech Engineer & Technical Partner for Founders',
+    title: 'Daniel Chen Qi Rong | Fintech Engineer & Technical Partner',
     description:
-      'Senior fintech engineer for founders, brokers and prop firms: MT5 Manager API integrations, trading platforms and payment systems, from architecture to launch.',
+      'Daniel Chen Qi Rong, fintech engineer in Kuala Lumpur: MT5 Manager API integrations, trading platforms and payment systems for brokers, prop firms and founders.',
     keywords: [
       'Daniel Chen',
+      'Daniel Chen Qi Rong',
+      'Chen Qi Rong',
       'fintech engineer',
       'fractional CTO fintech',
       'founding engineer for hire',
@@ -36,18 +38,17 @@ export const en: Dictionary = {
     close: 'Close',
   },
   hero: {
-    eyebrow: 'Daniel Chen · Independent fintech engineer',
-    lines: ['Fintech products,', 'from architecture', 'to launch.'],
-    sub: 'I work directly with founders, brokers and prop firms as a hands-on technical partner. MetaTrader 5 integrations, trading platforms, payment and wallet systems: one senior engineer who owns the architecture, the backend, the front end and the deployment.',
-    status: 'Taking on selected engagements · Remote from Kuala Lumpur (GMT+8)',
+    lines: ['Daniel Chen'],
+    sub: 'Independent fintech engineer in Kuala Lumpur. I build MetaTrader 5 integrations, trading platforms and payment systems for brokers, prop firms and founders, from architecture to launch.',
     cta: 'Discuss your project',
-    cta2: 'See the engineering work',
+    cta2: 'See the work',
     proofLabel: 'Experience from',
     proof: ['CFI Financial', 'Appnovation', 'Tencent', 'TradersFlow', 'SolveMY'],
   },
   system: {
     label: 'A fintech system like the ones I build, with messages flowing between services',
     live: 'Live',
+    flowsLabel: 'Message flows',
     nodes: {
       client: 'Client app',
       api: 'Portal API',
@@ -65,7 +66,7 @@ export const en: Dictionary = {
     ],
   },
   services: {
-    label: 'What I help build',
+    label: 'What I build',
     title: 'One engineer who owns the hard parts.',
     intro:
       'Most of the risk in a financial product sits where money, trading data and third-party systems meet. That is where I work, and I stay hands-on from the first architecture sketch to production.',
@@ -192,13 +193,13 @@ export const en: Dictionary = {
     allLabel: 'All projects, by employer',
   },
   about: {
-    metaTitle: 'About Daniel Chen | Fintech Engineer in Kuala Lumpur',
+    metaTitle: 'About Daniel Chen Qi Rong | Fintech Engineer, Kuala Lumpur',
     metaDescription:
-      'Daniel Chen is a senior engineer working on live broker, prop-trading and payment systems, and an independent technical partner for fintech founders.',
+      'Daniel Chen Qi Rong is a senior engineer working on live broker, prop-trading and payment systems, and an independent technical partner for fintech founders.',
     eyebrow: 'About',
     title: 'I build financial systems, and I run them.',
     intro: [
-      'I am Daniel Chen (曾祈荣), a software engineer in Kuala Lumpur. My recent work has been where software meets money: payment gateways for clients in Hong Kong, the MetaTrader 5 integration and risk monitor for a live prop-trading firm, and today the crypto platform and payment integrations of a multi-asset broker.',
+      'I am Daniel Chen Qi Rong (曾祈荣), a software engineer in Kuala Lumpur. My recent work has been where software meets money: payment gateways for clients in Hong Kong, the MetaTrader 5 integration and risk monitor for a live prop-trading firm, and today the crypto platform and payment integrations of a multi-asset broker.',
       'Alongside that I built SolveMY, a three-language marketplace on web, Android and iOS, alone and end to end. That is where I learned what technical ownership costs: the architecture, the app stores, the certificate that expires at night.',
       'I take on a small number of independent engagements with founders and trading businesses who need that combination: someone who understands financial systems and will build the whole thing with them.',
     ],
@@ -414,14 +415,11 @@ export const en: Dictionary = {
   footer: {
     label: 'Contact',
     lines: ['Have a fintech product', 'to build? Let’s talk.'],
+    invite: 'Taking on a small number of engagements. I reply within two working days.',
     top: 'Back to top',
-    rights: 'Built from scratch with Next.js, OGL and Lenis.',
     servicesLabel: 'Services',
     siteLabel: 'Site',
     hireLink: 'For hiring teams',
-    status: 'Taking on selected engagements',
-    city: 'Kuala Lumpur',
-    deployed: 'Last deployed',
   },
   caseStudy: {
     kind: 'Case study',

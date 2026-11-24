@@ -130,7 +130,7 @@ export default async function ServicePage({ params }: { params: Params }) {
                 <p className="mt-4 flex flex-wrap gap-2">
                   <OwnershipBadge dict={dict} project={evidence} />
                   {evidence.evidence === 'production' ? (
-                    <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-line px-3 py-1.5 font-mono text-[0.72rem] tracking-[0.04em] text-bone-2">
+                    <span className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-line px-3 py-1.5 text-[0.8rem] tabular-nums tracking-[0.04em] text-bone-2">
                       <span className="h-1.5 w-1.5 rounded-full bg-signal" aria-hidden="true" />
                       {dict.caseStudy.evidence.production}
                     </span>
@@ -183,7 +183,7 @@ export default async function ServicePage({ params }: { params: Params }) {
                 <div className="lg:col-span-4">
                   <p className="eyebrow text-signal">{copy.capabilityLabel}</p>
                   <h2 className="display-lg mt-4">{service.capability.title}</h2>
-                  <p className="mt-4 inline-flex rounded-full border border-dashed border-signal/60 px-3 py-1.5 font-mono text-[0.72rem] text-signal">
+                  <p className="mt-4 inline-flex rounded-full border border-dashed border-signal/60 px-3 py-1.5 text-[0.8rem] tabular-nums text-signal">
                     {copy.capabilityNote}
                   </p>
                 </div>
@@ -198,7 +198,7 @@ export default async function ServicePage({ params }: { params: Params }) {
                     ))}
                   </ul>
                   <p className="mt-6 border-t border-line pt-5 leading-relaxed text-bone-2">
-                    <span className="mr-2 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-bone-3">{copy.caveatLabel}</span>
+                    <span className="mr-2 text-sm text-bone-3">{copy.caveatLabel}</span>
                     {service.capability.caveat}
                   </p>
                 </div>
@@ -216,7 +216,7 @@ export default async function ServicePage({ params }: { params: Params }) {
                 const body = (
                   <>
                     <span className="col-span-12 flex flex-col items-start gap-2 md:col-span-4">
-                      <span className="font-mono text-xs uppercase tracking-[0.12em] text-bone-3">{project ? project.title : p.label}</span>
+                      <span className="text-sm text-bone-3">{project ? project.title : p.label}</span>
                       {project ? <OwnershipBadge dict={dict} project={project} /> : null}
                     </span>
                     <span className="col-span-11 leading-relaxed md:col-span-7 md:text-lg">{p.text}</span>
@@ -270,9 +270,9 @@ export default async function ServicePage({ params }: { params: Params }) {
                       href={`/${locale}/notes/${n.slug}`}
                       className="group flex flex-col gap-x-4 gap-y-1 border-b border-line py-4 transition-colors hover:text-signal sm:flex-row sm:items-baseline"
                     >
-                      <span className="w-24 shrink-0 font-mono text-[0.75rem] text-bone-3">{formatNoteDate(n.date, locale)}</span>
+                      <span className="w-24 shrink-0 text-[0.8rem] tabular-nums text-bone-3">{formatNoteDate(n.date, locale)}</span>
                       <span className="flex-1 md:text-lg">{n.title}</span>
-                      <span className="font-mono text-[0.72rem] text-bone-3">{dict.notes.basis[n.basis]}</span>
+                      <span className="text-[0.8rem] tabular-nums text-bone-3">{dict.notes.basis[n.basis]}</span>
                     </Link>
                   </li>
                 ))}

@@ -13,10 +13,10 @@ export function ExperienceList({ dict, locale, experience }: Omit<Props, 'headin
       {experience.map((e) => (
         <li key={e.id} className="grid grid-cols-12 items-baseline gap-x-4 gap-y-1.5 border-b border-line py-5" data-reveal>
           <span className="col-span-12 flex flex-wrap items-center gap-2 md:col-span-4">
-            <span className="font-mono text-xs text-bone-3">{formatPeriod(e.startDate, e.endDate, locale, copy.present)}</span>
+            <span className="text-[0.8rem] tabular-nums text-bone-3">{formatPeriod(e.startDate, e.endDate, locale, copy.present)}</span>
             {e.type ? (
               <span
-                className={`rounded-full border px-2.5 py-1 font-mono text-[0.7rem] ${
+                className={`rounded-full border px-2.5 py-1 text-[0.8rem] tabular-nums ${
                   e.type === 'side'
                     ? 'border-signal bg-signal text-ink'
                     : e.type === 'freelance'

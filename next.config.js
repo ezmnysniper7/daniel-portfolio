@@ -22,7 +22,8 @@ const nextConfig = {
   poweredByHeader: false,
   env: { BUILD_SHA: buildSha(), BUILD_TIME: new Date().toISOString(), NEXT_PUBLIC_ANALYTICS: analytics },
   // One small stylesheet: inline it so it never blocks first paint.
-  experimental: { inlineCss: true },
+  // viewTransition: the card picture moves into the case study header on navigation (supporting browsers only).
+  experimental: { inlineCss: true, viewTransition: true },
   async redirects() {
     // Old URLs (single portfolio, then the engineer/property split) all land on the new one-pager.
     // Sources never overlap: Vercel doesn't reliably give the first matching rule priority.

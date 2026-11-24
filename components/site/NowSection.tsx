@@ -20,7 +20,7 @@ export function NowSection({ dict, locale }: { dict: Dictionary; locale: string 
         <ol className="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:col-span-7">
           {now.chapters.map((c, n) => (
             <li key={c.kicker} data-reveal>
-              <p className="flex items-center gap-3 font-mono text-[0.75rem] uppercase tracking-[0.12em] text-signal">
+              <p className="flex items-center gap-3 text-sm text-signal">
                 <Icon name={NOW_ICONS[n]} className="h-5 w-5" />
                 {c.kicker}
               </p>

@@ -69,7 +69,11 @@ export function personNode(locale: string) {
     '@type': 'Person',
     '@id': personId,
     name: siteMetadata.name,
-    alternateName: siteMetadata.nameZh,
+    // Every form of the name people search for.
+    alternateName: [siteMetadata.fullName, 'Chen Qi Rong', 'Qi Rong Chen', siteMetadata.nameZh],
+    givenName: 'Qi Rong',
+    additionalName: 'Daniel',
+    familyName: 'Chen',
     jobTitle: locale === 'zh-CN' ? '金融科技软件工程师' : 'Fintech Software Engineer',
     description:
       locale === 'zh-CN'
@@ -115,6 +119,7 @@ export function websiteNode(locale: string) {
     '@id': websiteId,
     url: absolute(''),
     name: siteMetadata.name,
+    alternateName: [siteMetadata.fullName, 'Daniel Chen Builds'],
     inLanguage: locale,
     publisher: { '@id': personId },
   };

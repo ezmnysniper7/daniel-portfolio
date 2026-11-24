@@ -88,7 +88,7 @@ export function NoteBody({ blocks, locale }: { blocks: NoteBlock[]; locale: stri
                 <code data-lang={block.lang}>{block.code}</code>
               </pre>
               <figcaption className="mt-2.5 flex flex-wrap gap-x-3 text-[0.85rem] leading-relaxed text-bone-3">
-                <span className="font-mono uppercase tracking-[0.1em]">{block.lang}</span>
+                <span className="font-mono">{block.lang}</span>
                 {block.caption ? <span>{inline(block.caption, locale)}</span> : null}
               </figcaption>
             </figure>
@@ -130,7 +130,7 @@ export function NoteBody({ blocks, locale }: { blocks: NoteBlock[]; locale: stri
         if ('callout' in block)
           return (
             <aside key={n} className="mt-7 max-w-[68ch] rounded-[1rem] border border-dashed border-signal/50 bg-signal/[0.04] p-5 md:p-6">
-              {block.label ? <p className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-signal">{block.label}</p> : null}
+              {block.label ? <p className="text-sm text-signal">{block.label}</p> : null}
               <p className={`text-bone ${block.label ? 'mt-2' : ''}`}>{inline(block.callout, locale)}</p>
             </aside>
           );

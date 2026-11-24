@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Fraunces, JetBrains_Mono, Manrope } from 'next/font/google';
+import { JetBrains_Mono, Manrope } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { locales, type Locale } from '@/i18n/config';
 import { getDictionary } from '@/data/dictionary';
@@ -7,7 +7,6 @@ import { siteMetadata } from '@/data/metadata';
 import { MotionBoot } from '@/components/motion/MotionBoot';
 import { Analytics } from '@/components/Analytics';
 
-const display = Fraunces({ subsets: ['latin'], variable: '--font-display', display: 'swap' });
 const sans = Manrope({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
 const mono = JetBrains_Mono({
   subsets: ['latin'],
@@ -71,7 +70,7 @@ export default async function LocaleLayout({
   const dict = getDictionary(locale);
 
   return (
-    <html lang={locale} className={`${display.variable} ${sans.variable} ${mono.variable}`} style={monoFace} suppressHydrationWarning>
+    <html lang={locale} className={`${sans.variable} ${mono.variable}`} style={monoFace} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>

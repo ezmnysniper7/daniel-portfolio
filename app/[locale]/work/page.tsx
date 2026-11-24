@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getDictionary } from '@/data/dictionary';
 import { getExperience } from '@/data/experience';
-import { getProjects, getProjectsForJob, getSelectedProjects, SELECTED_SLUGS } from '@/data/projects';
+import { getProjects, getProjectsForJob, getSelectedProjects } from '@/data/projects';
 import { year } from '@/lib/format';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
@@ -27,10 +27,8 @@ export default async function WorkPage({ params }: { params: Params }) {
   const copy = dict.workPage;
   const featured = getSelectedProjects(locale);
   const experience = getExperience(locale);
-  // Everything else, grouped under the job it was built in.
-  const groups = experience
-    .map((e) => ({ job: e, projects: getProjectsForJob(locale, e.id).filter((p) => !SELECTED_SLUGS.includes(p.slug)) }))
-    .filter((g) => g.projects.length);
+  // Every project, grouped under the job it was built in (the featured ones appear here too).
+  const groups = experience.map((e) => ({ job: e, projects: getProjectsForJob(locale, e.id) })).filter((g) => g.projects.length);
 
   const jsonLd = graph(
     {
@@ -69,10 +67,10 @@ export default async function WorkPage({ params }: { params: Params }) {
 
         <section className="gutter mx-auto max-w-page pb-20 md:pb-28">
           <h2 className="eyebrow">{copy.featuredLabel}</h2>
-          <ul className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {featured.map((p, n) => (
-              <li key={p.slug} className={n === 0 ? 'md:col-span-2' : ''} data-reveal>
-                <WorkCard locale={locale} dict={dict} project={p} wide={n === 0} />
+          <ul className="mt-8 grid gap-x-6 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+            {featured.map((p) => (
+              <li key={p.slug}>
+                <WorkCard locale={locale} dict={dict} project={p} />
               </li>
             ))}
           </ul>
@@ -97,7 +95,7 @@ export default async function WorkPage({ params }: { params: Params }) {
                         href={`/${locale}/work/${p.slug}`}
                         className="group flex items-baseline gap-4 border-b border-line py-3.5 transition-colors first:pt-0 hover:text-signal"
                       >
-                        <span className="w-10 shrink-0 font-mono text-xs text-bone-3">{year(p.startDate)}</span>
+                        <span className="w-10 shrink-0 text-[0.8rem] tabular-nums text-bone-3">{year(p.startDate)}</span>
                         <span className="flex-1">
                           <span className="block">{p.title}</span>
                           <span className="mt-1 line-clamp-1 block text-sm text-bone-3">{p.description}</span>

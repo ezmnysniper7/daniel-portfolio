@@ -37,10 +37,10 @@ export function ExperienceSection({ dict, locale, experience, projectsByJob }: P
               <details key={e.id} className="exp-row border-b border-line" open={n === 0} data-reveal>
                 <summary className="grid cursor-pointer grid-cols-12 items-baseline gap-x-4 gap-y-2 py-6 transition-colors hover:text-signal md:py-8">
                   <span className="col-span-10 col-start-1 row-start-1 flex flex-wrap items-center gap-2 md:col-span-3">
-                    <span className="font-mono text-xs text-bone-2">{formatPeriod(e.startDate, e.endDate, locale, copy.present)}</span>
+                    <span className="text-[0.8rem] tabular-nums text-bone-2">{formatPeriod(e.startDate, e.endDate, locale, copy.present)}</span>
                     {e.type ? (
                       <span
-                        className={`rounded-full border px-2.5 py-1 font-mono text-[0.7rem] ${
+                        className={`rounded-full border px-2.5 py-1 text-[0.8rem] tabular-nums ${
                           e.type === 'side'
                             ? 'border-signal bg-signal text-ink'
                             : e.type === 'freelance'
@@ -52,7 +52,7 @@ export function ExperienceSection({ dict, locale, experience, projectsByJob }: P
                       </span>
                     ) : null}
                     {current ? (
-                      <span className="rounded-full bg-signal px-2.5 py-1 font-mono text-[0.7rem] text-ink">{copy.current}</span>
+                      <span className="rounded-full bg-signal px-2.5 py-1 text-[0.8rem] tabular-nums text-ink">{copy.current}</span>
                     ) : null}
                   </span>
                   <span className="exp-plus col-span-2 col-start-11 row-start-1 justify-self-end text-2xl font-light leading-none text-bone-2 md:col-span-1 md:col-start-12" aria-hidden="true">
@@ -94,7 +94,7 @@ export function ExperienceSection({ dict, locale, experience, projectsByJob }: P
                                 href={`/${locale}/work/${p.slug}`}
                                 className="group flex items-baseline gap-4 border-b border-line py-3.5 transition-colors hover:text-signal"
                               >
-                                <span className="w-10 shrink-0 font-mono text-xs text-bone-3">{year(p.startDate)}</span>
+                                <span className="w-10 shrink-0 text-[0.8rem] tabular-nums text-bone-3">{year(p.startDate)}</span>
                                 <span className="flex-1">{p.title}</span>
                                 <span aria-hidden="true" className="text-bone-2 transition-transform group-hover:translate-x-1">
                                   →

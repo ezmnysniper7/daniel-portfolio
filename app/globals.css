@@ -48,6 +48,16 @@
     border-radius: 2px;
   }
 
+  .font-display {
+    font-weight: 560;
+    letter-spacing: -0.02em;
+  }
+  /* System Chinese fonts jump straight to bold above 500. */
+  :lang(zh-CN) .font-display {
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
   summary {
     list-style: none;
   }
@@ -62,43 +72,40 @@
     padding-right: var(--gutter);
   }
 
+  /* A quiet label or text link: same face as the body, sentence case. */
   .eyebrow {
-    font-family: var(--font-mono-face), ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: hsl(var(--bone-2));
+    font-size: 0.875rem;
+    font-weight: 450;
+    line-height: 1.5;
+    color: hsl(var(--bone-3));
   }
 
   .display-hero {
-    font-family: var(--font-display), 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', serif;
-    font-weight: 380;
-    font-size: clamp(2.3rem, 5.2vw, 5.25rem);
-    line-height: 0.95;
+    font-weight: 560;
+    font-size: clamp(2.5rem, 5.2vw, 4.75rem);
+    line-height: 1;
     letter-spacing: -0.04em;
   }
 
   .display-xl {
-    font-family: var(--font-display), 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', serif;
-    font-weight: 380;
-    font-size: clamp(2rem, 4.2vw, 4rem);
-    line-height: 1;
+    font-weight: 560;
+    font-size: clamp(1.9rem, 3.4vw, 3.1rem);
+    line-height: 1.06;
     letter-spacing: -0.035em;
   }
 
   .display-lg {
-    font-family: var(--font-display), 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', serif;
-    font-weight: 400;
-    font-size: clamp(1.6rem, 2.6vw, 2.4rem);
-    line-height: 1.08;
-    letter-spacing: -0.025em;
+    font-weight: 560;
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+    line-height: 1.12;
+    letter-spacing: -0.028em;
   }
 
   :lang(zh-CN) .display-hero,
   :lang(zh-CN) .display-xl,
   :lang(zh-CN) .display-lg {
     letter-spacing: -0.01em;
-    line-height: 1.15;
+    line-height: 1.2;
     font-weight: 500;
   }
 
@@ -123,9 +130,7 @@
     border: 1px solid hsl(var(--line));
     border-radius: 999px;
     padding: 0.3rem 0.75rem;
-    font-family: var(--font-mono-face), ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.03em;
+    font-size: 0.8rem;
     color: hsl(var(--bone-2));
     white-space: nowrap;
   }
@@ -299,6 +304,13 @@ textarea:-webkit-autofill {
   background-image: repeating-linear-gradient(135deg, hsl(var(--line)) 0 1px, transparent 1px 14px),
     radial-gradient(50% 50% at 30% 70%, hsl(var(--signal) / 0.2), transparent 70%);
 }
+/* A quiet dot grid behind the labelled diagrams. */
+.art-plain {
+  background-image:
+    radial-gradient(hsl(var(--bone) / 0.1) 1px, transparent 1.5px),
+    radial-gradient(60% 70% at 50% 45%, hsl(var(--signal) / 0.08), transparent 70%);
+  background-size: 20px 20px, 100% 100%;
+}
 .art-rings {
   background-image: repeating-radial-gradient(circle at 70% 40%, hsl(var(--line)) 0 1px, transparent 1px 22px);
 }
@@ -314,38 +326,6 @@ textarea:-webkit-autofill {
 }
 .exp-row[open] summary .exp-plus {
   transform: rotate(45deg);
-}
-
-/* ---------- Footer status bar ---------- */
-.status-dot {
-  position: relative;
-  width: 0.375rem;
-  height: 0.375rem;
-  flex-shrink: 0;
-  border-radius: 9999px;
-  background: hsl(var(--signal));
-}
-@media (prefers-reduced-motion: no-preference) {
-  /* A slow "live" ping: one ring that grows and fades. Transform and opacity only. */
-  .status-dot::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: hsl(var(--signal));
-    animation: status-ping 2.6s var(--ease-out) infinite;
-  }
-}
-@keyframes status-ping {
-  from {
-    transform: scale(1);
-    opacity: 0.55;
-  }
-  70%,
-  to {
-    transform: scale(3.2);
-    opacity: 0;
-  }
 }
 
 /* ---------- Lenis ---------- */
@@ -426,11 +406,8 @@ html.lenis body {
   border-bottom: 1px solid hsl(var(--line));
 }
 .note-table thead th {
-  font-family: var(--font-mono-face), ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
-  font-size: 0.72rem;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 0.82rem;
+  font-weight: 500;
   color: hsl(var(--bone-3));
   background: hsl(var(--bone) / 0.03);
 }
@@ -455,4 +432,288 @@ html.lenis body {
 .form-select option {
   background: hsl(var(--ink-2));
   color: hsl(var(--bone));
+}
+
+/* ---------- Hero: choose a message flow ---------- */
+.flow-tab {
+  position: relative;
+  min-height: 40px;
+  padding-left: 1rem;
+  font-size: 0.92rem;
+  color: hsl(var(--bone-3));
+  transition: color 0.3s ease;
+}
+.flow-tab::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background: hsl(var(--bone-3) / 0.5);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.flow-tab:hover,
+.flow-tab[aria-pressed='true'] {
+  color: hsl(var(--bone));
+}
+.flow-tab[aria-pressed='true']::before {
+  background: hsl(var(--signal));
+  box-shadow: 0 0 0 4px hsl(var(--signal) / 0.18);
+}
+
+/* The static graph (no WebGL, or reduced motion) highlights the chosen path too. */
+[data-flow='deposit'] .sys-edge[data-f~='deposit'],
+[data-flow='trade'] .sys-edge[data-f~='trade'],
+[data-flow='kyc'] .sys-edge[data-f~='kyc'] {
+  stroke: hsl(var(--signal) / 0.9);
+  stroke-width: 0.02;
+  stroke-dasharray: 0.07 0.07;
+}
+[data-flow='deposit'] .sys-node[data-f~='deposit'] circle + circle,
+[data-flow='trade'] .sys-node[data-f~='trade'] circle + circle,
+[data-flow='kyc'] .sys-node[data-f~='kyc'] circle + circle {
+  fill: hsl(var(--signal));
+}
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.space-live) [data-flow] .sys-edge[data-f] {
+    animation: sys-dash 1.4s linear infinite;
+  }
+  [data-flow='deposit'] .sys-edge[data-rev~='deposit'],
+  [data-flow='trade'] .sys-edge[data-rev~='trade'],
+  [data-flow='kyc'] .sys-edge[data-rev~='kyc'] {
+    animation-direction: reverse;
+  }
+}
+@keyframes sys-dash {
+  to {
+    stroke-dashoffset: -0.14;
+  }
+}
+
+/* ---------- Home: the page as one trace (rail, a node per section, a packet that follows the scroll) ---------- */
+.trace-rail,
+.trace-node {
+  display: none;
+}
+@media (min-width: 768px) {
+  .trace-rail {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 7rem;
+    left: var(--gutter);
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, hsl(var(--line)) 5rem, hsl(var(--line)) calc(100% - 5rem), transparent);
+  }
+  /* Sticky at mid-screen inside a rail as tall as the page: scrolling carries it from node to node. No script.
+     It is drawn as a shooting star; the motion layer sets --trail from scroll speed, so the tail stretches when you move fast. */
+  .trace-packet {
+    --trail: 0.32;
+    position: sticky;
+    top: 50vh;
+    display: block;
+    width: 1px;
+    height: 0;
+  }
+  .trace-packet::before {
+    content: '';
+    position: absolute;
+    left: -1px;
+    bottom: 0;
+    width: 3px;
+    height: 15rem;
+    background: linear-gradient(to bottom, transparent, hsl(var(--signal) / 0.12) 35%, hsl(var(--signal) / 0.85) 90%, hsl(0 0% 100%));
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    transform: scaleY(var(--trail));
+    transform-origin: bottom;
+  }
+  .trace-packet::after {
+    content: '';
+    position: absolute;
+    left: -3px;
+    top: -3.5px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: radial-gradient(circle, hsl(0 0% 100%) 30%, hsl(var(--signal)) 70%);
+    box-shadow:
+      0 0 10px 2px hsl(var(--signal) / 0.6),
+      0 0 30px 8px hsl(var(--signal) / 0.16);
+  }
+  /* A thin horizontal glint across the head. */
+  .trace-glint {
+    position: absolute;
+    left: -13px;
+    top: -0.5px;
+    width: 27px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.8), transparent);
+  }
+  .trace-node {
+    display: block;
+    position: absolute;
+    left: calc(-2.5rem - 7px);
+    top: 0.42em;
+    width: 15px;
+    height: 15px;
+    border: 4px solid hsl(var(--ink));
+    border-radius: 50%;
+    background: hsl(var(--signal));
+    view-timeline: --node;
+  }
+  /* The flare ring a node sends out as the shooting star passes it. */
+  .trace-node::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 1px solid hsl(var(--signal));
+    opacity: 0;
+  }
+  /* Each node lights as the star reaches it (the middle of the screen), and flares once, scrubbed by the scroll.
+     Without support the nodes are simply lit. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .trace-node {
+        animation: trace-node-on linear both;
+        animation-timeline: --node;
+        animation-range: cover 44% cover 50%;
+      }
+      .trace-node::after {
+        animation: trace-flare linear both;
+        animation-timeline: --node;
+        animation-range: cover 47% cover 60%;
+      }
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .trace-packet {
+    display: none;
+  }
+}
+@keyframes trace-node-on {
+  from {
+    background: hsl(var(--bone-3) / 0.55);
+  }
+  to {
+    background: hsl(var(--signal));
+  }
+}
+@keyframes trace-flare {
+  0% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(3.4);
+    opacity: 0;
+  }
+}
+
+/* ---------- Hero: as the constellation tilts back into the sky, the text eases away with it ---------- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-copy {
+      animation: hero-recede linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 90%;
+    }
+  }
+}
+@keyframes hero-recede {
+  to {
+    transform: translate3d(0, 9vh, 0) scale(0.97);
+    opacity: 0;
+  }
+}
+
+/* ---------- Card art in motion: on hover with a mouse; on touch screens it follows the scroll ---------- */
+.art-packet {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @media (hover: hover) {
+    a:hover .art-wipe,
+    a:focus-visible .art-wipe {
+      animation: art-wipe 1.5s var(--ease-out) both;
+    }
+    a:hover .art-packet,
+    a:focus-visible .art-packet {
+      animation: art-packet 1.7s ease-in-out infinite;
+    }
+    a:hover .art-march,
+    a:focus-visible .art-march {
+      animation: art-march 0.9s linear infinite;
+    }
+  }
+  @media (hover: none) {
+    @supports (animation-timeline: view()) {
+      .art-wipe,
+      .art-packet {
+        animation-duration: 1ms;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 60% cover 60%;
+      }
+      .art-wipe {
+        animation-name: art-wipe;
+      }
+      .art-packet {
+        animation-name: art-packet;
+      }
+    }
+  }
+}
+@keyframes art-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes art-packet {
+  0% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+  12%,
+  88% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(var(--travel, 150px));
+    opacity: 0;
+  }
+}
+@keyframes art-march {
+  to {
+    stroke-dashoffset: -9;
+  }
+}
+
+/* ---------- Page transitions (View Transitions API; other browsers navigate as before) ---------- */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.22s;
+}
+::view-transition-group(*) {
+  animation-duration: 0.45s;
+  animation-timing-function: var(--ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }

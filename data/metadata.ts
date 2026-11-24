@@ -2,6 +2,7 @@ import { SiteMetadata } from '@/types';
 
 export const siteMetadata: SiteMetadata = {
   name: 'Daniel Chen',
+  fullName: 'Daniel Chen Qi Rong',
   nameZh: '曾祈荣',
   title: 'Senior Backend Engineer',
   email: 'chendaniel150701@gmail.com',

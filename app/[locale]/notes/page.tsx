@@ -66,7 +66,7 @@ export default async function NotesPage({ params }: { params: Params }) {
             {notes.map((n) => (
               <li key={n.slug} data-reveal>
                 <Link href={`/${locale}/notes/${n.slug}`} className="group grid gap-3 border-b border-line py-8 md:grid-cols-12 md:gap-8">
-                  <span className="font-mono text-[0.75rem] text-bone-3 md:col-span-2">
+                  <span className="text-[0.8rem] tabular-nums text-bone-3 md:col-span-2">
                     {formatNoteDate(n.date, locale)}
                     <span className="block">{copy.minutes.replace('{n}', String(n.minutes))}</span>
                     <span className={`mt-2 inline-flex rounded-full border px-2.5 py-1 text-[0.7rem] ${n.basis === 'design' ? 'border-dashed border-signal/60 text-signal' : 'border-line text-bone-2'}`}>

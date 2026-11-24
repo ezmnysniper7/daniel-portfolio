@@ -6,6 +6,8 @@ const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 let lenis: Lenis | null = null;
 let globalsReady = false;
 let space: import('./space').Space | null = null;
+/** The canvas the scene is drawing into; React replaces it when the root layout re-renders (a language switch). */
+let spaceCanvas: HTMLCanvasElement | null = null;
 let currentHero: HTMLElement | null = null;
 
 const q = <T extends Element = HTMLElement>(sel: string, scope: ParentNode = document) => scope.querySelector<T>(sel);
@@ -41,20 +43,28 @@ function setupGlobals() {
   if (globalsReady) return;
   globalsReady = true;
   if (finePointer) lenis = new Lenis({ lerp: 0.1, anchors: true, autoRaf: true });
+}
 
-  // The one WebGL element: a fixed starfield behind every page (plus the hero graph on the home page).
-  // Its own chunk, started only after the first contentful paint and once the browser is idle,
-  // so creating the GPU context never competes with getting the page on screen.
+/**
+ * The one WebGL element: a fixed starfield behind every page (plus the hero graph on the home page).
+ * Its own chunk, started only after the first contentful paint and once the browser is idle,
+ * so creating the GPU context never competes with getting the page on screen.
+ * Runs on every page mount: if React has swapped the canvas, the old scene is released and a new one starts.
+ */
+function ensureSpace() {
   const canvas = q<HTMLCanvasElement>('[data-space-canvas]');
-  if (canvas) {
-    afterFirstPaint()
-      .then(whenIdle)
-      .then(() => import('./space'))
-      .then(({ mountSpace }) => {
-        space = mountSpace(canvas);
-        space.setPage(currentHero);
-      });
-  }
+  if (!canvas || canvas === spaceCanvas) return;
+  space?.destroy();
+  space = null;
+  spaceCanvas = canvas;
+  afterFirstPaint()
+    .then(whenIdle)
+    .then(() => import('./space'))
+    .then(({ mountSpace }) => {
+      if (spaceCanvas !== canvas) return;
+      space = mountSpace(canvas);
+      space.setPage(currentHero);
+    });
 }
 
 /** Gentle fade-up as content enters. Only content below the fold waits; nothing else is touched. */
@@ -102,6 +112,42 @@ function setupHeader() {
   };
 }
 
+/**
+ * The shooting star on the home page rail: its tail stretches with scroll speed and settles when you stop.
+ * One custom property on one small element, written only while it is changing.
+ */
+function setupTrace() {
+  const packet = q('.trace-packet');
+  if (!packet || !matchMedia('(min-width: 768px)').matches) return () => {};
+  let last = window.scrollY;
+  let lastT = performance.now();
+  let speed = 0;
+  let trail = 0.32;
+  let raf = 0;
+  const tick = (now: number) => {
+    const y = window.scrollY;
+    const dt = Math.max(8, now - lastT);
+    speed += (Math.abs(y - last) / dt - speed) * 0.2; // px per ms, smoothed
+    last = y;
+    lastT = now;
+    const target = Math.min(1, 0.32 + speed * 0.28);
+    trail += (target - trail) * 0.16;
+    packet.style.setProperty('--trail', trail.toFixed(3));
+    raf = speed > 0.01 || Math.abs(target - trail) > 0.003 ? requestAnimationFrame(tick) : 0;
+  };
+  const onScroll = () => {
+    if (raf) return;
+    lastT = performance.now();
+    raf = requestAnimationFrame(tick);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  return () => {
+    cancelAnimationFrame(raf);
+    window.removeEventListener('scroll', onScroll);
+    packet.style.removeProperty('--trail');
+  };
+}
+
 /** A small pull toward the pointer, for the main buttons only. Transform only. */
 function magnetic(el: HTMLElement) {
   let x = 0;
@@ -142,11 +188,14 @@ function magnetic(el: HTMLElement) {
 /** Sets up the current page and returns a teardown (runs again on client-side navigation). */
 export function mountPage(): () => void {
   setupGlobals();
+  // A language switch re-renders <html>, which drops the classes set outside React.
+  root.classList.add('js');
+  ensureSpace();
   // Keep Lenis in step with wherever the router left the page.
   lenis?.scrollTo(window.scrollY, { immediate: true, force: true });
   lenis?.resize();
 
-  const teardown: (() => void)[] = [setupReveals(), setupHeader()];
+  const teardown: (() => void)[] = [setupReveals(), setupHeader(), setupTrace()];
   if (finePointer) qa('[data-magnetic]').forEach((el) => teardown.push(magnetic(el)));
 
   // Tell the space scene about this page's hero graph (none on most pages).

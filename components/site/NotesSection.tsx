@@ -1,34 +1,26 @@
 import Link from 'next/link';
 import type { Dictionary } from '@/data/dictionary';
 import { formatNoteDate, type Note } from '@/data/notes';
+import { TraceSection } from './Trace';
 
 /** Latest article titles near the end of the home page: crawlable links, small footprint. */
 export function NotesSection({ locale, dict, notes }: { locale: string; dict: Dictionary; notes: Note[] }) {
   const copy = dict.notes;
   return (
-    <section id="notes" className="border-t border-line py-20 md:py-28">
-      <div className="gutter mx-auto grid max-w-page gap-8 lg:grid-cols-12">
-        <div className="lg:col-span-4">
-          <p className="eyebrow">{copy.label}</p>
-          <p className="mt-3 max-w-xs text-[0.95rem] leading-relaxed text-bone-2">{copy.intro}</p>
-          <Link href={`/${locale}/notes`} className="link-underline mt-4 inline-block py-2 text-sm text-bone">
-            {copy.all} <span aria-hidden="true">→</span>
-          </Link>
-        </div>
-        <ul className="border-t border-line lg:col-span-8">
-          {notes.map((n) => (
-            <li key={n.slug}>
-              <Link
-                href={`/${locale}/notes/${n.slug}`}
-                className="group flex flex-col gap-x-4 gap-y-1 border-b border-line py-3.5 text-[0.95rem] transition-colors hover:text-signal sm:flex-row sm:items-baseline"
-              >
-                <span className="w-24 shrink-0 font-mono text-[0.75rem] text-bone-3">{formatNoteDate(n.date, locale)}</span>
-                <span className="flex-1 text-bone-2 transition-colors group-hover:text-signal">{n.title}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
+    <TraceSection id="notes" title={copy.label} link={{ href: `/${locale}/notes`, label: copy.all }}>
+      <ul className="border-t border-line">
+        {notes.map((n) => (
+          <li key={n.slug} className="border-b border-line">
+            <Link
+              href={`/${locale}/notes/${n.slug}`}
+              className="flex flex-col gap-x-10 gap-y-1 py-4 text-[1.05rem] text-bone-2 transition-colors duration-300 hover:text-bone sm:flex-row sm:items-baseline sm:justify-between"
+            >
+              <span>{n.title}</span>
+              <span className="shrink-0 text-sm tabular-nums text-bone-3">{formatNoteDate(n.date, locale)}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </TraceSection>
   );
 }

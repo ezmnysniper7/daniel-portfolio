@@ -10,6 +10,7 @@ import { formatPeriod } from '@/lib/format';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
 import { CardArt } from '@/components/site/CardArt';
+import { Shared } from '@/components/motion/Shared';
 import { ContactCta } from '@/components/site/ContactCta';
 import { OwnershipBadge, projectKind } from '@/components/site/WorkSection';
 import { JsonLd } from '@/components/seo/JsonLd';
@@ -110,7 +111,7 @@ export default async function CaseStudyPage({ params }: { params: Params }) {
           <div className="hero-fade mt-10 flex flex-wrap items-center gap-2.5 md:mt-12" style={i(0)}>
             <OwnershipBadge dict={dict} project={project} />
             {project.evidence === 'production' ? (
-              <span className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1.5 font-mono text-[0.72rem] text-bone-2">
+              <span className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1.5 text-[0.8rem] tabular-nums text-bone-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-signal" aria-hidden="true" />
                 {copy.evidence.production}
               </span>
@@ -149,8 +150,10 @@ export default async function CaseStudyPage({ params }: { params: Params }) {
           ) : null}
         </section>
 
-        <div className="gutter mx-auto max-w-page" data-reveal>
-          <CardArt slug={project.slug} className={`rounded-[1.25rem] border border-line ${study ? 'h-[30vh] min-h-[13rem] md:h-[42vh]' : 'h-[42vh] min-h-[16rem] md:h-[60vh]'}`} />
+        <div className="gutter mx-auto max-w-page">
+          <Shared name={`art-${project.slug}`}>
+            <CardArt slug={project.slug} locale={locale} className={`rounded-[1.25rem] border border-line ${study ? 'h-[30vh] min-h-[13rem] md:h-[42vh]' : 'h-[42vh] min-h-[16rem] md:h-[60vh]'}`} />
+          </Shared>
         </div>
 
         {project.longDescription ? (

@@ -70,7 +70,7 @@ export default async function AboutPage({ params }: { params: Params }) {
               <dl className="mt-4 border-t border-line">
                 {copy.facts.map((f) => (
                   <div key={f.label} className="grid grid-cols-5 gap-3 border-b border-line py-3.5">
-                    <dt className="col-span-2 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-bone-3">{f.label}</dt>
+                    <dt className="col-span-2 text-sm text-bone-3">{f.label}</dt>
                     <dd className="col-span-3 text-[0.95rem] leading-snug text-bone">{f.value}</dd>
                   </div>
                 ))}

@@ -59,6 +59,8 @@ export interface Experience {
 
 export interface SiteMetadata {
   name: string;
+  /** The full name, as people search for it. */
+  fullName: string;
   nameZh: string;
   title: string;
   email: string;

@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 import type { Dictionary } from '@/data/dictionary';
-import { EDGES, NODES } from '@/lib/system-graph';
+import { EDGES, FLOWS, NODES } from '@/lib/system-graph';
+import { FlowTabs } from './FlowTabs';
 
 const i = (n: number) => ({ '--i': n }) as CSSProperties;
 
@@ -11,6 +12,9 @@ function SystemFallback({ dict }: { dict: Dictionary }) {
       {EDGES.map(([a, b], e) => (
         <line
           key={e}
+          className="sys-edge"
+          data-f={FLOWS.filter((f) => f.edges.some(([edge]) => edge === e)).map((f) => f.id).join(' ')}
+          data-rev={FLOWS.filter((f) => f.edges.some(([edge, dir]) => edge === e && dir === -1)).map((f) => f.id).join(' ')}
           x1={NODES[a].x}
           y1={-NODES[a].y}
           x2={NODES[b].x}
@@ -20,7 +24,11 @@ function SystemFallback({ dict }: { dict: Dictionary }) {
         />
       ))}
       {NODES.map((node) => (
-        <g key={node.id}>
+        <g
+          key={node.id}
+          className="sys-node"
+          data-f={FLOWS.filter((f) => f.edges.some(([edge]) => EDGES[edge].includes(NODES.indexOf(node)))).map((f) => f.id).join(' ')}
+        >
           <circle cx={node.x} cy={-node.y} r={node.hub ? 0.2 : 0.14} fill={node.hub ? 'hsl(187 96% 58% / 0.16)' : 'hsl(40 30% 92% / 0.08)'} />
           <circle cx={node.x} cy={-node.y} r={node.hub ? 0.06 : 0.045} fill={node.hub ? 'hsl(187 96% 58%)' : 'hsl(40 30% 92%)'} />
           {/* The right-most node carries its label on the left, so it is never cut off by the edge. */}
@@ -46,7 +54,7 @@ export function Hero({ dict }: { dict: Dictionary }) {
     <section
       id="top"
       data-system
-      data-flows={JSON.stringify(system.flows)}
+      data-flow={FLOWS[0].id}
       className="hero relative flex flex-col lg:min-h-[88svh] lg:justify-center"
     >
       <div className="hero-glow pointer-events-none absolute inset-0" aria-hidden="true" />
@@ -59,11 +67,10 @@ export function Hero({ dict }: { dict: Dictionary }) {
         className="system relative h-[30svh] min-h-[220px] w-full lg:absolute lg:inset-y-0 lg:right-0 lg:h-auto lg:w-[54%]"
       >
         <SystemFallback dict={dict} />
-        <p className="system-caption absolute bottom-6 right-[var(--gutter)] hidden items-center gap-2.5 font-mono text-[0.75rem] text-bone-2 md:flex lg:bottom-[8vh]" aria-hidden="true">
-          <span className="h-1.5 w-1.5 rounded-full bg-signal" />
-          <span className="uppercase tracking-[0.12em] text-signal">{system.live}</span>
-          <span data-system-caption>{system.flows[0]}</span>
-        </p>
+      </div>
+      {/* Real buttons, outside the picture: choose a flow and the graph plays it. */}
+      <div className="gutter relative z-20 lg:absolute lg:bottom-[7vh] lg:right-0 lg:w-[54%] lg:pl-[8%]">
+        <FlowTabs ids={FLOWS.map((f) => f.id)} captions={system.flows} label={system.flowsLabel} />
       </div>
       <div data-system-labels className="system-labels pointer-events-none fixed inset-0 -z-[5] hidden md:block" aria-hidden="true">
         {NODES.map((node) => (
@@ -73,12 +80,9 @@ export function Hero({ dict }: { dict: Dictionary }) {
         ))}
       </div>
 
-      <div className="gutter relative z-10 mx-auto w-full max-w-page pb-16 pt-6 lg:py-32">
-        <div className="lg:max-w-[48%]">
-          <p className="eyebrow hero-fade" style={i(0)}>
-            {hero.eyebrow}
-          </p>
-          <h1 className="display-hero mt-6">
+      <div className="gutter relative z-10 mx-auto w-full max-w-page pb-16 pt-10 lg:py-32">
+        <div className="hero-copy lg:max-w-[48%]">
+          <h1 className="display-hero">
             {hero.lines.map((line, n) => (
               <span key={line} className="line-mask">
                 <span className="hero-line whitespace-nowrap" style={i(n)}>
@@ -89,7 +93,7 @@ export function Hero({ dict }: { dict: Dictionary }) {
               </span>
             ))}
           </h1>
-          <p className="hero-fade mt-8 max-w-xl text-base leading-relaxed text-bone-2 md:text-lg" style={i(1)}>
+          <p className="hero-fade mt-7 max-w-[34rem] text-[1.1rem] leading-relaxed text-bone-2 md:text-[1.2rem]" style={i(1)}>
             {hero.sub}
           </p>
           <div className="hero-fade mt-9 flex flex-wrap items-center gap-x-8 gap-y-4" style={i(2)}>
@@ -97,24 +101,17 @@ export function Hero({ dict }: { dict: Dictionary }) {
               href="#contact"
               data-track="cta_hero_contact"
               data-magnetic
-              className="group inline-flex items-center gap-3 rounded-full bg-bone px-6 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-signal"
+              className="inline-flex items-center rounded-full bg-bone px-6 py-3.5 text-[0.95rem] font-medium text-ink transition-colors hover:bg-signal"
             >
               {hero.cta}
-              <span aria-hidden="true" className="transition-transform duration-500 group-hover:translate-x-1">
-                →
-              </span>
             </a>
-            <a href="#work" data-track="cta_hero_work" className="link-underline eyebrow py-3 text-bone">
-              {hero.cta2} <span aria-hidden="true">↓</span>
+            <a href="#work" data-track="cta_hero_work" className="link-underline py-3 text-[0.95rem] text-bone">
+              {hero.cta2}
             </a>
           </div>
-          <p className="hero-fade eyebrow mt-9 flex items-center gap-2.5 [text-wrap:balance]" style={i(3)}>
-            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-signal" aria-hidden="true" />
-            {hero.status}
-          </p>
-          <div className="hero-fade mt-8 border-t border-line pt-5" style={i(4)}>
-            <p className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-bone-3">{hero.proofLabel}</p>
-            <ul className="mt-2.5 flex flex-wrap gap-x-5 gap-y-1.5 text-[0.95rem] text-bone-2">
+          <div className="hero-fade mt-14 md:mt-16" style={i(3)}>
+            <p className="text-sm text-bone-3">{hero.proofLabel}</p>
+            <ul className="mt-2 flex flex-wrap gap-x-6 gap-y-1.5 text-[0.95rem] text-bone-2">
               {hero.proof.map((name) => (
                 <li key={name}>{name}</li>
               ))}

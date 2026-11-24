@@ -36,17 +36,16 @@ export const zhCN: Dictionary = {
     close: '关闭',
   },
   hero: {
-    eyebrow: '曾祈荣 · 独立金融科技工程师',
-    lines: ['金融科技产品，', '从架构设计', '到正式上线。'],
-    sub: '我直接与创始人、券商和自营交易公司（prop firm）合作，做亲自动手的技术合伙人。MetaTrader 5 对接、交易平台、支付与钱包系统：由一位资深工程师负责架构、后端、前端和部署。',
-    status: '承接少量合作项目 · 吉隆坡远程合作（GMT+8）',
+    lines: ['曾祈荣'],
+    sub: '我是 Daniel Chen，常驻吉隆坡的独立金融科技工程师，为券商、自营交易公司和创始人开发 MetaTrader 5 对接、交易平台和支付系统，从架构到上线。',
     cta: '聊聊你的项目',
-    cta2: '看看工程案例',
+    cta2: '查看案例',
     proofLabel: '经验来自',
     proof: ['CFI Financial', 'Appnovation', 'Tencent', 'TradersFlow', 'SolveMY'],
   },
   system: {
     label: '我所构建的金融科技系统示意：消息在各个服务之间流动',
+    flowsLabel: '消息流',
     live: '实时',
     nodes: {
       client: '客户端 App',
@@ -65,7 +64,7 @@ export const zhCN: Dictionary = {
     ],
   },
   services: {
-    label: '我能帮你构建什么',
+    label: '服务内容',
     title: '一位工程师，把最难的部分负责到底。',
     intro:
       '金融产品的大部分风险，集中在资金、交易数据和第三方系统交汇的地方。我做的正是这一块，从第一张架构草图到生产环境，全程亲自动手。',
@@ -400,14 +399,11 @@ export const zhCN: Dictionary = {
   footer: {
     label: '联系',
     lines: ['有金融科技产品要做？', '我们聊聊。'],
+    invite: '目前承接少量合作项目，两个工作日内回复。',
     top: '回到顶部',
-    rights: '使用 Next.js、OGL 和 Lenis 从零构建。',
     servicesLabel: '服务',
     siteLabel: '网站',
     hireLink: '给招聘团队',
-    status: '承接少量合作项目',
-    city: '吉隆坡',
-    deployed: '最近部署',
   },
   caseStudy: {
     kind: '案例',

@@ -14,8 +14,9 @@ const MIN_FPS = 45;
 const FOV = 35;
 const CAMERA_Z = 8;
 const STAR_DEPTH = 40;
-const PARTICLES_PER_EDGE = 4;
-const TRAIL = 5;
+const PARTICLES_PER_EDGE = 2;
+/** Samples per message: a bright head and a tapering tail, so each message reads as a shooting star. */
+const TRAIL = 18;
 const FLOW_MS = 4200;
 const IDLE_MS = 1500;
 
@@ -149,14 +150,19 @@ uniform float uTime;
 uniform float uScale;
 varying float vAlpha;
 varying float vGlow;
+varying float vHead;
 void main() {
-  float t = clamp(fract(uTime * 0.24 + aOffset) - aTrail * 0.03, 0.0, 1.0);
+  // Each message crosses its edge, then rests (t > 1 hides it) before the next one: separate shooting stars, not a conveyor.
+  float k = aTrail / ${(TRAIL - 1).toFixed(1)};
+  float t = fract(uTime * 0.3 + aOffset) * 1.6 - aTrail * 0.011;
+  float ends = smoothstep(0.0, 0.06, t) * smoothstep(1.0, 0.94, t);
+  t = clamp(t, 0.0, 1.0);
   if (aDir < 0.0) t = 1.0 - t;
   vec4 mv = modelViewMatrix * vec4(mix(aA, aB, t), 1.0);
   gl_Position = projectionMatrix * mv;
-  gl_PointSize = (7.0 - aTrail * 4.5) * (1.0 + 0.5 * aGlow) * uScale * uPx * (8.0 / -mv.z);
-  float ends = smoothstep(0.0, 0.08, t) * smoothstep(1.0, 0.92, t);
-  vAlpha = (1.0 - aTrail / ${TRAIL.toFixed(1)}) * ends * (0.18 + 0.82 * aGlow);
+  gl_PointSize = mix(9.0, 1.3, pow(k, 0.55)) * (1.0 + 0.4 * aGlow) * uScale * uPx * (8.0 / -mv.z);
+  vAlpha = pow(1.0 - k, 1.7) * ends * (0.07 + 0.93 * aGlow);
+  vHead = 1.0 - smoothstep(0.0, 0.12, k);
   vGlow = aGlow;
 }`;
 
@@ -164,11 +170,12 @@ const particleFragment = /* glsl */ `${header}
 uniform float uFade;
 varying float vAlpha;
 varying float vGlow;
+varying float vHead;
 void main() {
   float d = length(gl_PointCoord - 0.5);
   if (d > 0.5) discard;
   float a = pow(smoothstep(0.5, 0.0, d), 1.6) * vAlpha * uFade;
-  vec3 col = mix(${BONE}, ${SIGNAL}, 0.35 + 0.65 * vGlow);
+  vec3 col = mix(mix(${BONE}, ${SIGNAL}, 0.35 + 0.65 * vGlow), vec3(1.0), vHead * 0.75);
   gl_FragColor = vec4(col * a, a);
 }`;
 
@@ -493,7 +500,17 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
       nodeTarget[EDGES[e][1]] = 1;
     }
     if (caption && captions[i]) caption.textContent = captions[i];
+    window.dispatchEvent(new CustomEvent('system:flowchange', { detail: i }));
   };
+  /** A flow picked on the page plays now and holds for a while before the cycle resumes. */
+  const onPick = (e: Event) => {
+    const i = (e as CustomEvent<number>).detail;
+    if (!FLOWS[i] || !anchor) return;
+    setFlow(i);
+    flowSince = performance.now() + FLOW_MS;
+    kick();
+  };
+  window.addEventListener('system:flow', onPick);
 
   // ---------- Loop ----------
   const projected = new Vec3();
@@ -536,10 +553,13 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
       const worldW = (rect.width / width) * 2 * halfW;
       const worldH = (rect.height / height) * 2 * halfH;
       const s = Math.min(worldW / 5.2, worldH / 3.9);
-      graph.position.set(cx * halfW, cy * halfH, 0);
+      // 0 at the top of the page, 1 once the hero has scrolled away; eased so the move starts gently.
+      const lift = Math.min(1, Math.max(0, scrollY / Math.max(1, anchorBox!.top + anchorBox!.height)));
+      const p = lift * lift * (3 - 2 * lift);
+      graph.position.set(cx * halfW, cy * halfH + p * halfH * 0.35, -p * 3);
       graph.scale.set(s, s, s);
-      graph.rotation.y = Math.sin(time * 0.12) * 0.55 + pointer.x * 0.5;
-      graph.rotation.x = -0.12 + pointer.y * 0.35;
+      graph.rotation.y = (Math.sin(time * 0.12) * 0.55 + pointer.x * 0.5) * (1 - p * 0.6);
+      graph.rotation.x = -0.12 + pointer.y * 0.35 * (1 - p) - p * 1.05;
       fade = Math.min(1, Math.max(0, rect.bottom / (rect.height * 0.7)));
       graph.visible = true;
 
@@ -689,6 +709,7 @@ async function init(canvas: HTMLCanvasElement): Promise<Space | null> {
       window.removeEventListener('resize', resize);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('pointermove', onPointer);
+      window.removeEventListener('system:flow', onPick);
       document.removeEventListener('visibilitychange', onVisibility);
       canvas.removeEventListener('webglcontextlost', onLost);
       root.classList.remove('space-live');

@@ -95,7 +95,7 @@ export default async function HirePage({ params }: { params: Params }) {
             <ul className="lg:col-span-9">
               {experience.map((e) => (
                 <li key={e.id} className="grid grid-cols-12 items-baseline gap-3 border-b border-line py-5" data-reveal>
-                  <span className="col-span-12 font-mono text-xs text-bone-3 md:col-span-3">
+                  <span className="col-span-12 text-[0.8rem] tabular-nums text-bone-3 md:col-span-3">
                     {formatPeriod(e.startDate, e.endDate, locale, dict.experience.present)}
                   </span>
                   <span className="col-span-12 font-display text-xl md:col-span-4 md:text-2xl">{e.company}</span>

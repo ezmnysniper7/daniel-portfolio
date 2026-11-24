@@ -13,7 +13,7 @@ export function StatsSection({ dict, locale }: { dict: Dictionary; locale: strin
             <div key={s.label} className="flex flex-col-reverse justify-end">
               <dt className="mt-3">
                 <span className="block text-bone">{s.label}</span>
-                <span className="mt-1 block font-mono text-[0.72rem] uppercase tracking-[0.12em] text-bone-3">{s.note}</span>
+                <span className="mt-1 block text-sm text-bone-3">{s.note}</span>
               </dt>
               <dd className="font-display text-[clamp(2.75rem,4.5vw,4.25rem)] leading-none tracking-[-0.03em] tabular-nums">
                 {s.prefix ? <span className="text-bone-3">{s.prefix}</span> : null}

@@ -16,7 +16,7 @@ export function GET() {
   const evidence = (p: (typeof projects)[number]) =>
     p.evidence === 'prototype' ? ' (his own prototype: not launched, simulator only)' : p.evidence === 'production' ? ' (in production)' : '';
 
-  const text = `# Daniel Chen (曾祈荣)
+  const text = `# Daniel Chen Qi Rong (曾祈荣)
 
 > Senior fintech engineer and independent technical partner, based in Kuala Lumpur, Malaysia (GMT+8), working remotely with founders, brokers and prop-trading firms. He builds MetaTrader 5 Manager API integrations, prop-firm and broker back-office systems, and payment integrations, and takes on engagements as a founding engineer or fractional technical lead. Contracts are quoted in USD. Languages: English and Chinese.
 

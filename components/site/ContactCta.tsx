@@ -1,5 +1,7 @@
+import Link from 'next/link';
 import type { ContactNeed } from '@/data/dictionary';
 import { siteMetadata } from '@/data/metadata';
+import { TraceSection } from './Trace';
 
 type Props = {
   title: string;
@@ -42,5 +44,28 @@ export function ContactCta({ title, body, button, need, orEmail, subject }: Prop
         </div>
       </div>
     </section>
+  );
+}
+
+/** Home page: a short invitation that leads to the contact page, in place of a full form. The last stop on the trace. */
+export function ContactInvite({ locale, label, title, body, button }: { locale: string; label: string; title: string; body: string; button: string }) {
+  return (
+    <TraceSection id="contact" title={label}>
+      <p className="display-xl max-w-[18ch]">{title}</p>
+      <p className="mt-5 max-w-md leading-relaxed text-bone-2">{body}</p>
+      <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+        <Link
+          href={`/${locale}/contact`}
+          data-track="cta_home_contact"
+          data-magnetic
+          className="inline-flex items-center rounded-full bg-bone px-7 py-4 font-medium text-ink transition-colors hover:bg-signal"
+        >
+          {button}
+        </Link>
+        <a href={`mailto:${siteMetadata.email}`} className="link-underline py-2 text-bone-2 hover:text-bone">
+          {siteMetadata.email}
+        </a>
+      </div>
+    </TraceSection>
   );
 }

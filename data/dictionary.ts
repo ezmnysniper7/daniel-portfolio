@@ -29,10 +29,9 @@ export type Dictionary = {
     close: string;
   };
   hero: {
-    eyebrow: string;
+    /** The h1: the name people search for. */
     lines: string[];
     sub: string;
-    status: string;
     cta: string;
     cta2: string;
     /** Employers and clients the experience comes from, as plain text. */
@@ -40,7 +39,7 @@ export type Dictionary = {
     proof: string[];
   };
   /** The 3D "live system" in the hero. Flow captions follow FLOWS order in lib/system-graph.ts. */
-  system: { label: string; live: string; nodes: Record<string, string>; flows: string[] };
+  system: { label: string; live: string; /** Names the group of flow buttons. */ flowsLabel: string; nodes: Record<string, string>; flows: string[] };
   /** Services summary on the landing page. */
   services: { label: string; title: string; intro: string; more: string; all: string; alsoLabel: string; hireTitle: string; hireBody: string };
   /** Ways to engage, shown on the landing page and the founders page. No prices by design. */
@@ -208,14 +207,12 @@ export type Dictionary = {
   footer: {
     label: string;
     lines: [string, string];
+    /** One line under the home page's closing heading. */
+    invite: string;
     top: string;
-    rights: string;
     servicesLabel: string;
     siteLabel: string;
     hireLink: string;
-    status: string;
-    city: string;
-    deployed: string;
   };
   caseStudy: {
     kind: string;
